@@ -61,14 +61,14 @@
 	part_sets = list(					// Подклассы:
 		"Рабочие инструменты ",			// "Базовые инструменты", "Продвинутые инструменты", "Инопланетные инструменты", "Монтажные комплексы", "Обслуживание монтажных комплексов", "Прочее"
 		"Инженерное снаряжение",		// "Огнетушители и газовые баллоны", "Экипировка", "Маркировщики", "Датчики и Сигнальные устройства", "Связь и навигация", "Диагностика и мониторинг"
-		"Строительство",				// "Контролеры", "Освещение и наблюдение", "Настенные конструкции", "Напольные конструкции"
+		"Строительство",				// "Контролеры", "Настенные конструкции", "Напольные конструкции"
 		"Инженерное оборудование",		//	"Терморегуляция", "Портативные генераторы", "Консоли", "Производство", "АТМОС", "Энергоснабжение", "ТЭГ", "Газовая турбина", "Телепортация", "Химпроизводство", "Сингулярность, тесла и суперматерия", "Прочее",
 		"Детали машин",					//	"Базовые компоненты", "Продвинутые компоненты", "Супер компоненты", "Ультра компоненты", "Неевклидовые компоненты"
 		"Детали машин - х10",			//	"Базовые компоненты", "Продвинутые компоненты", "Супер компоненты", "Ультра компоненты", "Неевклидовые компоненты"
 		"Подпространственная связь",	//	"Радиорелейные платы", "Радиорелейные детали"
 		"Энергетические разработки",	//
 		"Сплавы и синтез",				//	"Сплавы металлов", "Силикатные сплавы", "Синтез"
-		"Спейсподы и шаттлостроение",	//	"Производство", "Броня", "Системы вооружения", "Добыча полезных ископаемых", "Вспомогательные системы", "шаттлостроение"
+		"Спейсподы и шаттлостроение",	//	"Производство", "Броня", "Системы вооружения", "Добыча полезных ископаемых", "Вспомогательные системы", "Шаттлостроение"
 		"Персональные компьютеры",		//	"Основа", "Жесткие диски", "Сетевые карты", "Внешние накопители", "Слоты карт", "Утилитарные модули", "Питание и батареи", "Процессоры"
 		"Интегральные схемы",			//	"Ядро", "Компоненты", "Оболочки"
 		"Прочее"						//
@@ -110,7 +110,7 @@
 		"Подпространственная связь",	//	"Радиорелейные платы", "Радиорелейные детали"
 		"Энергетические разработки",	//
 		"Сплавы и синтез",				//	"Сплавы металлов", "Силикатные сплавы", "Синтез"
-		"Спейсподы и шаттлостроение",	//	"Производство", "Броня", "Системы вооружения", "Добыча полезных ископаемых", "Вспомогательные системы", "шаттлостроение"
+		"Спейсподы и шаттлостроение",	//	"Производство", "Броня", "Системы вооружения", "Добыча полезных ископаемых", "Вспомогательные системы", "Шаттлостроение"
 		"Персональные компьютеры",		//	"Основа", "Жесткие диски", "Сетевые карты", "Внешние накопители", "Слоты карт", "Утилитарные модули", "Питание и батареи", "Процессоры"
 		"Интегральные схемы",			//	"Ядро", "Компоненты", "Оболочки"
 		"Прочее"						//
@@ -148,7 +148,7 @@
 		"Карго оборудование",			//	"Терморегуляция", "Портативные генераторы", "Консоли", "Производство", "АТМОС", "Энергоснабжение", "ТЭГ", "Газовая турбина", "Телепортация", "Химпроизводство", "Сингулярность, тесла и суперматерия", "Прочее",
 		"Энергетические разработки",	//
 		"Сплавы и синтез",				//	"Сплавы металлов", "Силикатные сплавы", "Синтез"
-		"Спейсподы и шаттлостроение",	//	"Производство", "Броня", "Системы вооружения", "Добыча полезных ископаемых", "Вспомогательные системы", "шаттлостроение"
+		"Спейсподы и шаттлостроение",	//	"Производство", "Броня", "Системы вооружения", "Добыча полезных ископаемых", "Вспомогательные системы", "Шаттлостроение"
 		"Прочее"						//
 	)
 
@@ -206,6 +206,40 @@
 	else
 		icon_state = "[initial(icon_state)]-off"
 
+//	Сервисный фабрикатор
+
+/obj/machinery/mecha_part_fabricator/service
+	icon = 'white/Feline/icons/techfab.dmi'
+	icon_state = "fab-idle"
+	name = "сервисный фабрикатор"
+	desc = "Используется для создания сервисного оборудования."
+	circuit = /obj/item/circuitboard/machine/mechfab/service
+	drop_zone = FALSE
+	part_sets = list(					// Подклассы:
+		"Рабочие инструменты     ",		// "Базовые инструменты", "Прочее"
+		"Снаряжение сервиса",			// "Ботаника", "Розыгрыши", "Уборка", "Экипировка", "Прочее", "Датчики и Сигнальные устройства"
+		"Оборудование сервиса",			//
+		"Сплавы и синтез",				//	"Сплавы металлов", "Силикатные сплавы", "Синтез"
+		"Прочее"						//
+		)
+
+/obj/item/circuitboard/machine/mechfab/service
+	name = "плата фабрикатора сервиса"
+	desc = "Продвинутая версия протолата с удобным визуальным интерфейсом."
+	greyscale_colors = CIRCUIT_COLOR_SERVICE
+	build_path = /obj/machinery/mecha_part_fabricator/service
+
+/obj/machinery/mecha_part_fabricator/service/Initialize(mapload)
+	. = ..()
+	add_overlay("serv")
+
+/obj/machinery/mecha_part_fabricator/service/update_icon_state()
+	. = ..()
+	if(powered())
+		icon_state = initial(icon_state)
+	else
+		icon_state = "[initial(icon_state)]-off"
+
 //	Коробка с проводами
 
 /obj/item/cable_coil_box
@@ -229,7 +263,7 @@
 	construction_time = 60
 	materials = list(/datum/material/iron = 900, /datum/material/glass = 450)
 	build_path = /obj/item/cable_coil_box
-	category = list("Рабочие инструменты ","Рабочие инструменты  ", "Рабочие инструменты   ", "Рабочие инструменты    ")
+	category = list("Рабочие инструменты ","Рабочие инструменты  ", "Рабочие инструменты   ", "Рабочие инструменты    ", "Рабочие инструменты     ")
 	sub_category = list("Прочее")
 
 //	Пакеты с деталями
@@ -255,10 +289,11 @@
 		for(var/obj/item/I as() in contents)
 			var/rand_size = (istype(I, /obj/item/stock_parts/scanning_module/noneuclid) || istype(I, /obj/item/stock_parts/micro_laser/quadultra)) ? 2 : 5
 			var/mutable_appearance/part_overlay = mutable_appearance(I.icon, I.icon_state, FLOAT_LAYER, src, plane = FLOAT_PLANE)
+			var/mutable_appearance/evidence_overlay = mutable_appearance(src.icon, src.icon_state, FLOAT_LAYER, src, plane = FLOAT_PLANE)
 			part_overlay.pixel_x = base_pixel_x + rand(-rand_size, rand_size)
 			part_overlay.pixel_y = base_pixel_y + rand(-rand_size, rand_size)
 			add_overlay(part_overlay)
-			add_overlay("evidence")
+			add_overlay(evidence_overlay)
 
 /obj/item/storage/part_replacer/stock_parts_box_x10/attack_self(mob/user)
 	. = ..()
@@ -826,67 +861,69 @@
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
 
 //  Упаковки ружейный патронов
-/datum/design/beanbag_slug/sec/x7
-	name = "12 Калибр: Резиновая пуля - 7 шт."
-	id = "sec_beanbag_slug_x7"
+/datum/design/beanbag_slug/sec/x20
+	name = "12 Калибр: Резиновая пуля - 20 шт."
+	id = "sec_beanbag_slug_x20"
 	construction_time = 40
-	materials = list(/datum/material/iron = 14000)
+	materials = list(/datum/material/iron = 40000)
 	build_path = /obj/item/storage/box/beanbag
+	category = list("Аммуниция", "Боеприпасы", "Снаряжение сервиса")
 	sub_category = list("Упаковки патронов 12 калибра")
 
-/datum/design/rubbershot/sec/x7
-	name = "12 Калибр: Резиновая картечь - 7 шт."
-	id = "sec_rshot_x7"
+/datum/design/rubbershot/sec/x20
+	name = "12 Калибр: Резиновая картечь - 20 шт."
+	id = "sec_rshot_x20"
 	construction_time = 40
-	materials = list(/datum/material/iron = 14000)
+	materials = list(/datum/material/iron = 40000)
 	build_path = /obj/item/storage/box/rubbershot
+	category = list("Аммуниция", "Боеприпасы", "Снаряжение сервиса")
 	sub_category = list("Упаковки патронов 12 калибра")
 
-/datum/design/shotgun_slug/sec/x7
-	name = "12 Калибр: Пулевой - 7 шт."
-	id = "sec_slug_x7"
+/datum/design/shotgun_slug/sec/x20
+	name = "12 Калибр: Пулевой - 20 шт."
+	id = "sec_slug_x20"
 	construction_time = 40
-	materials = list(/datum/material/iron = 21000)
+	materials = list(/datum/material/iron = 60000)
 	build_path = /obj/item/storage/box/s12_bullet
 	sub_category = list("Упаковки патронов 12 калибра")
 
-/datum/design/buckshot_shell/sec/x7
-	name = "12 Калибр: Картечь - 7 шт."
-	id = "sec_bshot_x7"
+/datum/design/buckshot_shell/sec/x20
+	name = "12 Калибр: Картечь - 20 шт."
+	id = "sec_bshot_x20"
 	construction_time = 40
-	materials = list(/datum/material/iron = 21000)
+	materials = list(/datum/material/iron = 60000)
 	build_path = /obj/item/storage/box/lethalshot
 	sub_category = list("Упаковки патронов 12 калибра")
 
-/datum/design/shotgun_dart/sec/x7
-	name = "12 Калибр: Дротик - 7 шт."
-	id = "sec_dart_x7"
+/datum/design/shotgun_dart/sec/x20
+	name = "12 Калибр: Дротик - 20 шт."
+	id = "sec_dart_x20"
 	construction_time = 40
-	materials = list(/datum/material/iron = 21000)
+	materials = list(/datum/material/iron = 60000)
 	build_path = /obj/item/storage/box/battle_dart
 	sub_category = list("Упаковки патронов 12 калибра")
 
-/datum/design/incendiary_slug/sec/x7
-	name = "12 Калибр: Зажигательный - 7 шт."
-	id = "sec_Islug_x7"
+/datum/design/incendiary_slug/sec/x20
+	name = "12 Калибр: Зажигательный - 20 шт."
+	id = "sec_Islug_x20"
 	construction_time = 40
-	materials = list(/datum/material/iron = 21000)
+	materials = list(/datum/material/iron = 60000)
 	build_path = /obj/item/storage/box/battle_incendiary
 	sub_category = list("Упаковки патронов 12 калибра")
 /*
-/datum/design/stunshell/х7
-	name = "12 Калибр: Электрошок - 7 шт."
-	id = "stunshell_х7"
+/datum/design/stunshell/x20
+	name = "12 Калибр: Электрошок - 20 шт."
+	id = "stunshell_x20"
 	construction_time = 40
-	materials = list(/datum/material/iron = 21000, /datum/material/gold = 7000)
+	materials = list(/datum/material/iron = 60000, /datum/material/gold = 20000)
 	build_path = /obj/item/storage/box/battle_stunslug
 	sub_category = list("Упаковки патронов 12 калибра")
 */
 
-/datum/design/techshell/x7
-	name = "12 Калибр: Высокотехнологичный - 7 шт."
-	id = "techshotshell_x7"
+/datum/design/techshell/x20
+	name = "12 Калибр: Высокотехнологичный - 20 шт."
+	id = "techshotshell_x20"
 	construction_time = 40
-	materials = list(/datum/material/iron = 21000, /datum/material/glass = 3500)
+	materials = list(/datum/material/iron = 60000, /datum/material/glass = 10000)
 	build_path = /obj/item/storage/box/battle_techshell
 	sub_category = list("Упаковки патронов 12 калибра")

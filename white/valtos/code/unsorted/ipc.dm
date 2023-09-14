@@ -57,12 +57,12 @@
 	..()
 
 /datum/species/ipc/military
-	name = "Military IPC"
+	name = "Corrupted IPC"
 	id = "military_synth"
-	armor = 25
-	punchdamagelow = 10
-	punchdamagehigh = 19
-	punchstunthreshold = 14 //about 50% chance to stun
+	armor = -25
+	punchdamagelow = 2
+	punchdamagehigh = 1
+	punchstunthreshold = 0 //about 0% chance to stun
 	disguise_fail_health = 50
 	changesource_flags = MIRROR_BADMIN | WABBAJACK
 
@@ -71,6 +71,7 @@
 	RegisterSignal(H, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	for(var/X in H.bodyparts)
 		var/obj/item/bodypart/O = X
+		O.should_draw_ipc = TRUE
 		O.change_bodypart_status(BODYPART_ROBOTIC, FALSE, TRUE)
 	H.set_safe_hunger_level()
 
@@ -79,6 +80,7 @@
 	UnregisterSignal(H, COMSIG_MOB_SAY)
 	for(var/X in H.bodyparts)
 		var/obj/item/bodypart/O = X
+		O.should_draw_ipc = FALSE
 		O.change_bodypart_status(BODYPART_ORGANIC, FALSE, TRUE)
 
 /datum/species/ipc/proc/assume_disguise(datum/species/S, mob/living/carbon/human/H)
@@ -189,7 +191,7 @@
 /datum/action/innate/monitor_change
 	name = "Сменить экран"
 	check_flags = AB_CHECK_CONSCIOUS
-	icon_icon = 'icons/mob/actions/actions_silicon.dmi'
+	button_icon = 'icons/mob/actions/actions_silicon.dmi'
 	button_icon_state = "drone_vision"
 
 /datum/action/innate/monitor_change/Activate()

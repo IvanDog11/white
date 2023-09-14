@@ -108,6 +108,11 @@
 	using.screen_loc = retro_hud ? UI_SKILLS_RETRO : UI_SKILLS
 	static_inventory += using
 
+	using = new /atom/movable/screen/navigate
+	using.icon = retro_hud ? ui_style : using.icon
+	using.screen_loc = retro_hud ? UI_NAVIGATE_RETRO : UI_NAVIGATE
+	static_inventory += using
+
 	using = new /atom/movable/screen/area_creator
 	using.icon = retro_hud ? ui_style : using.icon
 	using.screen_loc = retro_hud ? UI_BOXAREA_RETRO : UI_BOXAREA
@@ -315,6 +320,7 @@
 	rest_icon.icon = retro_hud ? ui_style : rest_icon.icon
 	rest_icon.screen_loc = retro_hud ? UI_REST_RETRO : UI_REST
 	rest_icon.hud = src
+	rest_icon.update_appearance()
 	static_inventory += rest_icon
 
 	spacesuit = new /atom/movable/screen/spacesuit()
@@ -342,9 +348,9 @@
 
 	pull_icon = new /atom/movable/screen/pull()
 	pull_icon.icon = retro_hud ? ui_style : pull_icon.icon
-	pull_icon.update_icon()
 	pull_icon.screen_loc = retro_hud ? UI_PULL_RETRO : UI_PULL
 	pull_icon.hud = src
+	pull_icon.update_appearance()
 	static_inventory += pull_icon
 
 	lingchemdisplay = new /atom/movable/screen/ling/chems()

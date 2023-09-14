@@ -42,7 +42,7 @@
 	attack_verb_simple = "грызёт"
 	attack_sound = 'sound/magic/demon_attack1.ogg'
 	attack_vis_effect = ATTACK_EFFECT_BITE
-	icon = 'icons/mob/lavaland/64x64megafauna.dmi'
+	icon = 'icons/mob/lavaland/96x96megafauna.dmi'
 	icon_state = "dragon"
 	icon_living = "dragon"
 	icon_dead = "dragon_dead"
@@ -96,6 +96,10 @@
 	RegisterSignal(src, COMSIG_SWOOP_INVULNERABILITY_STARTED, PROC_REF(swoop_invulnerability_started))
 	RegisterSignal(src, COMSIG_LAVA_ARENA_FAILED, PROC_REF(on_arena_fail))
 
+/mob/living/simple_animal/hostile/megafauna/dragon/set_name()
+	name = pick(GLOB.dragon_names)
+	real_name = name
+
 /mob/living/simple_animal/hostile/megafauna/dragon/Destroy()
 	QDEL_NULL(fire_cone)
 	QDEL_NULL(meteors)
@@ -144,7 +148,7 @@
 /mob/living/simple_animal/hostile/megafauna/dragon/proc/start_attack(mob/living/owner, datum/action/cooldown/activated)
 	SIGNAL_HANDLER
 	if(activated == lava_swoop)
-		icon_state = "shadow"
+		icon_state = "dragon_shadow"
 		swooping = SWOOP_DAMAGEABLE
 
 /mob/living/simple_animal/hostile/megafauna/dragon/proc/swoop_invulnerability_started()
@@ -340,8 +344,8 @@
 
 /mob/living/simple_animal/hostile/megafauna/dragon/lesser
 	name = "lesser ash drake"
-	maxHealth = 200
-	health = 200
+	maxHealth = 300
+	health = 300
 	faction = list("neutral")
 	obj_damage = 80
 	melee_damage_upper = 30
@@ -355,9 +359,9 @@
 
 /mob/living/simple_animal/hostile/megafauna/dragon/lesser/Initialize(mapload)
 	. = ..()
-	fire_cone.Remove(src)
-	meteors.Remove(src)
-	mass_fire.Remove(src)
+	fire_cone.cooldown_time = 20 SECONDS
+	meteors.cooldown_time = 20 SECONDS
+	mass_fire.cooldown_time = 60 SECONDS
 	lava_swoop.cooldown_time = 20 SECONDS
 
 /mob/living/simple_animal/hostile/megafauna/dragon/lesser/adjustHealth(amount, updating_health = TRUE, forced = FALSE)

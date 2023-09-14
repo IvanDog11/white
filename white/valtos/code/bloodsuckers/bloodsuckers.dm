@@ -391,7 +391,7 @@
 		if(istype(user) && owner.assigned_role == JOB_CLOWN)
 			user.dna.add_mutation(CLOWNMUT)
 	/// Remove ALL Traits, as long as its from BLOODSUCKER_TRAIT's source. - This is because of unique cases like Nosferatu getting Ventcrawling.
-	for(var/all_status_traits in owner.current.status_traits)
+	for(var/all_status_traits in owner.current._status_traits)
 		REMOVE_TRAIT(owner.current, all_status_traits, BLOODSUCKER_TRAIT)
 	/// Update Health
 	owner.current.setMaxHealth(100)
@@ -401,7 +401,7 @@
 	RemoveVampOrgans()
 	/// Eyes
 	var/mob/living/carbon/user = owner.current
-	var/obj/item/organ/eyes/user_eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/user_eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(user_eyes)
 		user_eyes.flash_protect += 1
 		user_eyes.sight_flags = 0

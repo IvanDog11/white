@@ -157,7 +157,7 @@
 	var/maxpressure = (exterior_pressure && (cyclestate == AIRLOCK_CYCLESTATE_OUTCLOSING || cyclestate == AIRLOCK_CYCLESTATE_OUTOPENING || cyclestate == AIRLOCK_CYCLESTATE_OUTOPEN)) ? exterior_pressure : interior_pressure
 	var/pressure_bars = round(pressure / maxpressure * 5 + 0.01)
 
-	var/new_overlays_hash = "[pressure_bars]-[cyclestate]-[buildstage]-[panel_open]-[machine_stat]-[shorted]-[locked]-\ref[vis_target]"
+	var/new_overlays_hash = "[pressure_bars]-[cyclestate]-[buildstage]-[panel_open]-[machine_stat]-[shorted]-[locked]-[text_ref(vis_target)]"
 	if(use_hash && new_overlays_hash == overlays_hash)
 		return
 	overlays_hash = new_overlays_hash
@@ -552,7 +552,7 @@
 	for(var/I = 1; I <= turfs.len; I++)
 		var/turf/open/T = turfs[I]
 		if(assume_roles)
-			T.ImmediateCalculateAdjacentTurfs()
+			T.immediate_calculate_adjacent_turfs()
 		for(var/turf/open/T2 in T.atmos_adjacent_turfs)
 			if(get_dist(initial_turf, T2) > 5)
 				config_error_str = "Airlock too big"
@@ -626,7 +626,7 @@
 		"airlocks" = list(),
 		"skip_timer" = (world.time - skip_timer),
 		"skip_delay" = skip_delay,
-		"vis_target" = "\ref[vis_target]"
+		"vis_target" = text_ref(vis_target)
 	)
 
 	if((locked && !user.has_unlimited_silicon_privilege) || (user.has_unlimited_silicon_privilege && aidisabled))
@@ -642,7 +642,7 @@
 		var/obj/machinery/atmospherics/components/unary/vent_pump/vent = V
 		data["vents"] += list(list(
 			"role" = vents[vent],
-			"vent_id" = "\ref[vent]",
+			"vent_id" = text_ref(vent),
 			"name" = vent.name
 		))
 	for(var/A in airlocks)
@@ -664,7 +664,7 @@
 
 		data["airlocks"] += list(list(
 			"role" = airlocks[airlock],
-			"airlock_id" = "\ref[airlock]",
+			"airlock_id" = text_ref(airlock),
 			"name" = airlock.name,
 			"access" = access_str
 		))

@@ -323,9 +323,9 @@
 	return ..()
 
 /datum/reagent/toxin/plantbgone
-	name = "Plant-B-Gone"
+	name = "Гербицид общего назначения"
 	enname = "Plant-B-Gone"
-	description = "Опасный токсин для убийства растений. Не употреблять внутрь!"
+	description = "Опасный токсин для выведения всех растений. Не употреблять внутрь!"
 	color = "#49002E" // rgb: 73, 0, 46
 	toxpwr = 1
 	taste_mult = 1
@@ -361,9 +361,9 @@
 		exposed_carbon.adjustToxLoss(min(round(0.4 * reac_volume, 0.1), 10))
 
 /datum/reagent/toxin/plantbgone/weedkiller
-	name = "Убийца Травы"
+	name = "Гербицид против сорняков"
 	enname = "Weed Killer"
-	description = "Опасный токсин для убийства травы. Не употреблять внутрь!"
+	description = "Опасный токсин для выведения сорняков. Не употреблять внутрь!"
 	color = "#4B004B" // rgb: 75, 0, 75
 	ph = 3
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -377,7 +377,7 @@
 		mytray.adjustWeeds(-rand(1,2))
 
 /datum/reagent/toxin/pestkiller
-	name = "Убийца Вредителей"
+	name = "Пестицид против паразитов"
 	enname = "Pest Killer"
 	description = "Опасный токсин для убийства насекомых. Не употреблять внутрь!"
 	color = "#4B004B" // rgb: 75, 0, 75
@@ -400,7 +400,7 @@
 		exposed_mob.adjustToxLoss(damage)
 
 /datum/reagent/toxin/pestkiller/organic
-	name = "Убийца Вредителей из Натуральных Веществ"
+	name = "Пестицид мягкого действия"
 	enname = "Natural Pest Killer"
 	description = "Органическая смесь, используемая для убийства насекомых с более мягкими последствиями. Не употреблять внутрь!"
 	color = "#4b2400" // rgb: 75, 0, 75
@@ -603,7 +603,7 @@
 /datum/reagent/toxin/formaldehyde
 	name = "Формальдегид"
 	enname = "Formaldehyde"
-	description = "Формальдегид, сам по себе, крайне слабый токсин. В нем есть следы Гистомина, отчего он очень редко распадается на этот самый Гистомин."
+	description = "Формальдегид, сам по себе, крайне слабый токсин. Полностью останавливает разложение в трупах. В нем есть следы Гистомина, отчего он очень редко распадается на этот самый Гистомин."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
 	color = "#B4004B"
@@ -852,7 +852,7 @@
 /datum/reagent/toxin/lipolicide
 	name = "Липолицид"
 	enname = "Lipolicide"
-	description = "A powerful toxin that will destroy fat cells, massively reducing body weight in a short time. Deadly to those without nutriment in their body."
+	description = "Мощный токсин, который разрушает жировые клетки, значительно снижая массу тела за короткое время. Смертельно опасен для тех, у кого в организме нет питательных веществ."
 	silent_toxin = TRUE
 	taste_description = "нафталин"
 	reagent_state = LIQUID
@@ -897,10 +897,16 @@
 	toxpwr = 0
 	taste_description = "блевотня"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+	var/vomiting_cycle = 11
+
+/datum/reagent/toxin/spewium/fast
+	name = "Быстрый Спьювиум"
+	enname = "Speedy Spewium"
+	vomiting_cycle = 3
 
 /datum/reagent/toxin/spewium/on_mob_life(mob/living/carbon/C, delta_time, times_fired)
 	. = ..()
-	if(current_cycle >= 11 && DT_PROB(min(30, current_cycle), delta_time))
+	if(current_cycle >= vomiting_cycle && DT_PROB(min(30, current_cycle), delta_time))
 		C.vomit(10, prob(10), prob(50), rand(0,4), TRUE)
 		for(var/datum/reagent/toxin/R in C.reagents.reagent_list)
 			if(R != src)

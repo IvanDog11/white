@@ -1,134 +1,85 @@
- //needs gtts python module
+// TODO: перенести это всё в жсон и добавить кэширование
 
-#define TTS_PATH "/home/ubuntu/byond/prod/server_white/white/hule/tts"
+GLOBAL_LIST_INIT(tts_voices, list(
+	"aidar" 			 = "Разное: Айдар",
+	"baya" 				 = "Разное: Байя",
+	"kseniya" 			 = "Разное: Ксения",
+	"xenia" 			 = "Разное: Сения",
+	"eugene" 			 = "Разное: Евгений",
+	"biden" 			 = "Разное: Байден",
+	"obama" 			 = "Разное: Обама",
+	"trump" 			 = "Разное: Трамп",
+	"mykyta" 			 = "Разное: Микита",
+	"adolf" 			 = "Разное: Адольф",
+	"adolf2" 			 = "Разное: Адольф 2",
 
-GLOBAL_VAR_INIT(tts, FALSE)
-GLOBAL_VAR_INIT(tts_speaker, "default")
+	"charlotte" 		 = "Медиа: Шарлотта",
+	"bebey" 			 = "Медиа: Бэбэй",
+	"papa" 				 = "Медиа: Папич",
+	"mana" 				 = "Медиа: Мана",
+	"planya" 			 = "Медиа: Планя",
+	"amina" 			 = "Медиа: Амина",
+	"dbkn" 				 = "Медиа: Добакин",
+	"papich_alt"		 = "Медиа: Папич (Альт.)",
+	"bebey_alt" 		 = "Медиа: Бэбэй (Альт.)",
 
-GLOBAL_LIST_INIT(gtts_voices, list(
-	"Авто" = "auto",
-	"Afrikaans" = "af",
-	"Arabic" = "ar",
-	"Bulgarian" = "bg",
-	"Bengali" = "bn",
-	"Bosnian" = "bs",
-	"Catalan" = "ca",
-	"Czech" = "cs",
-	"Danish" = "da",
-	"German" = "de",
-	"Greek" = "el",
-	"English" = "en",
-	"Spanish" = "es",
-	"Estonian" = "et",
-	"Finnish" = "fi",
-	"French" = "fr",
-	"Gujarati" = "gu",
-	"Hindi" = "hi",
-	"Croatian" = "hr",
-	"Hungarian" = "hu",
-	"Indonesian" = "id",
-	"Icelandic" = "is",
-	"Italian" = "it",
-	"Hebrew" = "iw",
-	"Japanese" = "ja",
-	"Javanese" = "jw",
-	"Khmer" = "km",
-	"Kannada" = "kn",
-	"Korean" = "ko",
-	"Latin" = "la",
-	"Latvian" = "lv",
-	"Malayalam" = "ml",
-	"Marathi" = "mr",
-	"Malay" = "ms",
-	"Myanmar (Burmese)" = "my",
-	"Nepali" = "ne",
-	"Dutch" = "nl",
-	"Norwegian" = "no",
-	"Polish" = "pl",
-	"Portuguese" = "pt",
-	"Romanian" = "ro",
-	"Russian" = "ru",
-	"Sinhala" = "si",
-	"Slovak" = "sk",
-	"Albanian" = "sq",
-	"Serbian" = "sr",
-	"Sundanese" = "su",
-	"Swedish" = "sv",
-	"Swahili" = "sw",
-	"Tamil" = "ta",
-	"Telugu" = "te",
-	"Thai" = "th",
-	"Filipino" = "tl",
-	"Turkish" = "tr",
-	"Ukrainian" = "uk",
-	"Urdu" = "ur",
-	"Vietnamese" = "vi",
-	"Chinese (Simplified)" = "zh-CN",
-	"Chinese (Mandarin/Taiwan)" = "zh-TW",
-	"Chinese (Mandarin)" = "zh"
+	"glados" 		 	 = "Portal: Гладос",
+	"adventure_core" 	 = "Portal: Модуль Приключений",
+	"space_core" 	 	 = "Portal: Модуль Космоса",
+	"fact_core" 	 	 = "Portal: Модуль Фактов",
+	"glados_alt" 	 	 = "Portal: Гладос Альт.",
+	"adventure_core_alt" = "Portal: Модуль Приключений (Альт.)",
+	"fact_core_alt" 	 = "Portal: Модуль Фактов (Альт.)",
+	"space_core_alt" 	 = "Portal: Модуль Космоса (Альт.)",
+	"turret_floor" 	 	 = "Portal: Турель",
+
+	"sentrybot" 		 = "Fallout: Сентрибот",
+
+	"soldier" 			 = "TF2: Солдат",
+
+	"cicero" 			 = "Скурим: Цицерон",
+	"sheogorath" 		 = "Скурим: Шеогорат",
+	"kodlakwhitemane" 	 = "Скурим: Колдак Белая Грива",
+
+	"geralt" 			 = "Ведьмак: Геральт",
+	"cirilla" 			 = "Ведьмак: Цирилла",
+	"triss" 			 = "Ведьмак: Трисс",
+	"lambert" 			 = "Ведьмак: Ламберт",
+
+	"neco" 				 = "Аниме: Неко",
+	"polina" 		     = "Аниме: Полина",
+	"xrenoid" 		     = "Аниме: Хреноид",
+
+	"arthas" 		     = "Warcraft 3: Артас",
+	"rexxar" 		     = "Warcraft 3: Рексар",
+	"voljin" 		     = "Warcraft 3: Вол'джин",
+	"illidan" 		     = "Warcraft 3: Иллидан",
+
+	"azir" 		     	 = "LoL: Азир",
+	"caitlyn" 		     = "LoL: Кэйтлин",
+	"ekko" 		     	 = "LoL: Экко",
+	"twitch" 		     = "LoL: Твич",
+	"ziggs" 		     = "LoL: Зиггс",
+	"rexxar" 		     = "LoL: Рексар",
+
+	"tracer" 		     = "Overwatch: Трейсер",
+
+	"kleiner" 			 = "HL2: Кляйнер",
+	"gman" 				 = "HL2: G-Man",
+	"briman" 			 = "HL2: Уоллес Брин",
+	"alyx" 				 = "HL2: Аликс Вэнс",
+	"kleiner_alt" 		 = "HL2: Айзек Кляйнер (Альт.)",
+	"father_grigori"	 = "HL2: Отец Григорий",
+	"vance" 			 = "HL2: Илай Вэнс",
+	"barni" 			 = "HL2: Барни Калхун",
+	"gman_alt" 			 = "HL2: G-Man (Альт.)",
+	"mossman" 			 = "HL2: Джудит Моссман",
+
+	"bandit" 			 = "S.T.A.L.K.E.R: Бандит",
+	"sidorovich" 		 = "S.T.A.L.K.E.R: Сидорович",
+	"strelok" 		     = "S.T.A.L.K.E.R: Стрелок",
+	"forester" 		     = "S.T.A.L.K.E.R: Лесник"
 ))
-
-PROCESSING_SUBSYSTEM_DEF(tts)
-	name = "Text To Speech"
-	priority = 15
-	flags = SS_NO_INIT
-	wait = 10
-
-////////////////////////////////////////////////
-
-/proc/tts_args(var/name, var/msg, var/lang)
-	world.Export("http://127.0.0.1:2386/?text=[url_encode(msg)]&speaker=[lang]&ckey=[name]")
-
-/////////////////////////////////////
-
-/atom/proc/tts(var/msg, var/lang=GLOB.tts_speaker, var/freq)
-	var/namae
-	if(!ismob(src))
-		namae = name
-	else
-		var/mob/etot = src
-		namae = etot.ckey
-
-	spawn(-1)
-		tts_args(namae, msg, lang)
-		spawn(2)
-			if(fexists("[TTS_PATH]/lines/[namae].wav"))
-				playsound(src, "[TTS_PATH]/lines/[namae].wav", 100, channel = tts_comp?.assigned_channel, vary = TRUE, frequency = freq)
-
-////////////////////////////////////////
-
-/client/proc/anime_voiceover()
-	set category = "Адм.Веселье"
-	set name = "ANIME VO"
-
-	if(!check_rights())
-		return
-
-	var/list/menu = list("Cancel", "Toggle TTS", "Change Lang")
-
-	var/selected = tgui_input_list(usr, "Main Menu", "ANIME VOICEOVER", menu, "Cancel")
-
-	switch(selected)
-		if("Cancel")
-			return
-
-		if("Toggle TTS")
-			GLOB.tts = !GLOB.tts
-
-			if(GLOB.tts)
-				message_admins("[key] toggled anime voiceover on.")
-			else
-				message_admins("[key] toggled anime voiceover off.")
-
-		if("Change Lang")
-			var/selectedlang = tgui_input_text(usr, "Main Menu", "ANIME VOICEOVER")
-			if(!selectedlang)
-				return
-
-			message_admins("[key] sets anime voiceover lang to \"[selectedlang]\"")
-			GLOB.tts_speaker = selectedlang
-
-#undef TTS_PATH
 
 /proc/open_sound_channel_for_tts()
 	var/static/next_channel = CHANNEL_BOOMBOX_AVAILABLE + 1

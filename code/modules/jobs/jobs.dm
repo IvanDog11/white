@@ -54,7 +54,9 @@ GLOBAL_LIST_INIT(service_positions, list(
 	JOB_CHAPLAIN,
 	JOB_CLOWN,
 	JOB_MIME,
-	JOB_ASSISTANT))
+	JOB_ASSISTANT,
+	))
+//	JOB_INTERN))
 
 //we really need to split service into civillian positions officially, until then this is my solution
 GLOBAL_LIST_INIT(service_food_positions, list(
@@ -83,6 +85,9 @@ GLOBAL_LIST_INIT(combatant_red_positions, list(
 
 GLOBAL_LIST_INIT(combatant_blue_positions, list(
 	JOB_COMBATANT_BLUE))
+
+GLOBAL_LIST_INIT(rust_survivor_position, list(
+	JOB_RUST_ENJOYER))
 
 GLOBAL_LIST_INIT(nonhuman_positions, list(
 	JOB_AI,

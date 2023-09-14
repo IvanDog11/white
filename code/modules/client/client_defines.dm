@@ -222,10 +222,16 @@
 	var/fully_created = FALSE
 
 	/// Does this client have typing indicators enabled?
-	var/typing_indicators = FALSE
+	var/typing_indicators = TRUE
 
 	/// Whether or not this client has standard hotkeys enabled
 	var/hotkeys = TRUE
 
 	/// Whether or not this client has the combo HUD enabled
 	var/combo_hud_enabled = FALSE
+
+	/// Last Admin Verbs used
+	var/list/last_verbs_used = list()
+
+	/// Literally Admin Verbs Menu
+	var/datum/admin_menu/admin_menu

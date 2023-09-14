@@ -103,7 +103,7 @@
 	turf_type = /turf/open/floor/plating/asteroid/dirty
 	floor_variance = 0
 	initial_gas_mix = "o2=22;n2=82;TEMP=225.15"
-	slowdown = 3
+	slowdown = 1
 
 /turf/open/floor/plating/asteroid/dirty/fake_lava_v1
 	name = "искусственная лава"
@@ -133,7 +133,7 @@
 	name = "тротуар"
 	desc = "В самый раз для пробежек."
 	icon_state = "trot"
-	initial_gas_mix = "o2=22;n2=82;TEMP=248.15"
+	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
 	icon = 'white/valtos/icons/prison/beton.dmi'
 	floor_tile = /obj/item/stack/tile/trot
 	slowdown = -0.1
@@ -390,7 +390,7 @@
 	icon_state = "sovietvend"
 	product_ads = "За Царя и Страну.;А ты выполнил норму сегодня?;Слава Советскому Союзу!"
 	products = list(/obj/item/clothing/under/costume/soviet = 20, /obj/item/clothing/head/ushanka = 20, /obj/item/food/candy = 40,
-					/obj/item/reagent_containers/food/drinks/bottle/vodka = 40, /obj/item/kitchen/knife/butcher/machete = 10)
+					/obj/item/reagent_containers/food/drinks/bottle/vodka = 40, /obj/item/kitchen/knife/butcher = 10)
 	contraband = list(/obj/item/clothing/under/syndicate/tacticool = 20)
 	armor = list(melee = 100, bullet = 100, laser = 100, energy = 100, bomb = 0, bio = 0, rad = 0, fire = 100, acid = 50)
 	resistance_flags = FIRE_PROOF

@@ -12,8 +12,6 @@
 	if(!mapload)  //I don't want no gas leaks on my space ruin you hear?
 		RegisterSignal(src, COMSIG_LIVING_DEATH, PROC_REF(attach_rot))
 
-	tts_comp = AddComponent(/datum/component/tts)
-
 /mob/living/carbon/Destroy()
 	//This must be done first, so the mob ghosts correctly before DNA etc is nulled
 	. =  ..()
@@ -164,6 +162,24 @@
 	var/atom/movable/thrown_thing
 	var/obj/item/I = get_active_held_item()
 
+	var/verb_text = ""
+	var/verb_text_me = ""
+
+	switch(rand(1, 3))
+		if(1)
+			verb_text = "кидает"
+			verb_text_me = "Кидаю"
+		if(2)
+			verb_text = "швыряет"
+			verb_text_me = "Швыряю"
+		if(3)
+			verb_text = "выпускает"
+			verb_text_me = "Выпускаю"
+
+	if(prob(0.5))
+		verb_text = "вхуячивает"
+		verb_text_me = "Вхуячиваю"
+
 	if(!I)
 		if(pulling && isliving(pulling) && grab_state >= GRAB_AGGRESSIVE)
 			var/mob/living/throwable_mob = pulling
@@ -192,8 +208,8 @@
 			power_throw++
 		if(pulling && grab_state >= GRAB_NECK)
 			power_throw++
-		visible_message(span_danger("<b>[capitalize(src)]</b> кидает <b>[thrown_thing.name]</b>[power_throw ? " невероятно сильно!" : "."]") , \
-						span_danger("Кидаю <b>[thrown_thing.name]</b>[power_throw ? " невероятно сильно!" : "."]"))
+		visible_message(span_danger("<b>[capitalize(src)]</b> [verb_text] <b>[thrown_thing.name]</b>[power_throw ? " невероятно сильно!" : "."]") , \
+						span_danger("[verb_text_me] <b>[thrown_thing.name]</b>[power_throw ? " невероятно сильно!" : "."]"))
 		playsound(get_turf(src), 'white/valtos/sounds/throw.wav', 50, TRUE)
 		log_message("has thrown [thrown_thing] [power_throw ? "really hard" : ""]", LOG_ATTACK)
 		newtonian_move(get_dir(target, src))
@@ -563,7 +579,7 @@
 
 	var/new_sight = initial(sight)
 	lighting_alpha = initial(lighting_alpha)
-	var/obj/item/organ/eyes/E = getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/E = get_organ_slot(ORGAN_SLOT_EYES)
 	if(!E)
 		update_tint()
 	else
@@ -633,7 +649,7 @@
 	if(isclothing(wear_mask))
 		. += wear_mask.tint
 
-	var/obj/item/organ/eyes/E = getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/E = get_organ_slot(ORGAN_SLOT_EYES)
 	if(E)
 		. += E.tint
 
@@ -832,21 +848,21 @@
 	else
 		clear_alert("handcuffed")
 		SEND_SIGNAL(src, COMSIG_CLEAR_MOOD_EVENT, "handcuffed")
-	update_action_buttons_icon() //some of our action buttons might be unusable when we're handcuffed.
+	update_mob_action_buttons() //some of our action buttons might be unusable when we're handcuffed.
 	update_inv_handcuffed()
 	update_hud_handcuffed()
 
 /mob/living/carbon/heal_and_revive(heal_to = 75, revive_message)
 	// We can't heal them if they're missing a heart
-	if(needs_heart() && !getorganslot(ORGAN_SLOT_HEART))
+	if(needs_heart() && !get_organ_slot(ORGAN_SLOT_HEART))
 		return FALSE
 
 	// We can't heal them if they're missing their lungs
-	if(!HAS_TRAIT(src, TRAIT_NOBREATH) && !getorganslot(ORGAN_SLOT_LUNGS))
+	if(!HAS_TRAIT(src, TRAIT_NOBREATH) && !get_organ_slot(ORGAN_SLOT_LUNGS))
 		return FALSE
 
 	// And we can't heal them if they're missing their liver
-	if(!getorganslot(ORGAN_SLOT_LIVER))
+	if(!get_organ_slot(ORGAN_SLOT_LIVER))
 		return FALSE
 
 	return ..()
@@ -1253,7 +1269,7 @@
 /mob/living/carbon/proc/adjust_skillchip_complexity_modifier(delta)
 	skillchip_complexity_modifier += delta
 
-	var/obj/item/organ/brain/brain = getorganslot(ORGAN_SLOT_BRAIN)
+	var/obj/item/organ/brain/brain = get_organ_slot(ORGAN_SLOT_BRAIN)
 
 	if(!brain)
 		return

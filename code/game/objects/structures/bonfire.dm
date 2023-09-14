@@ -110,7 +110,9 @@
 	burning = TRUE
 	set_light(6)
 	bonfire_burn()
-	particles = new /particles/bonfire()
+	add_emitter(/obj/emitter/fire, "fire")
+	add_emitter(/obj/emitter/sparks/fire, "fire_spark")
+	add_emitter(/obj/emitter/fire_smoke, "smoke", 9)
 	START_PROCESSING(SSobj, src)
 
 /obj/structure/bonfire/fire_act(exposed_temperature, exposed_volume)
@@ -151,7 +153,9 @@
 		icon_state = "bonfire"
 		burning = FALSE
 		set_light(0)
-		QDEL_NULL(particles)
+		remove_emitter("fire")
+		remove_emitter("fire_spark")
+		remove_emitter("smoke")
 		STOP_PROCESSING(SSobj, src)
 
 /obj/structure/bonfire/buckle_mob(mob/living/buckled_mob, force = FALSE, check_loc = TRUE)
@@ -161,21 +165,3 @@
 /obj/structure/bonfire/unbuckle_mob(mob/living/buckled_mob, force=FALSE, can_fall = TRUE)
 	if(..())
 		buckled_mob.pixel_y -= 13
-
-/particles/bonfire
-	icon = 'icons/effects/particles/bonfire.dmi'
-	icon_state = "bonfire"
-	width = 100
-	height = 100
-	count = 1000
-	spawning = 4
-	lifespan = 0.7 SECONDS
-	fade = 1 SECONDS
-	grow = -0.01
-	velocity = list(0, 0)
-	position = generator("circle", 0, 16, NORMAL_RAND)
-	drift = generator("vector", list(0, -0.2), list(0, 0.2))
-	gravity = list(0, 0.95)
-	scale = generator("vector", list(0.3, 0.3), list(1,1), NORMAL_RAND)
-	rotation = 30
-	spin = generator("num", -20, 20)

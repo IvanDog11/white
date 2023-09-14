@@ -985,12 +985,13 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 		if(ismob(client.eye) && (client.eye != src))
 			var/mob/target = client.eye
 			observetarget = null
+			hide_other_mob_action_buttons(target)
 			if(target.observers)
 				target.observers -= src
 				UNSETEMPTY(target.observers)
 	if(..())
 		if(hud_used)
-			client.screen = list()
+			client.clear_screen()
 			hud_used.show_hud(hud_used.hud_version)
 
 /mob/dead/observer/verb/observe()
@@ -1025,12 +1026,11 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 		return
 
 	//Istype so we filter out points of interest that are not mobs
-	if(client && mob_eye && istype(mob_eye))
+	if(client && mob_eye && istype(mob_eye) && src != mob_eye)
 		client.set_eye(mob_eye)
 		if(mob_eye.hud_used)
-			client.screen = list()
-			LAZYINITLIST(mob_eye.observers)
-			mob_eye.observers |= src
+			client.clear_screen()
+			LAZYOR(mob_eye.observers, src)
 			mob_eye.hud_used.show_hud(mob_eye.hud_used.hud_version, src)
 			observetarget = mob_eye
 

@@ -15,7 +15,8 @@ GLOBAL_PROTECT(admin_verbs_default)
 	/client/proc/cmd_admin_pm_context,	/*right-click adminPM interface*/
 	/client/proc/cmd_admin_pm_panel,		/*admin-pm list*/
 	/client/proc/stop_sounds,
-	/client/proc/requests
+	/client/proc/requests,
+	/client/proc/show_all_verbs
 	)
 GLOBAL_LIST_INIT(admin_verbs_admin, world.AVerbsAdmin())
 GLOBAL_PROTECT(admin_verbs_admin)
@@ -63,6 +64,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/respawn_character,
 	/client/proc/open_killcounter_counts,
 	/client/proc/secrets,
+	/client/proc/darknesshelper,
 	/datum/admins/proc/open_borgopanel,
 	/datum/admins/proc/view_all_circuits,
 	/datum/admins/proc/paintings_manager,
@@ -115,7 +117,6 @@ GLOBAL_LIST_INIT(admin_verbs_fun, list(
 	/client/proc/admin_away,
 	/client/proc/add_mob_ability,
 	/client/proc/toggle_prikol,
-	/client/proc/anime_voiceover,
 	/client/proc/centcom_podlauncher, /*Open a window to launch a Supplypod and configure it or it's contents*/
 	/client/proc/battle_royale,
 	/client/proc/load_circuit,
@@ -215,8 +216,7 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/toggle_cdn,
 	/client/proc/load_circuit,
 	/client/proc/open_lua_editor,
-	/datum/admins/proc/fixcorruption,
-	/datum/admins/proc/reset_all_air,
+	/client/proc/debug_hud_icon,
 	)
 GLOBAL_LIST_INIT(admin_verbs_possess, list(/proc/possess, GLOBAL_PROC_REF(possess), GLOBAL_PROC_REF(release)))
 GLOBAL_PROTECT(admin_verbs_possess)
@@ -234,10 +234,8 @@ GLOBAL_LIST_INIT(admin_verbs_secured, list(
 	/client/proc/get_tacmap_for_test,
 	/client/proc/fuck_pie,
 	/client/proc/fix_air, /*resets air in designated radius to its default atmos composition*/
-	/client/proc/force_evenmaster_rules,
 	/client/proc/reestablish_db_connection, /*reattempt a connection to the database*/
 	/datum/admins/proc/kill_system32,
-	/client/proc/debug_winset,
 	/client/proc/reload_whitelist,
 	))
 GLOBAL_PROTECT(admin_verbs_secured)
@@ -316,6 +314,12 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	))
 GLOBAL_PROTECT(admin_verbs_hideable)
 
+GLOBAL_LIST_INIT(all_dumb_admin_verbs, world.get_all_fucking_admin_verbs())
+GLOBAL_PROTECT(all_dumb_admin_verbs)
+
+/world/proc/get_all_fucking_admin_verbs()
+	return GLOB.admin_verbs_default + GLOB.admin_verbs_admin + GLOB.admin_verbs_ban + GLOB.admin_verbs_fun + GLOB.admin_verbs_server + GLOB.admin_verbs_debug + GLOB.admin_verbs_possess + GLOB.admin_verbs_permissions + GLOB.admin_verbs_secured + GLOB.admin_verbs_poll + GLOB.admin_verbs_sounds + GLOB.admin_verbs_spawn + GLOB.admin_verbs_debug_mapping + GLOB.admin_verbs_sdql + list(/client/proc/togglebuildmodeself, /client/proc/stealth, /client/proc/play_web_sound, /client/proc/disable_debug_verbs, /client/proc/disable_supercruise_verbs)
+
 /client/proc/add_admin_verbs()
 	if(holder)
 		control_freak = CONTROL_FREAK_SKIN | CONTROL_FREAK_MACROS
@@ -323,35 +327,35 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		var/rights = holder.rank.rights
 		add_verb(src, GLOB.admin_verbs_default)
 		if(rights & R_BUILD)
-			add_verb(src, /client/proc/togglebuildmodeself)
+			add_verb(src, /client/proc/togglebuildmodeself, FALSE)
 		if(rights & R_ADMIN)
-			add_verb(src, GLOB.admin_verbs_admin)
+			add_verb(src, GLOB.admin_verbs_admin, FALSE)
 		if(rights & R_BAN)
-			add_verb(src, GLOB.admin_verbs_ban)
+			add_verb(src, GLOB.admin_verbs_ban, FALSE)
 		if(rights & R_FUN)
-			add_verb(src, GLOB.admin_verbs_fun)
+			add_verb(src, GLOB.admin_verbs_fun, FALSE)
 		if(rights & R_SERVER)
-			add_verb(src, GLOB.admin_verbs_server)
+			add_verb(src, GLOB.admin_verbs_server, FALSE)
 		if(rights & R_DEBUG)
-			add_verb(src, GLOB.admin_verbs_debug)
+			add_verb(src, GLOB.admin_verbs_debug, FALSE)
 		if(rights & R_POSSESS)
-			add_verb(src, GLOB.admin_verbs_possess)
+			add_verb(src, GLOB.admin_verbs_possess, FALSE)
 		if(rights & R_PERMISSIONS)
-			add_verb(src, GLOB.admin_verbs_permissions)
+			add_verb(src, GLOB.admin_verbs_permissions, FALSE)
 		if(rights & R_SECURED)
-			add_verb(src, GLOB.admin_verbs_secured)
+			add_verb(src, GLOB.admin_verbs_secured, FALSE)
 		if(rights & R_STEALTH)
-			add_verb(src, /client/proc/stealth)
+			add_verb(src, /client/proc/stealth, FALSE)
 		if(rights & R_ADMIN)
-			add_verb(src, GLOB.admin_verbs_poll)
+			add_verb(src, GLOB.admin_verbs_poll, FALSE)
 		if(rights & R_SDQL)
-			add_verb(src, GLOB.admin_verbs_sdql)
+			add_verb(src, GLOB.admin_verbs_sdql, FALSE)
 		if(rights & R_SOUND)
-			add_verb(src, GLOB.admin_verbs_sounds)
+			add_verb(src, GLOB.admin_verbs_sounds, FALSE)
 			if(CONFIG_GET(string/invoke_youtubedl))
-				add_verb(src, /client/proc/play_web_sound)
+				add_verb(src, /client/proc/play_web_sound, FALSE)
 		if(rights & R_SPAWN)
-			add_verb(src, GLOB.admin_verbs_spawn)
+			add_verb(src, GLOB.admin_verbs_spawn, FALSE)
 
 /client/proc/remove_admin_verbs()
 	remove_verb(src, list(
@@ -383,7 +387,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set category = "Адм"
 
 	remove_admin_verbs()
-	add_verb(src, /client/proc/show_verbs)
+	add_verb(src, /client/proc/show_verbs, FALSE)
 
 	to_chat(src, span_interface("Almost all of your adminverbs have been hidden."))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Hide All Adminverbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -981,3 +985,78 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	message_admins("[key_name_admin(usr)] added mob ability [ability_type] to mob [marked_mob].")
 	log_admin("[key_name(usr)] added mob ability [ability_type] to mob [marked_mob].")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Add Mob Ability") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/client/proc/show_all_verbs()
+	set category = "Адм"
+	set name = "Администрирование"
+	set desc = "Большие яйца?"
+
+	if(!holder)
+		return
+
+	admin_menu = new(usr)
+	admin_menu.ui_interact(usr)
+
+/datum/admin_menu
+	var/client/holder
+	var/compact_mode = FALSE
+
+/datum/admin_menu/New(user)
+	if (istype(user, /client))
+		var/client/user_client = user
+		holder = user_client
+	else
+		var/mob/user_mob = user
+		holder = user_mob.client
+
+/datum/admin_menu/ui_state(mob/user)
+	return GLOB.admin_state
+
+/datum/admin_menu/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "AdminVerbs")
+		ui.open()
+
+/datum/admin_menu/ui_data(mob/user)
+	var/list/data = list()
+	data["compactMode"] = compact_mode
+	return data
+
+/datum/admin_menu/ui_static_data(mob/user)
+	var/list/temp_data = list()
+	for(var/procpath/cur_verb as anything in holder.verbs)
+		if(!cur_verb.category)
+			continue
+		if(!temp_data[cur_verb.category])
+			temp_data[cur_verb.category] = list()
+		temp_data[cur_verb.category] += list(list("verb" = "[cur_verb]", "name" = cur_verb.name, "desc" = cur_verb.desc))
+
+	var/list/tgui_data = list()
+	for(var/category in temp_data)
+		var/list/cat = list(
+			"name" = category,
+			"items" = temp_data[category])
+		tgui_data["categories"] += list(cat)
+
+	LAZYADDASSOCLIST(tgui_data, "categories", list("name" = "История", "items" = reverseList(holder.last_verbs_used)))
+	return tgui_data
+
+/datum/admin_menu/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+
+	switch(action)
+		if("compact_toggle")
+			compact_mode = !compact_mode
+			return TRUE
+
+	if(!check_rights(R_ADMIN) || action != "run")
+		return
+
+	INVOKE_ASYNC(holder, text2path(params["verb"]))
+
+	LAZYADD(holder.last_verbs_used, list(list("verb" = params["verb"], "name" = params["name"], "desc" = params["desc"])))
+
+	SStgui.close_uis(usr)

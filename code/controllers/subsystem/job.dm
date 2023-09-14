@@ -153,6 +153,8 @@ SUBSYSTEM_DEF(job)
 			return FALSE
 		if(!job.player_old_enough(player.client))
 			return FALSE
+//		if(!job.not_available_in_days(player.client))
+//			return FALSE
 		if(job.required_playtime_remaining(player.client))
 			return FALSE
 		if(job.metalocked && !(job.type in player.client.prefs.jobs_buyed))
@@ -189,6 +191,9 @@ SUBSYSTEM_DEF(job)
 		if(!job.player_old_enough(player.client))
 			JobDebug("FOC player not old enough, Player: [player]")
 			continue
+//		if(!job.not_available_in_days(player.client))
+//			JobDebug("FOC player too old, Player: [player]")
+//			continue
 		if(job.required_playtime_remaining(player.client))
 			JobDebug("FOC player not enough xp, Player: [player]")
 			continue
@@ -232,6 +237,9 @@ SUBSYSTEM_DEF(job)
 		if(!job.player_old_enough(player.client))
 			JobDebug("GRJ player not old enough, Player: [player]")
 			continue
+//		if(!job.not_available_in_days(player.client))
+//			JobDebug("GRJ player too old, Player: [player]")
+//			continue
 
 		if(job.required_playtime_remaining(player.client))
 			JobDebug("GRJ player not enough xp, Player: [player]")
@@ -420,6 +428,9 @@ SUBSYSTEM_DEF(job)
 				if(!job.player_old_enough(player.client))
 					JobDebug("DO player not old enough, Player: [player], Job:[job.title]")
 					continue
+//				if(!job.not_available_in_days(player.client))
+//					JobDebug("DO player too old, Player: [player], Job:[job.title]")
+//					continue
 
 				if(job.required_playtime_remaining(player.client))
 					JobDebug("DO player not enough xp, Player: [player], Job:[job.title]")
@@ -541,11 +552,8 @@ SUBSYSTEM_DEF(job)
 			if(!SendToLateJoin(living_mob))
 				living_mob.move_to_error_room()
 
-	var/ambition_text
-
 	if(living_mob.mind)
 		living_mob.mind.assigned_role = rank
-		ambition_text = living_mob.mind.assign_random_ambition()
 
 	to_chat(M, "\n<big><b>Я - [ru_job_parse(rank)], [gvorno()].</b></big>\n")
 	if(job)
@@ -577,9 +585,6 @@ SUBSYSTEM_DEF(job)
 		living_mob.add_memory("Мой номер аккаунта: [wageslave.account_id].")
 	if(job && living_mob)
 		job.after_spawn(living_mob, M, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
-
-	if(ambition_text)
-		to_chat(M, span_info(ambition_text))
 
 	return living_mob
 
@@ -645,6 +650,7 @@ SUBSYSTEM_DEF(job)
 		var/never = 0 //never
 		var/banned = 0 //banned
 		var/young = 0 //account too young
+//		var/old = 0 //account too old
 		for(var/i in GLOB.new_player_list)
 			var/mob/dead/new_player/player = i
 			if(!(player.ready == PLAYER_READY_TO_PLAY && player.mind && !player.mind.assigned_role))
@@ -655,6 +661,9 @@ SUBSYSTEM_DEF(job)
 			if(!job.player_old_enough(player.client))
 				young++
 				continue
+//			if(!job.not_available_in_days(player.client))
+//				old++
+//				continue
 			if(job.required_playtime_remaining(player.client))
 				young++
 				continue
@@ -673,6 +682,7 @@ SUBSYSTEM_DEF(job)
 		SSblackbox.record_feedback("nested tally", "job_preferences", never, list("[job.title]", "never"))
 		SSblackbox.record_feedback("nested tally", "job_preferences", banned, list("[job.title]", "banned"))
 		SSblackbox.record_feedback("nested tally", "job_preferences", young, list("[job.title]", "young"))
+//		SSblackbox.record_feedback("nested tally", "job_preferences", old, list("[job.title]", "old"))
 
 /datum/controller/subsystem/job/proc/PopcapReached()
 	var/hpc = CONFIG_GET(number/hard_popcap)
@@ -819,7 +829,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/JobDebug(message)
 	log_job_debug(message)
 
-/// Builds various lists of jobs based on station, centcom and additional jobs with icons associated with them.
+/// Builds various lists of jobs based on station, centcom and additional jobs with icons associated with them. // JOB_INTERN
 /datum/controller/subsystem/job/proc/setup_job_lists()
 	station_jobs = list(JOB_ASSISTANT, JOB_CAPTAIN, JOB_HEAD_OF_PERSONNEL, JOB_BARTENDER, JOB_COOK, JOB_BOTANIST, JOB_QUARTERMASTER, JOB_CARGO_TECHNICIAN, \
 		JOB_SHAFT_MINER, JOB_HUNTER, JOB_FREELANCER, JOB_CLOWN, JOB_MIME, JOB_JANITOR, JOB_CURATOR, JOB_LAWYER, JOB_CHAPLAIN, JOB_CHIEF_ENGINEER, JOB_STATION_ENGINEER, \

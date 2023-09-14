@@ -2,8 +2,8 @@
 
 ///Footstep element. Plays footsteps at parents location when it is appropriate.
 /datum/element/footstep
-	element_flags = ELEMENT_DETACH|ELEMENT_BESPOKE
-	id_arg_index = 2
+	element_flags = ELEMENT_DETACH_ON_HOST_DESTROY|ELEMENT_BESPOKE
+	argument_hash_start_idx = 2
 	///A list containing living mobs and the number of steps they have taken since the last time their footsteps were played.
 	var/list/steps_for_living = list()
 	///volume determines the extra volume of the footstep. This is multiplied by the base volume, should there be one.
@@ -64,7 +64,7 @@
 	if(!istype(turf))
 		return
 
-	if(!turf.footstep || source.buckled || source.throwing || source.movement_type & (VENTCRAWLING | FLYING) || HAS_TRAIT(source, TRAIT_IMMOBILIZED))
+	if(!turf.footstep || source.buckled || source.throwing || source.movement_type & (VENTCRAWLING | FLYING) || HAS_TRAIT(source, TRAIT_IMMOBILIZED) || source.check_move_loop_flags(MOVEMENT_LOOP_DRAGGING))
 		return
 
 	if(source.body_position == LYING_DOWN) //play crawling sound if we're lying

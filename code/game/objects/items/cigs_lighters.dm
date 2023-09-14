@@ -224,7 +224,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/extinguish()
 	if(!lit)
 		return
-	name = copytext_char(name, 8) //8 == length_char("зажжённая ") + 1
+	name = copytext_char(name, 11) //10 == length_char("зажжённая ") + 1
 	attack_verb_continuous = null
 	attack_verb_simple = null
 	hitsound = null
@@ -256,7 +256,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 					to_smoke = reagents.total_volume / (smoketime / dragtime)
 
 				reagents.expose(C, INGEST, fraction)
-				var/obj/item/organ/lungs/L = C.getorganslot(ORGAN_SLOT_LUNGS)
+				var/obj/item/organ/lungs/L = C.get_organ_slot(ORGAN_SLOT_LUNGS)
 				if(L && !(L.organ_flags & ORGAN_SYNTHETIC))
 					C.adjustOrganLoss(ORGAN_SLOT_LUNGS, lung_harm)
 				if(!reagents.trans_to(C, to_smoke))
@@ -816,8 +816,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 //ROLLING//
 ///////////
 /obj/item/rollingpaper
-	name = "rolling paper"
-	desc = "A thin piece of paper used to make fine smokeables."
+	name = "папиросная бумага"
+	desc = "Тонкий лист бумаги, используемый для приготовления сигаретных изделий."
 	icon = 'icons/obj/cigarettes.dmi'
 	icon_state = "cig_paper"
 	w_class = WEIGHT_CLASS_TINY
@@ -835,10 +835,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			qdel(target)
 			qdel(src)
 			user.put_in_active_hand(R)
-			to_chat(user, span_notice("You roll the [target.name] into a rolling paper."))
-			R.desc = "Dried [target.name] rolled up in a thin piece of paper."
+			to_chat(user, span_notice("Закручиваю [target.name] в папиросную бумагу."))
+			R.desc = "Высушенная [target.name] закрученная в папиросную бумагу."
 		else
-			to_chat(user, span_warning("You need to dry this first!"))
+			to_chat(user, span_warning("Перед закруткой материал сначала надо высушить!"))
 
 ///////////////
 //VAPE NATION//

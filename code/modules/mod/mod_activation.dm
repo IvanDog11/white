@@ -145,7 +145,7 @@
 			playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 		return FALSE
 	for(var/obj/item/mod/module/module as anything in modules)
-		if(!module.active || module.allowed_inactive)
+		if(!module.active || (module.allow_flags & MODULE_ALLOW_INACTIVE))
 			continue
 		module.on_deactivation(display_message = FALSE)
 	activating = TRUE
@@ -212,6 +212,9 @@
 		wearer.update_inv_wear_mask()
 		wearer.update_inv_glasses()
 		wearer.update_hair()
+		// Close internal air tank if MOD helmet is unsealed and was the only breathing apparatus.
+		if (!seal && wearer?.invalid_internals())
+			wearer.cutoff_internals()
 
 /// Finishes the suit's activation, starts processing
 /obj/item/mod/control/proc/finish_activation(on)

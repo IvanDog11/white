@@ -96,19 +96,19 @@
 /obj/effect/landmark/tram/caves/upper
 	name = "Delta Outpost Mining Dock"
 	specific_lift_id = "caves 1st floor tram"
-	destination_id = "caves_upper"
+	platform_code = "caves_upper"
 	tgui_icons = list("Arrivals" = "plane-arrival")
 
 /obj/effect/landmark/tram/caves/middle
 	name = "Delta Outpost Storage & Robotics"
 	specific_lift_id = "caves 1st floor tram"
-	destination_id = "caves_middle"
+	platform_code = "caves_middle"
 	tgui_icons = list("Arrivals" = "plane-arrival")
 
 /obj/effect/landmark/tram/caves/lower
 	name = "Delta Outpost Research Division"
 	specific_lift_id = "caves 1st floor tram"
-	destination_id = "caves_lower"
+	platform_code = "caves_lower"
 	tgui_icons = list("Arrivals" = "plane-arrival")
 
 //Mech used by the clockwork miners
@@ -267,7 +267,7 @@
 	speech_span = SPAN_SANS
 	sell_sound = 'sound/voice/hiss2.ogg'
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
-	weather_immunities = list(TRAIT_ASHSTORM_IMMUNE)
+	weather_immunities = list(WEATHER_ASH)
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	say_phrases = list(
 		ITEM_REJECTED_PHRASE = list(

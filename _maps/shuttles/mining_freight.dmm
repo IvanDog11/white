@@ -9,6 +9,8 @@
 "c" = (
 /obj/structure/table,
 /obj/item/storage/toolbox/emergency,
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/directional/north,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/mining)
 "d" = (
@@ -28,6 +30,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
+/obj/structure/cable,
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/mining)
 "g" = (
@@ -59,6 +62,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/mining)
 "k" = (
@@ -66,7 +70,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible{
 	dir = 4
 	},
-/obj/structure/cable,
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/mining)
 "l" = (
@@ -86,12 +89,9 @@
 	},
 /obj/docking_port/mobile{
 	dir = 8;
-	dwidth = 3;
-	height = 5;
 	id = "mining_common";
 	name = "lavaland shuttle";
-	port_direction = 4;
-	width = 7
+	port_direction = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible{
 	dir = 4
@@ -107,12 +107,13 @@
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/mining)
 "o" = (
-/obj/structure/closet/crate,
 /obj/effect/turf_decal/delivery,
 /obj/machinery/airalarm{
 	dir = 4;
 	pixel_x = -22
 	},
+/obj/structure/cable,
+/obj/structure/ore_box,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/mining)
 "p" = (
@@ -124,8 +125,9 @@
 /turf/open/floor/plating,
 /area/shuttle/mining)
 "q" = (
-/obj/structure/ore_box,
 /obj/effect/turf_decal/delivery,
+/obj/structure/cable,
+/obj/machinery/power/smes/engineering,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/mining)
 "r" = (
@@ -139,11 +141,18 @@
 /turf/open/floor/plating/airless,
 /area/shuttle/mining)
 "t" = (
+/obj/effect/turf_decal/bot,
+/obj/structure/cable,
+/obj/structure/closet/crate,
+/turf/open/floor/mineral/plastitanium,
+/area/shuttle/mining)
+"C" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 1
 	},
 /obj/effect/turf_decal/bot,
 /obj/structure/cable,
+/obj/machinery/power/terminal,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/mining)
 
@@ -161,7 +170,7 @@ a
 c
 f
 j
-n
+t
 o
 r
 "}
@@ -170,7 +179,7 @@ b
 d
 g
 k
-t
+n
 p
 s
 "}
@@ -179,7 +188,7 @@ a
 e
 h
 l
-n
+C
 q
 r
 "}

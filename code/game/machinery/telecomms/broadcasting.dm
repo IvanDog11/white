@@ -118,8 +118,7 @@
 		"spans" = spans,
 		"mods" = message_mods
 	)
-	var/turf/T = get_turf(source)
-	levels = list(T.z)
+	levels = SSmapping.get_connected_levels(get_turf(source))
 
 /datum/signal/subspace/vocal/copy()
 	var/datum/signal/subspace/vocal/copy = new(source, frequency, virt, language)
@@ -193,6 +192,8 @@
 			stack_trace("null found in the hearers list returned by the spatial grid. this is bad")
 			continue
 		hearer.Hear(rendered, virt, language, message, frequency, spans, message_mods)
+
+	INVOKE_ASYNC(SStts, TYPE_PROC_REF(/datum/controller/subsystem/tts, queue_tts_message), virt.source, html_decode(message), language, virt.voice, receive, message_range = 1, freq = virt.last_freq, effect = "radio")
 
 	// This following recording is intended for research and feedback in the use of department radio channels
 	if(length(receive))

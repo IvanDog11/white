@@ -75,8 +75,8 @@
 	extra_penetration = 15
 
 /obj/item/gun/ballistic/shotgun/automatic/fallout/battle/sks
-	name = "SKS"
-	desc = "An old European semi-automatic rifle chambered for 7.62 rounds and normally fed from 10 round stripper clips."
+	name = "СКС"
+	desc = "Самозарядный карабин Симонова калибра 7.62 обладает приличной огневой мощью и несъемным магазином на 10 патронов. Заряжается патронами поштучно или при помощи скорозарядника."
 	icon_state = "sks"
 	inhand_icon_state = "sks"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/sks
@@ -84,14 +84,9 @@
 	extra_damage = 30
 	extra_penetration = 10
 
-/obj/item/gun/ballistic/shotgun/automatic/fallout/battle/sks/warfare
-	extra_damage = 60
-	extra_penetration = 20
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/sks/warfare
-
 /obj/item/gun/ballistic/shotgun/automatic/fallout/battle/sks/scoped
-	name = "Scoped SKS"
-	desc = "An SKS with a scope attached and some improved rifling for better penetration."
+	name = "Снайперский СКС"
+	desc = "Самозарядный карабин Симонова калибра 7.62 обладает приличной огневой мощью и несъемным магазином на 10 патронов. Заряжается патронами поштучно или при помощи скорозарядника. Эта версия отличается наличием прицела и дополнительной пробивной способностью."
 	icon_state = "scoped_sks"
 	inhand_icon_state = "scoped_sks"
 	extra_penetration = 15
@@ -130,13 +125,6 @@
 	ammo_type = /obj/item/ammo_casing/fallout/a762
 	caliber = "a762"
 	max_ammo = 10
-
-
-/obj/item/ammo_box/magazine/internal/shot/sks/warfare
-	name = "SKS internal magazine (7.62)"
-	ammo_type = /obj/item/ammo_casing/fallout/a762
-	caliber = "a762"
-	max_ammo = 5
 
 /obj/item/ammo_box/magazine/internal/shot/lever
 	name = "lever action shotgun internal tube magazine"
@@ -185,7 +173,8 @@
 	max_ammo = 8
 
 /obj/item/ammo_box/fallout/sks
-	name = "SKS stripper clip (7.62)"
+	name = "винтовочный скорозарядник калибра 7.62"
+	desc = "Вмещает до 10 пуль калибра 7.62. Подходит к СКС."
 	icon = 'white/valtos/icons/fallout/ammo.dmi'
 	icon_state = "sksclip"
 	ammo_type = /obj/item/ammo_casing/fallout/a762

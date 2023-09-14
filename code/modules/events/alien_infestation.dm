@@ -1,5 +1,5 @@
 /datum/round_event_control/alien_infestation
-	name = "Alien Infestation"
+	name = "Спавн: Альены"
 	typepath = /datum/round_event/ghost_role/alien_infestation
 	weight = 5
 
@@ -52,7 +52,7 @@
 				continue//no parent vent
 			//Stops Aliens getting stuck in small networks.
 			//See: Security, Virology
-			if(temp_vent_parent.other_atmosmch.len > 20)
+			if(temp_vent_parent.other_atmos_machines.len > 20)
 				vents += temp_vent
 
 	if(!vents.len)

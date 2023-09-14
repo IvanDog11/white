@@ -663,9 +663,8 @@
 	var/old_type = type
 	if(defer_change) // TODO: make the defer change var a var for any changeturf flag
 		flags = CHANGETURF_DEFER_CHANGE
-	var/turf/open/mined = ScrapeAway(null, flags)
+	ScrapeAway(null, flags)
 	addtimer(CALLBACK(src, PROC_REF(AfterChange), flags, old_type), 1, TIMER_UNIQUE)
-	mined.update_visuals()
 
 /turf/closed/mineral/gibtonite/volcanic
 	environment_type = "basalt"
@@ -738,7 +737,7 @@
 		to_chat(usr, span_warning("Похоже, камень слишком крепок, чтобы его уничтожить. Может быть, я смогу сломать его, когда стану главным шахтёром."))
 
 
-/turf/closed/mineral/strong/gets_drilled(mob/user)
+/turf/closed/mineral/strong/gets_drilled(user, give_exp = FALSE, triggered_by_explosion = FALSE, override_bonus = FALSE)
 	if(!ishuman(user))
 		return // see attackby
 	var/mob/living/carbon/human/H = user

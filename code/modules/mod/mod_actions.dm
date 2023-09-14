@@ -1,6 +1,6 @@
 /datum/action/item_action/mod
 	background_icon_state = "bg_tech_blue"
-	icon_icon = 'icons/mob/actions/actions_mod.dmi'
+	button_icon = 'icons/mob/actions/actions_mod.dmi'
 	check_flags = AB_CHECK_CONSCIOUS
 	/// Whether this action is intended for the AI. Stuff breaks a lot if this is done differently.
 	var/ai_action = FALSE
@@ -72,7 +72,8 @@
 		button_icon_state = "activate-ready"
 		if(!ai_action)
 			background_icon_state = "bg_tech"
-		UpdateButtons()
+			overlay_icon_state = "bg_tech_border"
+		build_all_button_icons()
 		addtimer(CALLBACK(src, PROC_REF(reset_ready)), 3 SECONDS)
 		return
 	var/obj/item/mod/control/mod = target
@@ -85,7 +86,7 @@
 	button_icon_state = initial(button_icon_state)
 	if(!ai_action)
 		background_icon_state = initial(background_icon_state)
-	UpdateButtons()
+	build_all_button_icons()
 
 /datum/action/item_action/mod/activate/ai
 	ai_action = TRUE
@@ -132,17 +133,19 @@
 /datum/action/item_action/mod/pinned_module/New(Target, obj/item/mod/module/linked_module, mob/user)
 	if(isAI(user))
 		ai_action = TRUE
+	button_icon = linked_module.icon
+	button_icon_state = linked_module.icon_state
 	..()
 	module = linked_module
+	if(linked_module.allow_flags & MODULE_ALLOW_INCAPACITATED)
+		// clears check hands and check conscious
+		check_flags = NONE
 	name = "Активировать [capitalize(linked_module.name)]"
 	desc = "Быстро активировать [linked_module]."
-	icon_icon = linked_module.icon
-	button_icon_state = linked_module.icon_state
-	RegisterSignal(linked_module, COMSIG_MODULE_ACTIVATED, PROC_REF(on_module_activate))
-	RegisterSignal(linked_module, COMSIG_MODULE_DEACTIVATED, PROC_REF(on_module_deactivate))
-	RegisterSignal(linked_module, COMSIG_MODULE_USED, PROC_REF(on_module_use))
+	RegisterSignals(linked_module, list(COMSIG_MODULE_ACTIVATED, COMSIG_MODULE_DEACTIVATED, COMSIG_MODULE_USED), PROC_REF(module_interacted_with))
 
 /datum/action/item_action/mod/pinned_module/Destroy()
+	UnregisterSignal(module, list(COMSIG_MODULE_ACTIVATED, COMSIG_MODULE_DEACTIVATED, COMSIG_MODULE_USED))
 	module.pinned_to -= pinner_ref
 	module = null
 	return ..()
@@ -162,10 +165,11 @@
 		return
 	module.on_select()
 
-/datum/action/item_action/mod/pinned_module/ApplyIcon(atom/movable/screen/movable/action_button/current_button, force)
-	. = ..(current_button, force = TRUE)
+/datum/action/item_action/mod/pinned_module/apply_button_overlay(atom/movable/screen/movable/action_button/current_button, force)
+	current_button.cut_overlays()
 	if(override)
-		return
+		return ..()
+
 	var/obj/item/mod/control/mod = target
 	if(module == mod.selected_module)
 		current_button.add_overlay(image(icon = 'icons/hud/radial.dmi', icon_state = "module_selected", layer = FLOAT_LAYER-0.1))
@@ -175,19 +179,8 @@
 		var/image/cooldown_image = image(icon = 'icons/hud/radial.dmi', icon_state = "module_cooldown")
 		current_button.add_overlay(cooldown_image)
 		addtimer(CALLBACK(current_button, TYPE_PROC_REF(/image, cut_overlay), cooldown_image), COOLDOWN_TIMELEFT(module, cooldown_timer))
+	return ..()
 
+/datum/action/item_action/mod/pinned_module/proc/module_interacted_with(datum/source)
 
-/datum/action/item_action/mod/pinned_module/proc/on_module_activate(datum/source)
-	SIGNAL_HANDLER
-
-	UpdateButtons()
-
-/datum/action/item_action/mod/pinned_module/proc/on_module_deactivate(datum/source)
-	SIGNAL_HANDLER
-
-	UpdateButtons()
-
-/datum/action/item_action/mod/pinned_module/proc/on_module_use(datum/source)
-	SIGNAL_HANDLER
-
-	UpdateButtons()
+	build_all_button_icons(UPDATE_BUTTON_OVERLAY|UPDATE_BUTTON_STATUS)

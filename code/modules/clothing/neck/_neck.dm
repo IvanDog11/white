@@ -157,8 +157,8 @@
 	greyscale_colors = null
 
 /obj/item/clothing/neck/maid
-	name = "maid neck cover"
-	desc = "A neckpiece for a maid costume, it smells faintly of disappointment."
+	name = "кружевной воротничок служанки"
+	desc = "Кружевной воротничок для форменной одежды служанки."
 	icon_state = "maid_neck"
 
 /obj/item/clothing/neck/stethoscope
@@ -179,8 +179,8 @@
 			var/heart_strength = span_danger("отсутствие")
 			var/lung_strength = span_danger("отсутствие")
 
-			var/obj/item/organ/heart/heart = M.getorganslot(ORGAN_SLOT_HEART)
-			var/obj/item/organ/lungs/lungs = M.getorganslot(ORGAN_SLOT_LUNGS)
+			var/obj/item/organ/heart/heart = M.get_organ_slot(ORGAN_SLOT_HEART)
+			var/obj/item/organ/lungs/lungs = M.get_organ_slot(ORGAN_SLOT_LUNGS)
 
 			if(!(M.stat == DEAD || (HAS_TRAIT(M, TRAIT_FAKEDEATH))))
 				if(heart && istype(heart))
@@ -282,21 +282,6 @@
 	icon_state = "stripedbluescarf"
 	custom_price = PAYCHECK_ASSISTANT * 0.2
 	w_class = WEIGHT_CLASS_SMALL
-
-// вайтдрим зергивергио контенто
-/obj/item/clothing/neck/stripedgrayscarf
-	name = "полосатый серый шарф"
-	icon = 'white/Wzzzz/clothing/ties.dmi'
-	worn_icon = 'white/Wzzzz/clothing/mob/ties.dmi'
-	icon_state = "stripedgreyscarf"
-	custom_price = PAYCHECK_ASSISTANT * 0.2
-
-/obj/item/clothing/neck/stripedblackscarf
-	name = "полосатый черный шарф"
-	icon = 'white/Wzzzz/clothing/ties.dmi'
-	worn_icon = 'white/Wzzzz/clothing/mob/ties.dmi'
-	icon_state = "stripedblackscarf"
-	custom_price = PAYCHECK_ASSISTANT * 0.2
 
 /obj/item/clothing/neck/petcollar
 	name = "ошейник"

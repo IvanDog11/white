@@ -34,7 +34,7 @@
 	scaling_delay = scaling
 	strength = severity
 
-	RegisterSignal(parent, list(COMSIG_ATOM_HULK_ATTACK, COMSIG_ATOM_ATTACK_ANIMAL, COMSIG_ATOM_ATTACK_HAND), PROC_REF(rot_react_touch))
+	RegisterSignals(parent, list(COMSIG_ATOM_HULK_ATTACK, COMSIG_ATOM_ATTACK_ANIMAL, COMSIG_ATOM_ATTACK_HAND), PROC_REF(rot_react_touch))
 	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(rot_hit_react))
 	if(ismovable(parent))
 		AddComponent(/datum/component/connect_loc_behalf, parent, loc_connections)
@@ -44,10 +44,10 @@
 		RegisterSignal(parent, COMSIG_LIVING_GET_PULLED, PROC_REF(rot_react_touch))
 	if(iscarbon(parent))
 		var/mob/living/carbon/carbon_parent = parent
-		RegisterSignal(carbon_parent.reagents, list(COMSIG_REAGENTS_ADD_REAGENT,
+		RegisterSignals(carbon_parent.reagents, list(COMSIG_REAGENTS_ADD_REAGENT,
 			COMSIG_REAGENTS_REM_REAGENT,
 			COMSIG_REAGENTS_DEL_REAGENT), PROC_REF(check_reagent))
-		RegisterSignal(parent, list(SIGNAL_ADDTRAIT(TRAIT_HUSK), SIGNAL_REMOVETRAIT(TRAIT_HUSK)), PROC_REF(check_husk_trait))
+		RegisterSignals(parent, list(SIGNAL_ADDTRAIT(TRAIT_HUSK), SIGNAL_REMOVETRAIT(TRAIT_HUSK)), PROC_REF(check_husk_trait))
 		check_reagent(carbon_parent.reagents, null)
 		check_husk_trait(null)
 	if(ishuman(parent))
@@ -69,11 +69,6 @@
 		return
 	start_time = world.time
 	active = TRUE
-
-	var/turf/open/T = get_turf(parent)
-	if(isopenturf(T) && T.air)
-		T.air.adjust_moles(GAS_MIASMA, strength)
-		T.air_update_turf()
 
 ///One of two procs that modifies blockers, this one handles adding a blocker and potentially ending the rot
 /datum/component/rot/proc/rest(blocker_type)
@@ -133,7 +128,7 @@
 	// Don't infect if you're chilled (I'd like to link this with the signals, but I can't come up with a good way to pull it off)
 	var/atom/atom_parent = parent
 	var/datum/gas_mixture/our_mix = atom_parent.return_air()
-	if(our_mix?.return_temperature() <= T0C-10)
+	if(our_mix?.temperature <= T0C-10)
 		return
 
 	if(!active)

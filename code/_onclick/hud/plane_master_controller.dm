@@ -40,12 +40,12 @@ INITIALIZE_IMMEDIATE(/atom/movable/plane_master_controller)
 /atom/movable/plane_master_controller/remove_filter(name_or_names)
 	. = ..()
 	for(var/atom/movable/screen/plane_master/pm_iterator as anything in get_planes())
-		pm_iterator.remove_filter(name_or_names)
+		pm_iterator?.remove_filter(name_or_names)
 
 /atom/movable/plane_master_controller/update_filters()
 	. = ..()
 	for(var/atom/movable/screen/plane_master/pm_iterator as anything in get_planes())
-		pm_iterator.update_filters()
+		pm_iterator?.update_filters()
 
 ///Gets all filters for this controllers plane masters
 /atom/movable/plane_master_controller/proc/get_filters(name)
@@ -83,6 +83,15 @@ INITIALIZE_IMMEDIATE(/atom/movable/plane_master_controller)
 	name = PLANE_MASTERS_GAME
 	controlled_planes = list(
 		RENDER_PLANE_GAME
+	)
+
+/// Exists for convienience when referencing all non-master render plates.
+/// This is the whole game and the UI, but not the escape menu.
+/atom/movable/plane_master_controller/non_master
+	name = PLANE_MASTERS_NON_MASTER
+	controlled_planes = list(
+		RENDER_PLANE_GAME,
+		RENDER_PLANE_NON_GAME,
 	)
 
 /// Exists for convienience when referencing all game render plates

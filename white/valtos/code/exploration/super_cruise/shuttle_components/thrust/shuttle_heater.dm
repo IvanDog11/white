@@ -11,8 +11,8 @@
 	icon = 'icons/turf/shuttle.dmi'
 
 /obj/machinery/atmospherics/components/unary/shuttle/engine_heater
-	name = "engine heater"
-	desc = "Directs energy into compressed particles in order to power an attached thruster. While the engine can be overclocked by being flooded with tritium, this will void the warrenty."
+	name = "предзажигатель двигателя"
+	desc = "Направляет энергию в сжатые частицы для приведения в действие присоединенного двигателя. Хотя двигатель можно разогнать, залив его тритием, это приведет к аннулированию гарантии."
 	icon_state = "heater_pipe"
 	var/icon_state_closed = "heater_pipe"
 	var/icon_state_open = "heater_pipe_open"
@@ -65,14 +65,14 @@
 		nodes[1] = null
 	if(!parents[1])
 		return
-	nullifyPipenet(parents[1])
+	nullify_pipenet(parents[1])
 
-	atmosinit()
+	atmos_init()
 	node = nodes[1]
 	if(node)
-		node.atmosinit()
-		node.addMember(src)
-	build_network()
+		node.atmos_init()
+		node.add_member(src)
+	SSair.add_to_rebuild_queue(src)
 	return TRUE
 
 /obj/machinery/atmospherics/components/unary/shuttle/engine_heater/RefreshParts()
@@ -89,7 +89,7 @@
 
 /obj/machinery/atmospherics/components/unary/shuttle/engine_heater/examine(mob/user)
 	. = ..()
-	. += "The engine heater's gas dial reads [getFuelAmount()] moles of gas.<br>"
+	. += "Газовый индикатор предзажигателя двигателя показывает [getFuelAmount()] количество молей газа.<br>"
 
 /obj/machinery/atmospherics/components/unary/shuttle/engine_heater/proc/updateGasStats()
 	var/datum/gas_mixture/air_contents = airs[1]

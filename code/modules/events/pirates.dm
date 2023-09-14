@@ -1,5 +1,5 @@
 /datum/round_event_control/pirates
-	name = "Space Pirates"
+	name = "Спавн: Пираты"
 	typepath = /datum/round_event/pirates
 	weight = 8
 	max_occurrences = 1
@@ -45,7 +45,7 @@
 			ship_name = pick(strings(PIRATE_NAMES_FILE, "silverscale_names"))
 			ship_template = /datum/map_template/shuttle/pirate/silverscale
 			threat.title = "Пожертвование высшему обществу"
-			threat.content = "Это [ship_name]. Серебрянные чешуйки хотят собрать с вас дань. [payoff] кредитов решат проблему."
+			threat.content = "Это [ship_name]. Серебряные чешуйки хотят собрать с вас дань. [payoff] кредитов решат проблему."
 			threat.possible_answers = list("Мы заплатим.","Че, серьёзно? Пошли на хуй!")
 		if(PIRATES_DUTCHMAN)
 			ship_name = "Flying Dutchman"
@@ -104,8 +104,8 @@
 //Shuttle equipment
 
 /obj/machinery/shuttle_scrambler
-	name = "Data Siphon"
-	desc = "This heap of machinery steals credits and data from unprotected systems and locks down cargo shuttles."
+	name = "дата майнер"
+	desc = "Эта куча хакерского оборудования крадет кредиты и данные из незащищенных систем, а так же блокирует грузовой шаттл."
 	icon = 'icons/obj/machines/dominator.dmi'
 	icon_state = "dominator"
 	density = TRUE

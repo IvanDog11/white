@@ -35,6 +35,8 @@
 	var/use_cyborg_cell = FALSE
 	///set to true so the gun is given an empty cell
 	var/dead_cell = FALSE
+	/// Звук переключения режима огня
+	var/toggle_sound = null
 
 //	Отображение заряда при осмотре
 /obj/item/gun/energy/examine(mob/user)
@@ -171,6 +173,8 @@
 	if(ammo_type.len > 1 && can_select)
 		select_fire(user)
 		update_icon()
+	if(toggle_sound)
+		playsound(src, toggle_sound, 60, FALSE)
 
 /obj/item/gun/energy/can_shoot()
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
@@ -193,7 +197,7 @@
 			if(!chambered.loaded_projectile)
 				chambered.newshot()
 
-/obj/item/gun/energy/handle_chamber()
+/obj/item/gun/energy/handle_chamber(empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE, atom/shooter = null)
 	if(chambered && !chambered.loaded_projectile) //if loaded_projectile is null, i.e the shot has been fired...
 		var/obj/item/ammo_casing/energy/shot = chambered
 		cell.use(shot.e_cost)//... drain the cell cell

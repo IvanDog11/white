@@ -239,7 +239,7 @@
 //==================================//
 
 /datum/action/innate/clockcult
-	icon_icon = 'icons/mob/actions/actions_clockcult.dmi'
+	button_icon = 'icons/mob/actions/actions_clockcult.dmi'
 	background_icon_state = "bg_clock"
 	buttontooltipstyle = "brass"
 	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
@@ -268,7 +268,7 @@
 		activation_slab.invoking_scripture = null
 	..(M)
 
-/datum/action/innate/clockcult/quick_bind/IsAvailable()
+/datum/action/innate/clockcult/quick_bind/IsAvailable(feedback = FALSE)
 	if(!is_servant_of_ratvar(owner) || owner.incapacitated())
 		return FALSE
 	return ..()
@@ -289,7 +289,7 @@
 	button_icon_state = "hierophant"
 	desc = "Передать сообщение союзникам через сети Иерофанта."
 
-/datum/action/innate/clockcult/transmit/IsAvailable()
+/datum/action/innate/clockcult/transmit/IsAvailable(feedback = FALSE)
 	if(!is_servant_of_ratvar(owner))
 		Remove(owner)
 		return FALSE

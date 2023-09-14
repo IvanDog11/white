@@ -1,5 +1,6 @@
-[![White Dream](https://i.imgur.com/Fwih1xN.gif)](#) 
-### Это основной репозиторий White Dream по игре [Space Station 13](https://station13.ru/). 
+![Aleph](https://github.com/frosty-dev/white/assets/10297716/bbe4608c-d65d-46ef-9d02-99a60f375db3)
+
+### Это основной репозиторий Aleph (old White Dream) по игре [Space Station 13](https://station13.ru/). 
 
 ## Быстрый старт
 1. Требования
@@ -18,7 +19,6 @@
 	sudo apt update || true
 	sudo apt install -o libssl1.1:i386
 	bash tools/ci/install_rust_g.sh
-	bash tools/ci/install_auxmos.sh
 
 	# Установка BYOND и запуск сервера
 	bash tools/ci/install_byond.sh

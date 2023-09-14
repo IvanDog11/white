@@ -43,7 +43,7 @@
 /obj/machinery/power/smes/examine(user)
 	. = ..()
 	if(!terminal)
-		. += "<hr><span class='warning'> Этот СНМЭ без терминала питания!</span>"
+		. += "<hr><span class='warning'> Этот СМЕС без терминала питания!</span>"
 
 /obj/machinery/power/smes/Initialize(mapload)
 	. = ..()
@@ -69,7 +69,7 @@
 	for(var/obj/item/stock_parts/capacitor/CP in component_parts)
 		IO += CP.rating
 	input_level_max = initial(input_level_max) * IO
-	output_level_max = (GLOB.is_engine_sabotaged ? ROUND_UP(initial(output_level_max) * IO / 2) : initial(output_level_max) * IO)
+	output_level_max = (GLOB.is_smes_sabotaged ? ROUND_UP(initial(output_level_max) * IO / 2) : initial(output_level_max) * IO)
 	for(var/obj/item/stock_parts/cell/PC in component_parts)
 		MC += PC.maxcharge
 		C += PC.charge
@@ -110,7 +110,7 @@
 			return
 
 		if(terminal) //is there already a terminal ?
-			to_chat(user, span_warning("Этот СНМЭ имеет терминал питания!"))
+			to_chat(user, span_warning("Этот СМЕС имеет терминал питания!"))
 			return
 
 		if(!panel_open) //is the panel open ?
@@ -344,7 +344,7 @@
 		"outputting" = outputting,
 		"outputLevel" = output_level,
 		"outputLevel_text" = display_power(output_level),
-		"outputLevelMax" = (GLOB.is_engine_sabotaged ? ROUND_UP(output_level_max / 2) : output_level_max),
+		"outputLevelMax" = (GLOB.is_smes_sabotaged ? ROUND_UP(output_level_max / 2) : output_level_max),
 		"outputUsed" = output_used,
 	)
 	return data
@@ -389,7 +389,7 @@
 				target = 0
 				. = TRUE
 			else if(target == "max")
-				target = (GLOB.is_engine_sabotaged ? ROUND_UP(output_level_max / 2) : output_level_max)
+				target = (GLOB.is_smes_sabotaged ? ROUND_UP(output_level_max / 2) : output_level_max)
 				. = TRUE
 			else if(adjust)
 				target = output_level + adjust
@@ -398,7 +398,7 @@
 				target = text2num(target)
 				. = TRUE
 			if(.)
-				output_level = clamp(target, 0, (GLOB.is_engine_sabotaged ? ROUND_UP(output_level_max / 2) : output_level_max))
+				output_level = clamp(target, 0, (GLOB.is_smes_sabotaged ? ROUND_UP(output_level_max / 2) : output_level_max))
 				log_smes(usr)
 
 /obj/machinery/power/smes/proc/log_smes(mob/user)
@@ -413,7 +413,7 @@
 	inputting = input_attempt
 	output_attempt = rand(0,1)
 	outputting = output_attempt
-	output_level = rand(0, (GLOB.is_engine_sabotaged ? ROUND_UP(output_level_max / 2) : output_level_max))
+	output_level = rand(0, (GLOB.is_smes_sabotaged ? ROUND_UP(output_level_max / 2) : output_level_max))
 	input_level = rand(0, input_level_max)
 	charge -= 1e6/severity
 	if (charge < 0)
@@ -429,8 +429,8 @@
 	AddElement(/datum/element/traitor_desc, "Если поменять полярность всех ячеек, то это сократит выхлоп энергии вдвое в виду особенностей защиты. Вполне сгодится за саботаж <b>двигателей</b> и за это мне дадут 3 телекристалла.", SABOTAGE_ENGINE)
 
 /obj/machinery/power/smes/magical
-	name = "Магический СНМЭ"
-	desc = "Сверхпроводящий накопитель магнитной энергии (СНМЭ). Производит энергию магическим способом."
+	name = "Магический СМЕС"
+	desc = "Сверхпроводящий накопитель магнитной энергии (СМЕС). Производит энергию магическим способом."
 
 /obj/machinery/power/smes/magical/process()
 	capacity = INFINITY

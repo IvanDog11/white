@@ -267,6 +267,7 @@
 	pixel_x = -18;
 	pixel_y = 7
 	},
+/obj/item/storage/ashtray/bronze,
 /obj/item/pen{
 	layer = 3.02;
 	pixel_y = 6;
@@ -375,9 +376,7 @@
 /area/command/heads_quarters/hos)
 "cj" = (
 /obj/structure/cable,
-/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus{
-	health = 250
-	},
+/mob/living/simple_animal/hostile/giant_spider/sgt_araneus,
 /turf/open/floor/carpet,
 /area/command/heads_quarters/hos)
 "cp" = (
@@ -2854,7 +2853,7 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/docking_port/stationary/random{
 	dir = 4;
-	id = "pod3_lavaland";
+	id = "pod_lavaland3";
 	name = "lavaland"
 	},
 /turf/open/floor/plating,
@@ -3237,7 +3236,7 @@
 	dir = 8
 	},
 /obj/structure/cable,
-/obj/machinery/navbeacon/wayfinding,
+/obj/effect/landmark/navigate_destination,
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel,
 /area/security/brig)

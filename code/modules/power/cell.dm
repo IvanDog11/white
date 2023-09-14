@@ -62,7 +62,7 @@
 
 /obj/item/stock_parts/cell/create_reagents(max_vol, flags)
 	. = ..()
-	RegisterSignal(reagents, list(COMSIG_REAGENTS_NEW_REAGENT, COMSIG_REAGENTS_ADD_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_REM_REAGENT), PROC_REF(on_reagent_change))
+	RegisterSignals(reagents, list(COMSIG_REAGENTS_NEW_REAGENT, COMSIG_REAGENTS_ADD_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_REM_REAGENT), PROC_REF(on_reagent_change))
 	RegisterSignal(reagents, COMSIG_PARENT_QDELETING, PROC_REF(on_reagents_del))
 
 /// Handles properly detaching signal hooks.
@@ -173,7 +173,7 @@
 /obj/item/stock_parts/cell/attack_self(mob/user)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		var/obj/item/organ/stomach/maybe_stomach = H.getorganslot(ORGAN_SLOT_STOMACH)
+		var/obj/item/organ/stomach/maybe_stomach = H.get_organ_slot(ORGAN_SLOT_STOMACH)
 
 		if(istype(maybe_stomach, /obj/item/organ/stomach/ethereal))
 
@@ -258,6 +258,10 @@
 	name = "X-01 multiphase energy gun power cell"
 	maxcharge = 1200
 
+/obj/item/stock_parts/cell/hos_gun
+	name = "X-01 multiphase energy gun power cell"
+	maxcharge = 2400
+
 /obj/item/stock_parts/cell/pulse //200 pulse shots
 	name = "pulse rifle power cell"
 	maxcharge = 40000
@@ -278,6 +282,10 @@
 /obj/item/stock_parts/cell/weapon/cell_1500
 	name = "оружейная батарея на 1500 Вт"
 	maxcharge = 1500
+
+/obj/item/stock_parts/cell/weapon/cell_3000
+	name = "оружейная батарея на 3000 Вт"
+	maxcharge = 3000
 
 /obj/item/stock_parts/cell/high
 	name = "батарея увеличенной емкости"

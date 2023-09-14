@@ -107,6 +107,12 @@
 #define rustg_dmi_strip_metadata(fname) RUSTG_CALL(RUST_G, "dmi_strip_metadata")(fname)
 #define rustg_dmi_create_png(path, width, height, data) RUSTG_CALL(RUST_G, "dmi_create_png")(path, width, height, data)
 #define rustg_dmi_resize_png(path, width, height, resizetype) RUSTG_CALL(RUST_G, "dmi_resize_png")(path, width, height, resizetype)
+/**
+ * input: must be a path, not an /icon; you have to do your own handling if it is one, as icon objects can't be directly passed to rustg.
+ *
+ * output: json_encode'd list. json_decode to get a flat list with icon states in the order they're in inside the .dmi
+ */
+#define rustg_dmi_icon_states(fname) RUSTG_CALL(RUST_G, "dmi_icon_states")(fname)
 
 #define rustg_file_read(fname) RUSTG_CALL(RUST_G, "file_read")(fname)
 #define rustg_file_exists(fname) RUSTG_CALL(RUST_G, "file_exists")(fname)
@@ -129,8 +135,8 @@
 #define RUSTG_HTTP_METHOD_PATCH "patch"
 #define RUSTG_HTTP_METHOD_HEAD "head"
 #define RUSTG_HTTP_METHOD_POST "post"
-#define rustg_http_request_blocking(method, url, body, headers) RUSTG_CALL(RUST_G, "http_request_blocking")(method, url, body, headers)
-#define rustg_http_request_async(method, url, body, headers) RUSTG_CALL(RUST_G, "http_request_async")(method, url, body, headers)
+#define rustg_http_request_blocking(method, url, body, headers, options) RUSTG_CALL(RUST_G, "http_request_blocking")(method, url, body, headers, options)
+#define rustg_http_request_async(method, url, body, headers, options) RUSTG_CALL(RUST_G, "http_request_async")(method, url, body, headers, options)
 #define rustg_http_check_request(req_id) RUSTG_CALL(RUST_G, "http_check_request")(req_id)
 
 #define RUSTG_JOB_NO_RESULTS_YET "NO RESULTS YET"
@@ -154,6 +160,8 @@
 #define rustg_time_milliseconds(id) text2num(RUSTG_CALL(RUST_G, "time_milliseconds")(id))
 #define rustg_time_reset(id) RUSTG_CALL(RUST_G, "time_reset")(id)
 
+/// Returns the timestamp as a string
 /proc/rustg_unix_timestamp()
-	return text2num(RUSTG_CALL(RUST_G, "unix_timestamp")())
+	return RUSTG_CALL(RUST_G, "unix_timestamp")()
+
 #define rustg_raw_read_toml_file(path) json_decode(RUSTG_CALL(RUST_G, "toml_file_to_json")(path) || "null")

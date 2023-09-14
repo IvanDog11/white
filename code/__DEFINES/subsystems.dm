@@ -137,6 +137,7 @@
 #define INIT_ORDER_INSTRUMENTS		82
 #define INIT_ORDER_GREYSCALE 		81
 #define INIT_ORDER_VIS				80
+#define INIT_ORDER_SECURITY_LEVEL   79 // We need to load before events so that it has a security level to choose from.
 #define INIT_ORDER_ACHIEVEMENTS		77
 #define INIT_ORDER_DUNGEONS			76
 #define INIT_ORDER_RESEARCH			75
@@ -160,6 +161,7 @@
 #define INIT_ORDER_ECONOMY			40
 #define INIT_ORDER_OUTPUTS			35
 #define INIT_ORDER_RESTAURANT 		34
+#define INIT_ORDER_TTS 				33
 #define INIT_ORDER_ATOMS			30
 #define INIT_ORDER_LANGUAGE			25
 #define INIT_ORDER_MACHINES			20
@@ -204,6 +206,8 @@
 #define FIRE_PRIORITY_NPC 			20
 #define FIRE_PRIORITY_NPC_MOVEMENT 	21
 #define FIRE_PRIORITY_NPC_ACTIONS 	22
+#define FIRE_PRIORITY_PATHFINDING   23
+#define FIRE_PRIORITY_MOVABLE_PHYSICS 24
 #define FIRE_PRIORITY_PROCESS		25
 #define FIRE_PRIORITY_THROWING		25
 #define FIRE_PRIORITY_REAGENTS		26
@@ -227,6 +231,7 @@
 #define FIRE_PRIORITY_STATPANEL		390
 #define FIRE_PRIORITY_CHAT			400
 #define FIRE_PRIORITY_RUNECHAT		410
+#define FIRE_PRIORITY_TTS 			425
 #define FIRE_PRIORITY_MOUSE_ENTERED 450
 #define FIRE_PRIORITY_OVERLAYS		500
 #define FIRE_PRIORITY_CALLBACKS		600
@@ -245,33 +250,6 @@
 
 #define RUNLEVELS_DEFAULT (RUNLEVEL_SETUP | RUNLEVEL_GAME | RUNLEVEL_POSTGAME)
 
-
-
-//! ## Overlays subsystem
-
-///Compile all the overlays for an atom from the cache lists
-// |= on overlays is not actually guaranteed to not add same appearances but we're optimistically using it anyway.
-#define COMPILE_OVERLAYS(A)\
-	do {\
-		var/list/ad = A.add_overlays;\
-		var/list/rm = A.remove_overlays;\
-		if(LAZYLEN(rm)){\
-			A.overlays -= rm;\
-			rm.Cut();\
-		}\
-		if(LAZYLEN(ad)){\
-			A.overlays |= ad;\
-			ad.Cut();\
-		}\
-		for(var/I in A.alternate_appearances){\
-			var/datum/atom_hud/alternate_appearance/AA = A.alternate_appearances[I];\
-			if(AA.transfer_overlays){\
-				AA.copy_overlays(A, TRUE);\
-			}\
-		}\
-		A.flags_1 &= ~OVERLAY_QUEUED_1;\
-	} while (FALSE)
-
 /**
 	Create a new timer and add it to the queue.
 	* Arguments:
@@ -282,21 +260,19 @@
 */
 #define addtimer(args...) _addtimer(args, file = __FILE__, line = __LINE__)
 
-// SSair run section
+// Air subsystem subtasks
 #define SSAIR_PIPENETS 1
 #define SSAIR_ATMOSMACHINERY 2
-#define SSAIR_EXCITEDGROUPS 3
-#define SSAIR_HIGHPRESSURE 4
-#define SSAIR_HOTSPOTS 5
-#define SSAIR_TURF_CONDUCTION 6
-#define SSAIR_REBUILD_PIPENETS 7
-#define SSAIR_EQUALIZE 8
-#define SSAIR_ACTIVETURFS 9
-#define SSAIR_TURF_POST_PROCESS 10
-#define SSAIR_FINALIZE_TURFS 11
-#define SSAIR_ATMOSMACHINERY_AIR 12
-#define SSAIR_DEFERRED_AIRS 13
-#define SSAIR_PROCESS_ATOMS 14
+#define SSAIR_ACTIVETURFS 3
+#define SSAIR_HOTSPOTS 4
+#define SSAIR_EXCITEDGROUPS 5
+#define SSAIR_HIGHPRESSURE 6
+#define SSAIR_SUPERCONDUCTIVITY 7
+#define SSAIR_PROCESS_ATOMS 8
+
+// Pipeline rebuild helper defines, these suck but it'll do for now //Fools you actually merged it
+#define SSAIR_REBUILD_PIPELINE 1
+#define SSAIR_REBUILD_QUEUE 2
 
 // Explosion Subsystem subtasks
 #define SSEXPLOSIONS_MOVABLES 1

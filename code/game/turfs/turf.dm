@@ -19,11 +19,15 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	// This shouldn't be modified directly, use the helper procs.
 	var/list/baseturfs = /turf/baseturf_bottom
 
+	var/temperature = T20C
 	var/initial_temperature = T20C
 	var/to_be_destroyed = 0 //Used for fire, if a melting temperature was reached, it will be destroyed
 	var/max_fire_temperature_sustained = 0 //The max temperature of the fire which it was subjected to
 
 	var/blocks_air = FALSE
+	// If this turf should initialize atmos adjacent turfs or not
+	// Optimization, not for setting outside of initialize
+	var/init_air = TRUE
 
 	var/list/image/blueprint_data //for the station blueprints, images of objects eg: pipes
 
@@ -80,6 +84,8 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	/// How pathing algorithm will check if this turf is passable by itself (not including content checks). By default it's just density check.
 	/// WARNING: Currently to use a density shortcircuiting this does not support dense turfs with special allow through function
 	var/pathing_pass_method = TURF_PATHING_PASS_DENSITY
+
+	var/apply_grain = FALSE
 
 /turf/vv_edit_var(var_name, new_value)
 	var/static/list/banned_edits = list(NAMEOF_STATIC(src, x), NAMEOF_STATIC(src, y), NAMEOF_STATIC(src, z))
@@ -138,7 +144,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 		Entered(AM)
 
 	if(requires_activation)
-		CALCULATE_ADJACENT_TURFS(src)
+		CALCULATE_ADJACENT_TURFS(src, KILL_EXCITED)
 
 	if (light_power && light_range)
 		update_light()
@@ -149,36 +155,34 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	// apply materials properly from the default custom_materials value
 	set_custom_materials(custom_materials)
 
+	if(apply_grain)
+		overlays += image('white/valtos/icons/lifeweb/noise.dmi', icon_state = "[rand(1, 9)]")
+
 	ComponentInitialize()
-	if(isopenturf(src))
-		var/turf/open/O = src
-		__auxtools_update_turf_temp_info(isspaceturf(get_z_base_turf()) && !O.planetary_atmos)
-	else
-		update_air_ref(-1)
-		__auxtools_update_turf_temp_info(isspaceturf(get_z_base_turf()))
 
 	return INITIALIZE_HINT_NORMAL
 
-/turf/proc/__auxtools_update_turf_temp_info()
-
 /turf/return_temperature()
+	return temperature
 
-/turf/proc/set_temperature()
+/turf/proc/set_temperature(temp)
+	temperature = temp
 
 /turf/proc/Initalize_Atmos(times_fired)
-	CALCULATE_ADJACENT_TURFS(src)
+	CALCULATE_ADJACENT_TURFS(src, KILL_EXCITED)
 
 /turf/Destroy(force)
 	. = QDEL_HINT_IWILLGC
 	if(!changing_turf)
 		stack_trace("Incorrect turf deletion")
 	changing_turf = FALSE
-	var/turf/T = SSmapping.get_turf_above(src)
-	if(T)
-		T.multiz_turf_del(src, DOWN)
-	T = SSmapping.get_turf_below(src)
-	if(T)
-		T.multiz_turf_del(src, UP)
+	if(GET_LOWEST_STACK_OFFSET(z))
+		var/turf/T = SSmapping.get_turf_above(src)
+		if(T)
+			T.multiz_turf_del(src, DOWN)
+		T = SSmapping.get_turf_below(src)
+		if(T)
+			T.multiz_turf_del(src, UP)
 	if(force)
 		..()
 		//this will completely wipe turf state
@@ -188,7 +192,6 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 		for(var/I in B.vars)
 			B.vars[I] = null
 		return
-	visibilityChanged()
 	QDEL_LIST(blueprint_data)
 	flags_1 &= ~INITIALIZED_1
 	requires_activation = FALSE
@@ -200,7 +203,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 /// Turfs DO NOT lose their signals when they get replaced, REMEMBER THIS
 /// It's possible because turfs are fucked, and if you have one in a list and it's replaced with another one, the list ref points to the new turf
 /// We do it because moving signals over was needlessly expensive, and bloated a very commonly used bit of code
-/turf/clear_signal_refs()
+/turf/_clear_signal_refs()
 	return
 
 /turf/attack_hand(mob/user)
@@ -639,7 +642,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 		clear_reagents_to_vomit_pool(M, V, purge_ratio)
 
 /proc/clear_reagents_to_vomit_pool(mob/living/carbon/M, obj/effect/decal/cleanable/vomit/V, purge_ratio = 0.1)
-	var/obj/item/organ/stomach/belly = M.getorganslot(ORGAN_SLOT_STOMACH)
+	var/obj/item/organ/stomach/belly = M.get_organ_slot(ORGAN_SLOT_STOMACH)
 	if(!belly?.reagents.total_volume)
 		return
 	var/chemicals_lost = belly.reagents.total_volume * purge_ratio
@@ -693,7 +696,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
  * * simulated_only: Do we only worry about turfs with simulated atmos, most notably things that aren't space?
  * * check_density: WE CAN PASS OBJECTS, aren't we?
 */
-/turf/proc/reachableAdjacentTurfs(caller, ID, simulated_only, bypass_density = FALSE)
+/turf/proc/reachableAdjacentTurfs(atom/movable/caller, ID, simulated_only, bypass_density = FALSE)
 	var/static/space_type_cache = typecacheof(/turf/open/space)
 	var/static/openspace_type_cache = typecacheof(/turf/open/openspace)
 	. = list()

@@ -34,6 +34,9 @@
 	var/del_on_map_removal = TRUE
 	var/last_word
 
+	/// If FALSE, this will not be cleared when calling /client/clear_screen()
+	var/clear_with_screen = TRUE
+
 /atom/movable/screen/Destroy()
 	master = null
 	hud = null
@@ -73,6 +76,21 @@
 		var/mob/M = usr
 		M.swap_hand()
 	return 1
+
+/atom/movable/screen/navigate
+	name = "навигация"
+	icon = 'icons/hud/neoscreen.dmi'
+	icon_state = "navigate"
+
+/atom/movable/screen/navigate/Click()
+	if(!isliving(usr))
+		return TRUE
+	var/mob/living/navigator = usr
+	navigator.navigate()
+
+	if(!navigator?.hud_used?.retro_hud)
+		flick("[icon_state]_pressed", src)
+		SEND_SOUND(usr, sound('sound/effects/klik.ogg', volume = 25))
 
 /atom/movable/screen/skills
 	name = "навыки"
@@ -139,7 +157,7 @@
 	/// Icon when empty. For now used only by humans.
 	var/icon_empty
 	/// Icon when contains an item. For now used only by humans.
-	var/icon_full
+	var/icon_full = "occupied"
 	/// The overlay when hovering over with an item in your hand
 	var/image/object_overlay
 	plane = HUD_PLANE
@@ -618,7 +636,6 @@
 	icon = 'icons/hud/neoscreen64.dmi'
 	layer = HUD_ABOVE_BG_LAYER
 	icon_state = "nh0"
-	blend_mode = BLEND_ADD
 	screen_loc = UI_HEALTH
 
 /atom/movable/screen/healths/alien
@@ -738,7 +755,6 @@
 	icon = 'icons/hud/neoscreen64.dmi'
 	layer = HUD_ABOVE_BG_LAYER
 	icon_state = "ns0"
-	blend_mode = BLEND_ADD
 	screen_loc = UI_STAMINA
 
 
@@ -799,7 +815,7 @@
 
 /atom/movable/screen/side_background/thing
 	icon = 'icons/hud/sider.png'
-	screen_loc = "EAST:30,SOUTH"
+	screen_loc = "EAST:16,SOUTH"
 
 /atom/movable/screen/side_button_bg
 	icon = 'icons/hud/neoscreen.dmi'

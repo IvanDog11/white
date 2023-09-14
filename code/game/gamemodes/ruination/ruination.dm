@@ -23,7 +23,7 @@ GLOBAL_VAR_INIT(forced_parallax_type, 1)
 	enemy_minimum_age = 0
 
 	restricted_jobs = list(JOB_CYBORG, JOB_AI)
-	protected_jobs = list(JOB_PRISONER, JOB_RUSSIAN_OFFICER, JOB_TRADER, JOB_HACKER,JOB_VETERAN, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_DETECTIVE, JOB_HEAD_OF_SECURITY, JOB_CAPTAIN, JOB_FIELD_MEDIC, JOB_SPECIALIST, JOB_RANGER, JOB_SHAFT_MINER, JOB_HUNTER, JOB_FREELANCER)
+	protected_jobs = list(JOB_PRISONER, JOB_RUSSIAN_OFFICER, JOB_TRADER, JOB_HACKER,JOB_VETERAN, JOB_SECURITY_OFFICER, JOB_WARDEN, JOB_DETECTIVE, JOB_HEAD_OF_SECURITY, JOB_CAPTAIN, JOB_FIELD_MEDIC, JOB_SPECIALIST, JOB_RANGER, JOB_SHAFT_MINER, JOB_HUNTER, JOB_FREELANCER, JOB_INTERN)
 
 	announce_span = "danger"
 	announce_text = "Кто-то решил уронить станцию прямиком на ПЛАНЕТУ!"
@@ -131,7 +131,7 @@ GLOBAL_VAR_INIT(forced_parallax_type, 1)
 				spawn(600)
 					sound_to_playing_players('white/valtos/sounds/rf.ogg', 15, FALSE, channel = CHANNEL_RUINATION_OST)
 					spawn(50)
-						set_security_level(SEC_LEVEL_DELTA)
+						SSsecurity_level.set_level(SEC_LEVEL_DELTA)
 					priority_announce("Внимание, сотрудники NanoTrasen, спешим сообщить вам, что корпорация вас снова обманывает. Они дошли до такого уровня маразма, что ради прибыли готовы утилизировать станцию вместе с вами. Мы перехватили данные сообщающие о том, что на вашей станции на данный момент находится 4 агента NanoTrasen под прикрытием. Постарайтесь им помешать, пока мы готовим блюспейс-транслокатор для перемещения вашей станции. Это займёт примерно 20 минут.", null, sound('white/valtos/sounds/trevoga2.ogg'), sender_override = "Синдикат")
 					spawn(150)
 						priority_announce("Вы в курсе, что большая часть сотрудников NanoTrasen имеют встроенный в их черепную коробку, при клонировании, HUD? Показываем как он работает.", null, sound('white/valtos/sounds/trevoga2.ogg'), sender_override = "Синдикат")

@@ -1,7 +1,7 @@
 //Bunkers up wherever standing, charging up an AoE attack to blast anyone who stays too close. Causes hallucations and brain damage to those affected.
 /datum/action/boss/brain_blast
 	name = "Sevtug's Wrath"
-	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "mimic_summon"
 	usage_probability = 15
 	boss_cost = 25
@@ -9,7 +9,7 @@
 	say_when_triggered = "Let Sevtug consume you, feel his presence wipe your heretical conscious clear!"
 	var/aoe_radius = 3
 
-/datum/action/boss/brain_blast/IsAvailable()
+/datum/action/boss/brain_blast/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -62,7 +62,7 @@
 //Violently spin and move towards a random target. Walking into them causes severe damage and throws you back. Cannot be melee attacked during this, but also moves a bit slower
 /datum/action/boss/spinning_bronze
 	name = "Nzcrentr's Retribution"
-	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "mimic_summon"
 	usage_probability = 15
 	boss_cost = 25
@@ -70,7 +70,7 @@
 	say_when_triggered = "Nzcrentr's power surges through me and it demands release!"
 	var/mob/living/chosen_target = null
 
-/datum/action/boss/spinning_bronze/IsAvailable()
+/datum/action/boss/spinning_bronze/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -99,7 +99,7 @@
 //Summon 8 marauders from the nearby marauder spawn landmarks. Boss puts up a shield that lasts until all marauders are killed.
 /datum/action/boss/marauder_swarm
 	name = "Inath-Neq's Undying Legion"
-	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "mimic_summon"
 	usage_probability = 15
 	boss_cost = 25
@@ -108,7 +108,7 @@
 	var/active_marauders = 0
 	var/id = "clockmastermarauder"
 
-/datum/action/boss/marauder_swarm/IsAvailable()
+/datum/action/boss/marauder_swarm/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -127,7 +127,7 @@
 		for(var/obj/effect/landmark/clockworkmarauder_spawn/spawner in GLOB.landmarks_list)
 			if(spawner.id == id)
 				var/atom/marauder = new /mob/living/simple_animal/hostile/clockwork/marauder/weak(get_turf(spawner))
-				RegisterSignal(marauder, list(COMSIG_PARENT_QDELETING, COMSIG_LIVING_DEATH), PROC_REF(lost_marauder))
+				RegisterSignals(marauder, list(COMSIG_PARENT_QDELETING, COMSIG_LIVING_DEATH), PROC_REF(lost_marauder))
 				active_marauders = 8
 	else
 		boss.atb.refund(boss_cost)

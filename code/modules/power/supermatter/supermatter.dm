@@ -111,6 +111,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	icon_state = "darkmatter"
 	density = TRUE
 	anchored = TRUE
+	appearance_flags = PIXEL_SCALE // no tile bound to allow distortion to render outside of direct view
 	layer = MOB_LAYER
 	flags_1 = PREVENT_CONTENTS_EXPLOSION_1 | RAD_PROTECT_CONTENTS_1 | RAD_NO_CONTAMINATE_1
 	light_range = 4
@@ -160,10 +161,10 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	///The list of gases we will be interacting with in process_atoms()
 	var/list/gases_we_care_about = list(
 		GAS_O2,
-		GAS_H2O,
+		GAS_WATER_VAPOR,
 		GAS_PLASMA,
 		GAS_CO2,
-		GAS_NITROUS,
+		GAS_N2O,
 		GAS_N2,
 		GAS_PLUOXIUM,
 		GAS_TRITIUM,
@@ -178,10 +179,10 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	///The list of gases mapped against their current comp. We use this to calculate different values the supermatter uses, like power or heat resistance. It doesn't perfectly match the air around the sm, instead moving up at a rate determined by gas_change_rate per call. Ranges from 0 to 1
 	var/list/gas_comp = list(
 		GAS_O2 = 0,
-		GAS_H2O = 0,
+		GAS_WATER_VAPOR = 0,
 		GAS_PLASMA = 0,
 		GAS_CO2 = 0,
-		GAS_NITROUS = 0,
+		GAS_N2O = 0,
 		GAS_N2 = 0,
 		GAS_PLUOXIUM = 0,
 		GAS_TRITIUM = 0,
@@ -195,7 +196,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	///The list of gases mapped against their transmit values. We use it to determine the effect different gases have on radiation
 	var/list/gas_trans = list(
 		GAS_O2 = OXYGEN_TRANSMIT_MODIFIER,
-		GAS_H2O = H2O_TRANSMIT_MODIFIER,
+		GAS_WATER_VAPOR = H2O_TRANSMIT_MODIFIER,
 		GAS_PLASMA = PLASMA_TRANSMIT_MODIFIER,
 		GAS_PLUOXIUM = PLUOXIUM_TRANSMIT_MODIFIER,
 		GAS_TRITIUM = TRITIUM_TRANSMIT_MODIFIER,
@@ -208,7 +209,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	///The list of gases mapped against their heat penaltys. We use it to determin molar and heat output
 	var/list/gas_heat = list(
 		GAS_O2 = OXYGEN_HEAT_PENALTY,
-		GAS_H2O = H2O_HEAT_PENALTY,
+		GAS_WATER_VAPOR = H2O_HEAT_PENALTY,
 		GAS_PLASMA = PLASMA_HEAT_PENALTY,
 		GAS_CO2 = CO2_HEAT_PENALTY,
 		GAS_N2 = NITROGEN_HEAT_PENALTY,
@@ -223,14 +224,14 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	)
 	///The list of gases mapped against their heat resistance. We use it to moderate heat damage.
 	var/list/gas_resist = list(
-		GAS_NITROUS = N2O_HEAT_RESISTANCE,
+		GAS_N2O = N2O_HEAT_RESISTANCE,
 		GAS_HYDROGEN = HYDROGEN_HEAT_RESISTANCE,
 		GAS_PROTO_NITRATE = PROTO_NITRATE_HEAT_RESISTANCE,
 	)
 	///The list of gases mapped against their powermix ratio
 	var/list/gas_powermix = list(
 		GAS_O2 = 1,
-		GAS_H2O = 1,
+		GAS_WATER_VAPOR = 1,
 		GAS_PLASMA = 1,
 		GAS_CO2 = 1,
 		GAS_N2 = -1,
@@ -312,7 +313,20 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	///Disables the sm's proccessing totally.
 	var/processes = TRUE
 
+	///Effect holder for the displacement filter to distort the SM based on its activity level
+	var/atom/movable/distortion_effect/distort
 
+	var/last_status
+
+/atom/movable/distortion_effect
+	name = ""
+	plane = ANOMALY_PLANE
+	appearance_flags = PIXEL_SCALE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "SM_base"
+	pixel_x = -32
+	pixel_y = -32
 
 /obj/machinery/power/supermatter_crystal/Initialize(mapload)
 	. = ..()
@@ -325,6 +339,9 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	radio.keyslot = new radio_key
 	radio.set_listening(FALSE)
 	radio.recalculateChannels()
+	distort = new(src)
+	add_overlay(distort)
+	add_emitter(/obj/emitter/sparkle, "supermatter_sparkle")
 	investigate_log("has been created.", INVESTIGATE_SUPERMATTER)
 	if(is_main_engine)
 		GLOB.main_supermatter_engine = src
@@ -352,6 +369,12 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	if(is_main_engine && GLOB.main_supermatter_engine == src)
 		GLOB.main_supermatter_engine = null
 	QDEL_NULL(soundloop)
+	distort.icon = 'icons/effects/32x32.dmi'
+	distort.icon_state = "SM_remnant"
+	distort.pixel_x = 0
+	distort.pixel_y = 0
+	distort.forceMove(get_turf(src))
+	distort = null
 	if(psyOverlay)
 		QDEL_NULL(psyOverlay)
 	return ..()
@@ -398,13 +421,13 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		data["SM_moles"] = air.total_moles()
 		for(var/gasid in air.get_gases())
 			gasdata.Add(list(list(
-			"name"= GLOB.gas_data.names[gasid],
+			"name"= air.gases[gasid][GAS_META][META_GAS_NAME],
 			"amount" = round(100*air.get_moles(gasid)/air.total_moles(),0.01))))
 
 	else
 		for(var/gasid in air.get_gases())
 			gasdata.Add(list(list(
-				"name"= GLOB.gas_data.names[gasid],
+				"name"= air.gases[gasid][GAS_META][META_GAS_NAME],
 				"amount" = 0)))
 
 	data["gases"] = gasdata
@@ -460,6 +483,37 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	. = ..()
 	if(final_countdown)
 		. += "casuality_field"
+
+// Switches the overlay based on the supermatter's current state; only called when the status has changed
+/obj/machinery/power/supermatter_crystal/proc/update_displacement()
+	cut_overlay(distort)
+	switch(last_status)
+		if(SUPERMATTER_INACTIVE)
+			distort.icon = 'icons/effects/96x96.dmi'
+			distort.icon_state = "SM_base"
+			distort.pixel_x = -32
+			distort.pixel_y = -32
+		if(SUPERMATTER_NORMAL, SUPERMATTER_NOTIFY, SUPERMATTER_WARNING)
+			distort.icon = 'icons/effects/96x96.dmi'
+			distort.icon_state = "SM_base_active"
+			distort.pixel_x = -32
+			distort.pixel_y = -32
+		if(SUPERMATTER_DANGER)
+			distort.icon = 'icons/effects/160x160.dmi'
+			distort.icon_state = "SM_delam_1"
+			distort.pixel_x = -64
+			distort.pixel_y = -64
+		if(SUPERMATTER_EMERGENCY)
+			distort.icon = 'icons/effects/224x224.dmi'
+			distort.icon_state = "SM_delam_2"
+			distort.pixel_x = -96
+			distort.pixel_y = -96
+		if(SUPERMATTER_DELAMINATING)
+			distort.icon = 'icons/effects/288x288.dmi'
+			distort.icon_state = "SM_delam_3"
+			distort.pixel_x = -128
+			distort.pixel_y = -128
+	add_overlay(distort)
 
 /obj/machinery/power/supermatter_crystal/proc/countdown()
 	set waitfor = FALSE
@@ -535,7 +589,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	for (var/obj/structure/sign/delamination_counter/sign as anything in GLOB.map_delamination_counters)
 		sign.update_count(ROUNDCOUNT_ENGINE_JUST_EXPLODED)
 	//Dear mappers, balance the sm max explosion radius to 17.5, 37, 39, 41
-	explosion(src, devastation_range = explosion_power * max(gasmix_power_ratio, 0.205) * 0.5 , heavy_impact_range = explosion_power * max(gasmix_power_ratio, 0.205) + 2, light_impact_range = explosion_power * max(gasmix_power_ratio, 0.205) + 4 , flash_range = explosion_power * max(gasmix_power_ratio, 0.205) + 6, adminlog = TRUE, ignorecap = TRUE)
+	explosion(src, devastation_range = explosion_power * max(gasmix_power_ratio, 0.205) * 0.5 , heavy_impact_range = explosion_power * max(gasmix_power_ratio, 0.205) + 2, light_impact_range = explosion_power * max(gasmix_power_ratio, 0.205) + 4 , flash_range = explosion_power * max(gasmix_power_ratio, 0.205) + 6, adminlog = TRUE, ignorecap = TRUE, explosion_type = /datum/effect_system/explosion/delamination)
 	qdel(src)
 
 
@@ -661,7 +715,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		var/list/resistance_mod = gases_we_care_about.Copy()
 
 		//We're concerned about pluoxium being too easy to abuse at low percents, so we make sure there's a substantial amount.
-		var/h2obonus = 1 - (gas_comp[GAS_H2O] * 0.25)//At max this value should be 0.75
+		var/h2obonus = 1 - (gas_comp[GAS_WATER_VAPOR] * 0.25)//At max this value should be 0.75
 		var/freonbonus = (gas_comp[GAS_FREON] <= 0.03) //Let's just yeet power output if this shit is high
 
 
@@ -780,6 +834,12 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	for(var/mob/living/l in range(src, round((power / 100) ** 0.25)))
 		var/rads = (power / 10) * sqrt( 1 / max(get_dist(l, src),1) )
 		l.rad_act(rads)
+
+	// Checks if the status has changed, in order to update the displacement effect
+	var/current_status = get_status()
+	if(current_status != last_status)
+		last_status = current_status
+		update_displacement()
 
 	//Transitions between one function and another, one we use for the fast inital startup, the other is used to prevent errors with fusion temperatures.
 	//Use of the second function improves the power gain imparted by using co2
@@ -1173,13 +1233,13 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	var/list/arctargets = list()
 	//Making a new copy so additons further down the recursion do not mess with other arcs
 	//Lets put this ourself into the do not hit list, so we don't curve back to hit the same thing twice with one arc
-	for(var/test in oview(zapstart, range))
+	for(var/atom/test in oview(zapstart, range))
 		if(!(zap_flags & ZAP_ALLOW_DUPLICATES) && LAZYACCESS(targets_hit, test))
 			continue
 
 		if(istype(test, /obj/vehicle/ridden/bicycle/))
 			var/obj/vehicle/ridden/bicycle/bike = test
-			if(!(bike.obj_flags & BEING_SHOCKED) && bike.can_buckle)//God's not on our side cause he hates idiots.
+			if(!HAS_TRAIT(bike, TRAIT_BEING_SHOCKED) && bike.can_buckle)//God's not on our side cause he hates idiots.
 				if(target_type != BIKE)
 					arctargets = list()
 				arctargets += test
@@ -1190,7 +1250,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 
 		if(istype(test, /obj/machinery/power/tesla_coil/))
 			var/obj/machinery/power/tesla_coil/coil = test
-			if(coil.anchored && !(coil.obj_flags & BEING_SHOCKED) && !coil.panel_open && prob(70))//Diversity of death
+			if(coil.anchored && !HAS_TRAIT(coil, TRAIT_BEING_SHOCKED) && !coil.panel_open && prob(70))//Diversity of death
 				if(target_type != COIL)
 					arctargets = list()
 				arctargets += test
@@ -1213,7 +1273,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 
 		if(istype(test, /mob/living/))
 			var/mob/living/alive = test
-			if(!(HAS_TRAIT(alive, TRAIT_TESLA_SHOCKIMMUNE)) && !(alive.flags_1 & SHOCKED_1) && alive.stat != DEAD && prob(20))//let's not hit all the engineers with every beam and/or segment of the arc
+			if(!(HAS_TRAIT(alive, TRAIT_TESLA_SHOCKIMMUNE)) && !HAS_TRAIT(alive, TRAIT_BEING_SHOCKED) && alive.stat != DEAD && prob(20))//let's not hit all the engineers with every beam and/or segment of the arc
 				if(target_type != LIVING)
 					arctargets = list()
 				arctargets += test
@@ -1223,8 +1283,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			continue
 
 		if(istype(test, /obj/machinery/))
-			var/obj/machinery/machine = test
-			if(!(machine.obj_flags & BEING_SHOCKED) && prob(40))
+			if(!(HAS_TRAIT(test, TRAIT_BEING_SHOCKED)) && prob(40))
 				if(target_type != MACHINERY)
 					arctargets = list()
 				arctargets += test
@@ -1234,8 +1293,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			continue
 
 		if(istype(test, /obj/))
-			var/obj/object = test
-			if(!(object.obj_flags & BEING_SHOCKED))
+			if(!HAS_TRAIT(test, TRAIT_BEING_SHOCKED))
 				if(target_type != OBJECT)
 					arctargets = list()
 				arctargets += test
@@ -1270,8 +1328,8 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 
 		else if(isliving(target))//If we got a fleshbag on our hands
 			var/mob/living/creature = target
-			creature.set_shocked()
-			addtimer(CALLBACK(creature, /mob/living/proc/reset_shocked), 10)
+			ADD_TRAIT(creature, TRAIT_BEING_SHOCKED, WAS_SHOCKED)
+			addtimer(TRAIT_CALLBACK_REMOVE(creature, TRAIT_BEING_SHOCKED, WAS_SHOCKED), 1 SECONDS)
 			//3 shots a human with no resistance. 2 to crit, one to death. This is at at least 10000 power.
 			//There's no increase after that because the input power is effectivly capped at 10k
 			//Does 1.5 damage at the least
@@ -1301,7 +1359,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	var/turf/turf_loc = get_turf(src)
 	if(!turf_loc)
 		return
-	explosion(turf_loc, heavy_impact_range = round(portal_numbers/5), light_impact_range = round(portal_numbers), flash_range = 1, adminlog = TRUE, ignorecap = TRUE)
+	explosion(turf_loc, heavy_impact_range = round(portal_numbers/5), light_impact_range = round(portal_numbers), flash_range = 1, adminlog = TRUE, ignorecap = TRUE, explosion_type = /datum/effect_system/explosion/delamination)
 	. = new/obj/machinery/destabilized_crystal(turf_loc)
 	qdel(src)
 

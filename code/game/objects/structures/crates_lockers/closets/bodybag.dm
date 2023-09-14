@@ -151,6 +151,9 @@
 	if(contents.len >= mob_storage_capacity / 2)
 		to_chat(usr, span_warning("Внутри [src] слишком много вещей, чтобы сложить его!"))
 		return
+	if(the_folder in src)
+		to_chat(usr, span_warning("А как?")  )
+		return
 	for(var/obj/item/bodybag/bluespace/B in src)
 		to_chat(usr, span_warning("Вы не можете складывать блюспейс мешки для трупов друг в друга")  )
 		return
@@ -333,7 +336,7 @@
 	air_contents.set_temperature(T20C)
 
 	air_contents.set_moles(GAS_O2, (ONE_ATMOSPHERE*50)/(R_IDEAL_GAS_EQUATION*T20C) * O2STANDARD)
-	air_contents.set_moles(GAS_NITROUS, (ONE_ATMOSPHERE*50)/(R_IDEAL_GAS_EQUATION*T20C) * N2STANDARD)
+	air_contents.set_moles(GAS_N2O, (ONE_ATMOSPHERE*50)/(R_IDEAL_GAS_EQUATION*T20C) * N2STANDARD)
 
 /obj/structure/closet/body_bag/environmental/prisoner/pressurized/Destroy()
 	if(air_contents)
@@ -382,4 +385,4 @@
 	air_contents.set_temperature(T20C)
 
 	air_contents.set_moles(GAS_O2, (ONE_ATMOSPHERE*50)/(R_IDEAL_GAS_EQUATION*T20C) * O2STANDARD)
-	air_contents.set_moles(GAS_NITROUS, (ONE_ATMOSPHERE*50)/(R_IDEAL_GAS_EQUATION*T20C) * N2STANDARD)
+	air_contents.set_moles(GAS_N2O, (ONE_ATMOSPHERE*50)/(R_IDEAL_GAS_EQUATION*T20C) * N2STANDARD)

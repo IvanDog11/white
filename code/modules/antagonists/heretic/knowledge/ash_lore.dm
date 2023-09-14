@@ -65,7 +65,7 @@
 	if(target.is_blind())
 		return
 
-	if(!target.getorganslot(ORGAN_SLOT_EYES))
+	if(!target.get_organ_slot(ORGAN_SLOT_EYES))
 		return
 
 	to_chat(target, span_danger("Ослепительно яркий зеленый свет сжигает ваши глаза!"))
@@ -107,7 +107,7 @@
 	var/datum/action/cooldown/spell/touch/mansus_grasp/grasp = locate() in source.actions
 	if(grasp)
 		grasp.next_use_time = min(round(grasp.next_use_time - grasp.cooldown_time * 0.75, 0), 0)
-		grasp.UpdateButtons()
+		grasp.build_all_button_icons()
 
 /datum/heretic_knowledge/knowledge_ritual/ash
 	next_knowledge = list(/datum/heretic_knowledge/mad_mask)

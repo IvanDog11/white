@@ -1,11 +1,11 @@
 // Status display
-// (formerly Countdown timer display)
 
 GLOBAL_VAR_INIT(display_font_color, pick("#09f", "#f90", "#5f5", "#fff", "#f55", "#f5f"))
 
 #define MAX_STATIC_WIDTH 25
 #define FONT_STYLE "5pt 'Small Fonts'"
 #define SCROLL_RATE (0.04 SECONDS) // time per pixel
+#define SCROLL_PADDING 2 // how many pixels we chop to make a smooth loop
 #define LINE1_Y -8
 #define LINE2_Y -15
 
@@ -157,7 +157,7 @@ GLOBAL_VAR_INIT(display_font_color, pick("#09f", "#f90", "#5f5", "#fff", "#f55",
 		return
 	set_light(1.4, 0.7, LIGHT_COLOR_BLUE) // blue light
 
-/obj/machinery/status_display/update_overlays()
+/obj/machinery/status_display/update_overlays(updates)
 	. = ..()
 
 	if(machine_stat & (NOPOWER|BROKEN))
@@ -271,7 +271,7 @@ GLOBAL_VAR_INIT(display_font_color, pick("#09f", "#f90", "#5f5", "#fff", "#f55",
 		5, 5, 5, 5, 4, 5, 4, 6, 4, 4, 4, 3, 2, 3, 4,
 	)
 
-/obj/effect/overlay/status_display_text/Initialize(mapload, yoffset, line, text_color, header_text_color)
+/obj/effect/overlay/status_display_text/Initialize(mapload, yoffset, line, text_color, header_text_color, xoffset = 0)
 	. = ..()
 
 	maptext_y = yoffset

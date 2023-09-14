@@ -213,6 +213,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_WARDEN,
 		JOB_RANGER,
+		JOB_INTERN,
 	)
 	restricted_roles = list(
 		JOB_AI,
@@ -273,6 +274,7 @@
 		JOB_WARDEN,
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
+		JOB_INTERN,
 	)
 	exclusive_roles = list(JOB_AI)
 	required_enemies = list(4,4,4,4,4,4,2,2,2,0)
@@ -334,6 +336,7 @@
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
 		JOB_CHAPLAIN,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -377,6 +380,7 @@
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
 		JOB_ASSISTANT,
+		JOB_INTERN,
 	)
 	required_enemies = list(3,3,3,3,3,2,1,1,0,0)
 	required_candidates = 5
@@ -437,6 +441,7 @@
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
 		JOB_RESEARCH_DIRECTOR,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -468,6 +473,7 @@
 		JOB_WARDEN,
 		JOB_RESEARCH_DIRECTOR,
 		JOB_RANGER,
+		JOB_INTERN,
 
 	)
 	restricted_roles = list(
@@ -483,6 +489,7 @@
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
 		JOB_RESEARCH_DIRECTOR,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -530,6 +537,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -543,7 +551,8 @@
 /datum/dynamic_ruleset/midround/from_ghosts/xenomorph/execute()
 	// 50% chance of being incremented by one
 	required_candidates += prob(50)
-	for(var/obj/machinery/atmospherics/components/unary/vent_pump/temp_vent in GLOB.machines)
+	var/list/vent_pumps = SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/atmospherics/components/unary/vent_pump)
+	for(var/obj/machinery/atmospherics/components/unary/vent_pump/temp_vent as anything in vent_pumps)
 		if(QDELETED(temp_vent))
 			continue
 		if(is_station_level(temp_vent.loc.z) && !temp_vent.welded)
@@ -552,7 +561,7 @@
 				continue // No parent vent
 			// Stops Aliens getting stuck in small networks.
 			// See: Security, Virology
-			if(temp_vent_parent.other_atmosmch.len > 20)
+			if(temp_vent_parent.other_atmos_machines.len > 20)
 				vents += temp_vent
 	if(!vents.len)
 		return FALSE
@@ -587,6 +596,7 @@
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
 		JOB_ASSISTANT,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -641,6 +651,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -693,7 +704,8 @@
 		JOB_SECURITY_OFFICER,
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
-		JOB_ASSISTANT
+		JOB_ASSISTANT,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 2
@@ -740,6 +752,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -787,6 +800,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 0
@@ -813,6 +827,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -887,6 +902,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 0
@@ -922,6 +938,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_FIELD_MEDIC,
 		JOB_SPECIALIST,
+		JOB_INTERN,
 	)
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1
@@ -968,6 +985,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_WARDEN,
 		JOB_RANGER,
+		JOB_INTERN,
 	)
 	restricted_roles = list(
 		JOB_AI,

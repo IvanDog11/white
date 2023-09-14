@@ -98,7 +98,7 @@
 	//We'll be using this from now on
 	var/mob/living/carbon/C = owner.current
 	if(istype(C))
-		var/obj/item/organ/brain/B = C.getorganslot(ORGAN_SLOT_BRAIN)
+		var/obj/item/organ/brain/B = C.get_organ_slot(ORGAN_SLOT_BRAIN)
 		if(B && (B.decoy_override != initial(B.decoy_override)))
 			B.organ_flags |= ORGAN_VITAL
 			B.decoy_override = FALSE
@@ -396,11 +396,11 @@
 	//Brains optional.
 	var/mob/living/carbon/C = owner.current
 	if(istype(C))
-		var/obj/item/organ/brain/B = C.getorganslot(ORGAN_SLOT_BRAIN)
+		var/obj/item/organ/brain/B = C.get_organ_slot(ORGAN_SLOT_BRAIN)
 		if(B)
 			B.organ_flags &= ~ORGAN_VITAL
 			B.decoy_override = TRUE
-		RegisterSignal(C, list(COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON), PROC_REF(stingAtom))
+		RegisterSignals(C, list(COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON), PROC_REF(stingAtom))
 	var/mob/living/M = mob_override || owner.current
 	handle_clown_mutation(M, "Нам удалось вознестись над нашей клоунской натурой в прошлом, теперь мы способны использовать оружие без вреда себе.")
 

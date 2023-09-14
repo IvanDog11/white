@@ -391,7 +391,7 @@
 /obj/structure/window/get_dumping_location(obj/item/storage/source,mob/user)
 	return null
 
-/obj/structure/window/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+/obj/structure/window/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller, no_id)
 	if(!density)
 		return TRUE
 	if((dir == FULLTILE_WINDOW_DIR) || (dir == to_dir))
@@ -558,7 +558,7 @@
 	explosion_block = 2
 	glass_type = /obj/item/stack/sheet/plasmarglass
 
-/obj/structure/window/plasma/reinforced/BlockThermalConductivity()
+/obj/structure/window/plasma/reinforced/block_superconductivity()
 	return TRUE
 
 //entirely copypasted code

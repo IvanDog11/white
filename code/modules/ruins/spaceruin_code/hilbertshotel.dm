@@ -174,12 +174,12 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 								to_chat(M, span_warning("As the sphere breaks apart, you're suddenly ejected into the depths of space!"))
 						var/max = world.maxx-TRANSITIONEDGE
 						var/min = 1+TRANSITIONEDGE
-						var/list/possible_transtitons = list()
+						var/list/possible_transitions = list()
 						for(var/AZ in SSmapping.z_list)
 							var/datum/space_level/D = AZ
 							if (D.linkage == CROSSLINKED)
-								possible_transtitons += D.z_value
-						var/_z = pick(possible_transtitons)
+								possible_transitions += D.z_value
+						var/_z = pick(possible_transitions)
 						var/_x = rand(min,max)
 						var/_y = rand(min,max)
 						var/turf/T = locate(_x, _y, _z)
@@ -192,12 +192,12 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 			for(var/atom/movable/A in atomList)
 				var/max = world.maxx-TRANSITIONEDGE
 				var/min = 1+TRANSITIONEDGE
-				var/list/possible_transtitons = list()
+				var/list/possible_transitions = list()
 				for(var/AZ in SSmapping.z_list)
 					var/datum/space_level/D = AZ
 					if (D.linkage == CROSSLINKED)
-						possible_transtitons += D.z_value
-				var/_z = pick(possible_transtitons)
+						possible_transitions += D.z_value
+				var/_z = pick(possible_transitions)
 				var/_x = rand(min,max)
 				var/_y = rand(min,max)
 				var/turf/T = locate(_x, _y, _z)
@@ -497,17 +497,17 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 
 /obj/effect/landmark/tram/left_part/hilbert
 	specific_lift_id = HILBERT_TRAM
-	destination_id = "left_part_hilbert"
+	platform_code = "left_part_hilbert"
 	tgui_icons = list("Reception" = "briefcase", "Botany" = "leaf", "Chemistry" = "flask")
 
 /obj/effect/landmark/tram/middle_part/hilbert
 	specific_lift_id = HILBERT_TRAM
-	destination_id = "middle_part_hilbert"
+	platform_code = "middle_part_hilbert"
 	tgui_icons = list("Processing" = "cogs", "Xenobiology" = "paw")
 
 /obj/effect/landmark/tram/right_part/hilbert
 	specific_lift_id = HILBERT_TRAM
-	destination_id = "right_part_hilbert"
+	platform_code = "right_part_hilbert"
 	tgui_icons = list("Ordnance" = "bullseye", "Office" = "user", "Dormitories" = "bed")
 
 /obj/item/keycard/hilbert

@@ -81,15 +81,6 @@
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 
 
-/obj/item/clothing/suit/justice
-	name = "костюм справедливости"
-	desc = "выглядит довольно смешно" //Needs no fixing
-	icon_state = "justice"
-	inhand_icon_state = "justice"
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
-	armor = list(MELEE = 35, BULLET = 30, LASER = 30, ENERGY = 40, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50)
-
-
 /obj/item/clothing/suit/judgerobe
 	name = "одежда судьи"
 	desc = "Халат, командующий властью."
@@ -450,8 +441,8 @@
 	flags_1 = IS_PLAYER_COLORABLE_1
 
 /obj/item/clothing/suit/jacket/oversized
-	name = "oversized jacket"
-	desc = "An oversized jacket."
+	name = "куртка оверсайз"
+	desc = "Черная куртка, которая выглядит слишком большой для вас."
 	icon_state = "jacket_oversized"
 	worn_icon = 'icons/mob/clothing/suits/jacket.dmi'
 	greyscale_config = /datum/greyscale_config/jacket_oversized

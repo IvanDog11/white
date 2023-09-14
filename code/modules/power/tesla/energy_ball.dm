@@ -1,5 +1,5 @@
-#define TESLA_DEFAULT_POWER 1738260
-#define TESLA_MINI_POWER 869130
+#define TESLA_DEFAULT_POWER 2172825
+#define TESLA_MINI_POWER 1086412
 //Zap constants, speeds up targeting
 #define BIKE (COIL + 1)
 #define COIL (ROD + 1)
@@ -12,7 +12,7 @@
 
 /// The Tesla engine
 /obj/energy_ball
-	name = "энергошар"
+	name = "шаровая молния"
 	desc = "Кругленький."
 	icon = 'icons/obj/tesla_engine/energy_ball.dmi'
 	icon_state = "energy_ball"
@@ -39,6 +39,7 @@
 	var/list/shocked_things = list()
 
 	var/atom/movable/singularity_effect/singulo_effect
+	var/atom/movable/singularity_lens/singulo_lens
 
 /obj/energy_ball/Initialize(mapload, starting_energy = 50, is_miniball = FALSE)
 	. = ..()
@@ -83,7 +84,7 @@
 		pixel_y = 0
 		shocked_things.Cut(1, shocked_things.len / 1.3)
 		var/list/shocking_info = list()
-		tesla_zap(src, 3, TESLA_DEFAULT_POWER, shocked_targets = shocking_info)
+		tesla_zap(src, 7, TESLA_DEFAULT_POWER, zap_flags = ZAP_TESLA_FLAGS, shocked_targets = shocking_info)
 
 		pixel_x = -32
 		pixel_y = -32
@@ -91,7 +92,7 @@
 			var/range = rand(1, clamp(orbiting_balls.len, 2, 3))
 			var/list/temp_shock = list()
 			//We zap off the main ball instead of ourselves to make things looks proper
-			tesla_zap(src, range, TESLA_MINI_POWER/7*range, shocked_targets = temp_shock)
+			tesla_zap(src, range, TESLA_MINI_POWER/7*range, zap_flags = ZAP_TESLA_FLAGS, shocked_targets = temp_shock)
 			shocking_info += temp_shock
 		shocked_things += shocking_info
 
@@ -112,6 +113,8 @@
 			move_dir = get_dir(src, target)
 		var/turf/turf_to_move = get_step(src, move_dir)
 		if (can_move(turf_to_move))
+			if (!locate(/obj/effect/shield) in get_turf(src))
+				GLOB.is_engine_sabotaged = TRUE //я к этому решению слишком долго приходил
 			forceMove(turf_to_move)
 			setDir(move_dir)
 			for (var/mob/living/carbon/mob_to_dust in loc)
@@ -120,8 +123,6 @@
 /obj/energy_ball/proc/can_move(turf/to_move)
 	if (!to_move)
 		return FALSE
-
-	GLOB.is_engine_sabotaged = TRUE
 
 	for (var/_thing in to_move)
 		var/atom/thing = _thing
@@ -208,15 +209,24 @@
 	C.dust()
 
 /obj/energy_ball/update_icon(stage)
+	. = ..()
+
 	if(!singulo_effect)
 		singulo_effect = new(src)
-		singulo_effect.transform = matrix().Scale(2)
+		singulo_effect.transform = matrix().Scale(1.25)
 		vis_contents += singulo_effect
+
+	if(!singulo_lens)
+		singulo_lens = new(src)
+		singulo_lens.transform = matrix().Scale(0.2)
+		singulo_lens.pixel_x = -96
+		singulo_lens.pixel_y = -96
+		vis_contents += singulo_lens
 
 	singulo_effect.icon = icon
 	singulo_effect.icon_state = icon_state
 
-	. = ..()
+	singulo_lens.icon_state = "gravitational_anti_lens"
 
 /proc/tesla_zap(atom/source, zap_range = 3, power, zap_flags = ZAP_DEFAULT_FLAGS, list/shocked_targets = list())
 	if(QDELETED(source))
@@ -273,7 +283,7 @@
 
 		else if(istype(A, /obj/vehicle/ridden/bicycle))//God's not on our side cause he hates idiots.
 			var/obj/vehicle/ridden/bicycle/B = A
-			if(!(B.obj_flags & BEING_SHOCKED) && B.can_buckle)//Gee goof thanks for the boolean
+			if(!HAS_TRAIT(B, TRAIT_BEING_SHOCKED) && B.can_buckle)//Gee goof thanks for the boolean
 				//we use both of these to save on istype and typecasting overhead later on
 				//while still allowing common code to run before hand
 				closest_type = BIKE
@@ -283,10 +293,9 @@
 			continue //no need checking these other things
 
 		else if(istype(A, /obj/machinery/power/tesla_coil))
-			var/obj/machinery/power/tesla_coil/C = A
-			if(!(C.obj_flags & BEING_SHOCKED))
+			if(!HAS_TRAIT(A, TRAIT_BEING_SHOCKED))
 				closest_type = COIL
-				closest_atom = C
+				closest_atom = A
 
 		else if(closest_type >= ROD)
 			continue
@@ -300,7 +309,7 @@
 
 		else if(istype(A,/obj/vehicle/ridden))
 			var/obj/vehicle/ridden/R = A
-			if(R.can_buckle && !(R.obj_flags & BEING_SHOCKED))
+			if(R.can_buckle && !HAS_TRAIT(R, TRAIT_BEING_SHOCKED))
 				closest_type = RIDE
 				closest_atom = A
 
@@ -309,7 +318,7 @@
 
 		else if(isliving(A))
 			var/mob/living/L = A
-			if(L.stat != DEAD && !(HAS_TRAIT(L, TRAIT_TESLA_SHOCKIMMUNE)) && !(L.flags_1 & SHOCKED_1))
+			if(L.stat != DEAD && !HAS_TRAIT(L, TRAIT_TESLA_SHOCKIMMUNE) && !HAS_TRAIT(L, TRAIT_BEING_SHOCKED))
 				closest_type = LIVING
 				closest_atom = A
 
@@ -317,8 +326,7 @@
 			continue
 
 		else if(ismachinery(A))
-			var/obj/machinery/M = A
-			if(!(M.obj_flags & BEING_SHOCKED))
+			if(!HAS_TRAIT(A, TRAIT_BEING_SHOCKED))
 				closest_type = MACHINERY
 				closest_atom = A
 
@@ -326,8 +334,7 @@
 			continue
 
 		else if(istype(A, /obj/structure/blob))
-			var/obj/structure/blob/B = A
-			if(!(B.obj_flags & BEING_SHOCKED))
+			if(!HAS_TRAIT(A, TRAIT_BEING_SHOCKED))
 				closest_type = BLOB
 				closest_atom = A
 
@@ -335,8 +342,7 @@
 			continue
 
 		else if(isstructure(A))
-			var/obj/structure/S = A
-			if(!(S.obj_flags & BEING_SHOCKED))
+			if(!HAS_TRAIT(A, TRAIT_BEING_SHOCKED))
 				closest_type = STRUCTURE
 				closest_atom = A
 
@@ -355,8 +361,8 @@
 
 	if(closest_type == LIVING)
 		var/mob/living/closest_mob = closest_atom
-		closest_mob.set_shocked()
-		addtimer(CALLBACK(closest_mob, /mob/living/proc/reset_shocked), 10)
+		ADD_TRAIT(closest_mob, TRAIT_BEING_SHOCKED, WAS_SHOCKED)
+		addtimer(TRAIT_CALLBACK_REMOVE(closest_mob, TRAIT_BEING_SHOCKED, WAS_SHOCKED), 1 SECONDS)
 		var/shock_damage = (zap_flags & ZAP_MOB_DAMAGE) ? (min(round(power/600), 90) + rand(-5, 5)) : 0
 		closest_mob.electrocute_act(shock_damage, source, 1, SHOCK_TESLA | ((zap_flags & ZAP_MOB_STUN) ? NONE : SHOCK_NOSTUN))
 		if(issilicon(closest_mob))

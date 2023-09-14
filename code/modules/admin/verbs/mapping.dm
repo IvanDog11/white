@@ -38,7 +38,6 @@ GLOBAL_LIST_INIT(admin_verbs_debug_mapping, list(
 	#ifdef TESTING
 	/client/proc/see_dirty_varedits,
 	#endif
-	/client/proc/cmd_admin_test_atmos_controllers,
 	/client/proc/cmd_admin_rejuvenate,
 	/datum/admins/proc/show_traitor_panel,
 	/client/proc/disable_communication,
@@ -193,14 +192,14 @@ GLOBAL_LIST_EMPTY(dirty_vars)
 	if(!check_rights(R_DEBUG))
 		return
 	remove_verb(src, /client/proc/enable_debug_verbs)
-	add_verb(src, list(/client/proc/disable_debug_verbs, GLOB.admin_verbs_debug_mapping))
+	add_verb(src, list(/client/proc/disable_debug_verbs, GLOB.admin_verbs_debug_mapping), FALSE)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Enable Debug Verbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/disable_debug_verbs()
 	set category = "Дбг"
 	set name = "Debug verbs - Disable"
 	remove_verb(src, list(/client/proc/disable_debug_verbs, GLOB.admin_verbs_debug_mapping))
-	add_verb(src, /client/proc/enable_debug_verbs)
+	add_verb(src, /client/proc/enable_debug_verbs, FALSE)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Disable Debug Verbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/count_objects_on_z_level()
@@ -294,7 +293,6 @@ GLOBAL_VAR_INIT(say_disabled, FALSE)
 					qdel(I)
 				randomize_human(D)
 				JB.equip(D, TRUE, FALSE)
-				COMPILE_OVERLAYS(D)
 				var/icon/I = icon(getFlatIcon(D), frame = 1)
 				final.Insert(I, JB.title)
 	qdel(D)

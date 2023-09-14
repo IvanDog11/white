@@ -41,9 +41,7 @@
 	on = !on
 	playsound(user, on ? 'sound/weapons/magin.ogg' : 'sound/weapons/magout.ogg', 40, TRUE)
 	update_brightness(user)
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtons()
+	update_item_action_buttons()
 	return 1
 
 /obj/item/flashlight/suicide_act(mob/living/carbon/human/user)
@@ -78,7 +76,7 @@
 					to_chat(user, span_warning("Мне потребуется снять [(M.head && M.head.flags_cover & HEADCOVERSEYES) ? "этот шлем" : (M.wear_mask && M.wear_mask.flags_cover & MASKCOVERSEYES) ? "эту маску": "эти очки"] сначала!"))
 					return
 
-				var/obj/item/organ/eyes/E = M.getorganslot(ORGAN_SLOT_EYES)
+				var/obj/item/organ/eyes/E = M.get_organ_slot(ORGAN_SLOT_EYES)
 				if(!E)
 					to_chat(user, span_warning("[M] не имеет глаз!"))
 					return
@@ -313,12 +311,8 @@
 	else
 		update_brightness(null)
 
-/obj/item/flashlight/flare/update_brightness(mob/user = null)
-	..()
-	if(on)
-		inhand_icon_state = "[initial(inhand_icon_state)]-on"
-	else
-		inhand_icon_state = "[initial(inhand_icon_state)]"
+	remove_emitter("spark")
+	remove_emitter("smoke")
 
 /obj/item/flashlight/flare/attack_self(mob/user)
 
@@ -336,6 +330,9 @@
 		user.visible_message(span_notice("[user] зажигает [src.name].") , span_notice("Зажигаю [src.name]!"))
 		force = on_damage
 		damtype = BURN
+		if(!istype(src, /obj/item/flashlight/flare/torch))
+			add_emitter(/obj/emitter/sparks/flare, "spark", 10)
+			add_emitter(/obj/emitter/flare_smoke, "smoke", 9)
 		START_PROCESSING(SSobj, src)
 
 /obj/item/flashlight/flare/get_temperature()
@@ -531,7 +528,7 @@
 	if(!fuel)
 		user.visible_message(span_suicide("[user] пытается squirt [src] fluids into [user.ru_ego()] eyes... but it's empty!"))
 		return SHAME
-	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(!eyes)
 		user.visible_message(span_suicide("[user] пытается squirt [src] fluids into [user.ru_ego()] eyes... but [user.ru_who()] don't have any!"))
 		return SHAME

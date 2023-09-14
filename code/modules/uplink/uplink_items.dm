@@ -1189,6 +1189,20 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 /datum/uplink_item/stealthy_tools
 	category = "Стелс-гаджеты"
 
+/datum/uplink_item/stealthy_tools/armorpolish
+	name = "Бронирующая полироль"
+	desc = "Этот полироль, рассчитанный на два применения, позволяет укрепить одежду до прочности, не уступающей стандартному бронежилету.  \
+			Усиленная нанитами, она позволит вам сохранить привлекательный внешний вид, пока вы устраиваете резню на станции. \
+			Осторожно, полировать можно только костюмы и головные уборы!"
+	item = /obj/item/armorpolish
+	cost = 9
+
+/datum/uplink_item/stealthy_tools/reflectivepolish
+    name = "Отражающая полироль"
+    desc = "Этот полироль, рассчитанный на два использования, укрепляет одежду, обеспечивая повышенную защиту от лазерного и энергитического оружия."
+    item = /obj/item/armorpolish/reflective
+    cost = 10
+
 /datum/uplink_item/stealthy_tools/agent_card
 	name = "Идентификационная карта агента"
 	desc = "Хамелеон-карта, не позволяющая ИИ отслеживать владельца. \
@@ -1694,6 +1708,16 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	cost = 2
 	illegal_tech = FALSE
 
+/datum/uplink_item/device_tools/loic_remote
+	name = "Пульт управления ионной пушкой LOIC"
+	desc = "Синдикат недавно установил поблизости удаленный спутник, способный генерировать локальную ионную бурю каждые 20 минут. \
+			Однако при его активации местные власти будут проинформированы о вашем общем местонахождении."
+	item = /obj/item/device/loic_remote
+	// TODO: When /datum/corporation/self is pickable for non-AI traitors, add it here.
+	limited_stock = 1 // Might be too annoying if someone had mulitple.
+	cost = 5 // Lacks the precision that a hacked law board (at 4 TCs) would give, but can be used on the go.
+
+
 // Implants
 /datum/uplink_item/implants
 	category = "Импланты"
@@ -1814,6 +1838,19 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	surplus = 0
 	purchasable_from = UPLINK_NUKE_OPS
 
+/datum/uplink_item/support/aimbot
+	name = "Коробка с имплантом боевого ассистента"
+	desc = "Когда уж очень хочется попасть в цель."
+	item = /obj/item/storage/box/syndie_kit/aimbot
+	cost = 10
+	purchasable_from = UPLINK_CLOWN_OPS | UPLINK_NUKE_OPS
+
+/datum/uplink_item/implants/emp_shield
+	name = "Коробка с имплантом ЭМИ щита"
+	desc = "Имплант, который делает вас и ваши внутренности невосприимчивыми к электромагнитным помехам, защищая вас от ионного оружия и ЭМИ. \
+			В связи с техническими ограничениями при слишком частом срабатывании перегружается и отключается на короткое время."
+	item = /obj/item/storage/box/syndie_kit/emp_shield
+	cost = 6
 
 //Race-specific items
 /datum/uplink_item/race_restricted
@@ -2027,6 +2064,13 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	cost = 12
 	restricted_roles = list(JOB_CHEMIST, JOB_CHIEF_MEDICAL_OFFICER, JOB_BOTANIST)
 
+/datum/uplink_item/role_restricted/scarecrow
+	name = "Набор пугала"
+	desc = "Включает в себя 6 газовых гранат с психотропными веществами и маску, замкнутого цикла не требующую кислородного балона. Противогаз имеет функцию обратной акселирации фильтров, при использовании выдыхая дым и ненадолго активирую термосенсорный визор."
+	item = /obj/item/storage/box/syndie_kit/scarecrow
+	cost = 12
+	restricted_roles = list(JOB_CHEMIST, JOB_PSYCHOLOGIST)
+
 /datum/uplink_item/role_restricted/reverse_bear_trap
 	name = "Обратный медвежий капкан"
 	desc = "Изобретательное устройство для казни, надеваемое на голову (насильно). \
@@ -2128,8 +2172,8 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	item = /obj/item/storage/box/syndie_kit/centcom_costume
 
 /datum/uplink_item/badass/stickers
-	name = "Syndicate Sticker Pack"
-	desc = "Contains 8 random stickers precisely engineered to resemble suspicious objects, which may or may not be useful for fooling crew."
+	name = "Набор стикеров Синдиката"
+	desc = "Содержит 8 случайных наклеек, точно подобранных так, чтобы они напоминали подозрительные предметы, которые могут быть полезны, а могут и не быть полезными для одурачивания экипажа."
 	item = /obj/item/storage/box/syndie_kit/stickers
 	cost = 1
 

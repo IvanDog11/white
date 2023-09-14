@@ -51,7 +51,7 @@
 	if(!can_use(A))
 		return
 	A.emote("spin")
-	var/obj/item/organ/tail = A.getorganslot(ORGAN_SLOT_TAIL)
+	var/obj/item/organ/tail = A.get_organ_slot(ORGAN_SLOT_TAIL)
 	if(!istype(tail, /obj/item/organ/tail/lizard))
 		A.visible_message(span_danger("[A] spins around."), \
 						span_userdanger("You spin around like a doofus."))
@@ -152,9 +152,10 @@
 
 /datum/action/innate/lizard_leap
 	name = "Leap"
-	icon_icon = 'icons/mob/actions/actions_items.dmi'
+	button_icon = 'icons/mob/actions/actions_items.dmi'
 	button_icon_state = "lizard_tackle"
 	background_icon_state = "bg_default"
+	overlay_icon_state = "bg_default_border"
 	desc = "Prepare to jump at a target, with a successful hit stunning them and preventing you from moving for a few seconds."
 	check_flags = AB_CHECK_LYING | AB_CHECK_CONSCIOUS
 	var/datum/martial_art/flyingfang/linked_martial
@@ -168,9 +169,9 @@
 	return ..()
 
 /datum/action/innate/lizard_leap/process()
-	UpdateButtons() //keep the button updated
+	build_all_button_icons() //keep the button updated
 
-/datum/action/innate/lizard_leap/IsAvailable()
+/datum/action/innate/lizard_leap/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(linked_martial.leaping || !linked_martial.can_use(owner))
 		return FALSE
@@ -188,6 +189,7 @@
 	owner.click_intercept = null
 	active = FALSE
 	background_icon_state = "bg_default"
+	overlay_icon_state = "bg_default_border"
 
 /datum/action/innate/lizard_leap/InterceptClickOn(mob/living/carbon/human/A, params, atom/target)
 	if(linked_martial.leaping)
@@ -197,12 +199,12 @@
 	A.Immobilize(30 SECONDS) //prevents you from breaking out of your pounce
 	A.throw_at(target, get_dist(A,target)+1, 1, A, FALSE, TRUE, callback = CALLBACK(src, PROC_REF(leap_end), A))
 	Deactivate()
-	UpdateButtons()
+	build_all_button_icons()
 
 /datum/action/innate/lizard_leap/proc/leap_end(mob/living/carbon/human/A)
 	A.SetImmobilized(1 SECONDS)
 	linked_martial.leaping = FALSE
-	UpdateButtons()
+	build_all_button_icons()
 
 /datum/martial_art/flyingfang/handle_throw(atom/hit_atom, mob/living/carbon/human/A)
 	if(!leaping)
@@ -228,7 +230,7 @@
 			A.Paralyze(6 SECONDS, 1)
 		if(leaping)
 			leaping = FALSE
-		linked_leap.UpdateButtons()
+		linked_leap.build_all_button_icons()
 		linked_leap.Deactivate(TRUE)
 		return TRUE
 

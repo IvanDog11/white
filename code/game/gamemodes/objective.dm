@@ -2,6 +2,7 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 GLOBAL_LIST_EMPTY(objectives)
 
 GLOBAL_VAR_INIT(is_engine_sabotaged, FALSE)
+GLOBAL_VAR_INIT(is_smes_sabotaged, FALSE)
 GLOBAL_VAR_INIT(is_research_sabotaged, FALSE)
 GLOBAL_VAR_INIT(is_cargo_sabotaged, FALSE)
 //GLOBAL_VAR_INIT(is_medbay_sabotaged, FALSE)
@@ -131,7 +132,7 @@ GLOBAL_VAR_INIT(is_cargo_sabotaged, FALSE)
 	for(var/datum/mind/possible_target in get_crewmember_minds())
 		if(is_valid_target(possible_target) && !(possible_target in owners) && ishuman(possible_target.current) && (possible_target.current.stat != DEAD) && is_unique_objective(possible_target,dupe_search_range))
 			if (!(possible_target in blacklist))
-				if (!(possible_target?.assigned_role in list(JOB_RANGER)))
+				if (!(possible_target?.assigned_role in list(JOB_RANGER, JOB_INTERN)))
 					possible_targets += possible_target
 	if(try_target_late_joiners)
 		var/list/all_possible_targets = possible_targets.Copy()
@@ -334,7 +335,7 @@ GLOBAL_VAR_INIT(is_cargo_sabotaged, FALSE)
 /datum/objective/protect/check_completion()
 	var/obj/item/organ/brain/brain_target
 	if(human_check)
-		brain_target = target.current?.getorganslot(ORGAN_SLOT_BRAIN)
+		brain_target = target.current?.get_organ_slot(ORGAN_SLOT_BRAIN)
 	//Protect will always suceed when someone suicides
 	return !target || considered_alive(target, enforce_human = human_check) || brain_target?.suicided
 

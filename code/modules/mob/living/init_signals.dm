@@ -30,7 +30,7 @@
 	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_RESTRAINED), PROC_REF(on_restrained_trait_gain))
 	RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_RESTRAINED), PROC_REF(on_restrained_trait_loss))
 
-	RegisterSignal(src, list(
+	RegisterSignals(src, list(
 		SIGNAL_ADDTRAIT(TRAIT_CRITICAL_CONDITION),
 		SIGNAL_REMOVETRAIT(TRAIT_CRITICAL_CONDITION),
 
@@ -43,6 +43,8 @@
 
 	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_SKITTISH), PROC_REF(on_skittish_trait_gain))
 	RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_SKITTISH), PROC_REF(on_skittish_trait_loss))
+
+	RegisterSignals(src, list(SIGNAL_ADDTRAIT(TRAIT_UNDENSE), SIGNAL_REMOVETRAIT(TRAIT_UNDENSE)), PROC_REF(undense_changed))
 
 /// Called when [TRAIT_KNOCKEDOUT] is added to the mob.
 /mob/living/proc/on_knockedout_trait_gain(datum/source)
@@ -126,13 +128,13 @@
 	SIGNAL_HANDLER
 	mobility_flags &= ~(MOBILITY_UI)
 	unset_machine()
-	update_action_buttons_icon()
+	update_mob_action_buttons()
 
 /// Called when [TRAIT_UI_BLOCKED] is removed from the mob.
 /mob/living/proc/on_ui_blocked_trait_loss(datum/source)
 	SIGNAL_HANDLER
 	mobility_flags |= MOBILITY_UI
-	update_action_buttons_icon()
+	update_mob_action_buttons()
 
 
 /// Called when [TRAIT_PULL_BLOCKED] is added to the mob.
@@ -205,3 +207,8 @@
 /mob/living/proc/on_skittish_trait_loss(datum/source)
 	SIGNAL_HANDLER
 	RemoveElement(/datum/element/skittish)
+
+/// Called when [TRAIT_UNDENSE] is gained or lost
+/mob/living/proc/undense_changed(datum/source)
+	SIGNAL_HANDLER
+	update_density()

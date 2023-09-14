@@ -88,7 +88,7 @@
 
 	var/ambience_volume = 15
 	var/ambience_index = AMBIENCE_GENERIC
-	var/list/ambientsounds
+	var/list/ambientsounds = GENERIC
 	var/list/ambigensounds
 	flags_1 = CAN_BE_DIRTY_1
 
@@ -121,8 +121,11 @@
 	//Lighting overlay
 	var/obj/effect/lighting_overlay
 
-	var/list/air_vent_info = list()
-	var/list/air_scrub_info = list()
+	/// List of all air vents in the area
+	var/list/obj/machinery/atmospherics/components/unary/vent_pump/air_vents = list()
+
+	/// List of all air scrubbers in the area
+	var/list/obj/machinery/atmospherics/components/unary/vent_scrubber/air_scrubbers = list()
 
 /**
  * A list of teleport locations
@@ -181,12 +184,14 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	if(!ambigensounds)
 		ambigensounds = GLOB.ambience_assoc[ambience_index]
 
+	/*
 	if(area_flags & AREA_USES_STARLIGHT && CONFIG_GET(flag/starlight))
 		// Areas lit by starlight are not supposed to be fullbright 4head
 		base_lighting_alpha = 0
 		base_lighting_color = null
 		static_lighting = TRUE
 
+	*/
 	if(requires_power)
 		luminosity = 0
 	else
@@ -282,10 +287,23 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 /area/Destroy()
 	if(GLOB.areas_by_type[type] == src)
 		GLOB.areas_by_type[type] = null
-	GLOB.sortedAreas -= src
-	GLOB.areas -= src
+	//this is not initialized until get_sorted_areas() is called so we have to do a null check
+	if(!isnull(GLOB.sortedAreas))
+		GLOB.sortedAreas -= src
+	//just for sanity sake cause why not
+	if(!isnull(GLOB.areas))
+		GLOB.areas -= src
+	//machinery cleanup
 	STOP_PROCESSING(SSobj, src)
 	QDEL_NULL(alarm_manager)
+	firedoors = null
+	//atmos cleanup
+	firealarms = null
+	air_vents = null
+	air_scrubbers = null
+	//turf cleanup
+	contained_turfs = null
+	turfs_to_uncontain = null
 	return ..()
 
 /**
@@ -449,21 +467,21 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	for(var/atom/movable/recipient as anything in arrived.important_recursive_contents[RECURSIVE_CONTENTS_AREA_SENSITIVE])
 		SEND_SIGNAL(recipient, COMSIG_ENTER_AREA, src)
 
-	if(!isliving(arrived))
+	if(!ismob(arrived) || isnewplayer(arrived))
 		return
 
-	var/mob/living/L = arrived
-	if(!L.ckey)
+	var/mob/M = arrived
+	if(!M.ckey)
 		return
-
-	show_area_description(L)
 
 	//Ship ambience just loops if turned on.
-	if(L.client?.prefs.toggles & SOUND_SHIP_AMBIENCE)
-		SEND_SOUND(L, sound('sound/ambience/shipambience.ogg', repeat = 1, wait = 0, volume = 5, channel = CHANNEL_BUZZ))
+	if(M.client?.prefs.toggles & SOUND_SHIP_AMBIENCE)
+		SEND_SOUND(M, sound('sound/ambience/shipambience.ogg', repeat = 1, wait = 0, volume = 15, channel = CHANNEL_BUZZ))
 
-	if(L?.client && (L.client.prefs.toggles & SOUND_AMBIENCE))
-		play_ambience(L.client)
+	if(M?.client && (M.client.prefs.toggles & SOUND_AMBIENCE))
+		play_ambience(M.client)
+
+	show_area_description(M)
 
 /area/proc/show_area_description(mob/living/L)
 	if(isnull(description))

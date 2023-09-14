@@ -89,7 +89,7 @@
 	smoothing_groups = list(SMOOTH_GROUP_ALIEN_RESIN, SMOOTH_GROUP_ALIEN_WALLS)
 	canSmoothWith = list(SMOOTH_GROUP_ALIEN_WALLS)
 
-/obj/structure/alien/resin/wall/BlockThermalConductivity()
+/obj/structure/alien/resin/wall/block_superconductivity()
 	return TRUE
 
 /obj/structure/alien/resin/wall/creature
@@ -131,7 +131,7 @@
 	desc = "Черный, пружинистый наст, покрывающий пол тонким слоем."
 	anchored = TRUE
 	density = FALSE
-	layer = TURF_LAYER
+	layer = MID_TURF_LAYER
 	plane = FLOOR_PLANE
 	icon = 'icons/obj/smooth_structures/alien/weeds1.dmi'
 	icon_state = "weeds1-0"
@@ -190,7 +190,7 @@
 		qdel(src)
 		return FALSE
 
-	for(var/turf/T in U.GetAtmosAdjacentTurfs())
+	for(var/turf/T in U.get_atmos_adjacent_turfs())
 		if(locate(/obj/structure/alien/weeds) in T)
 			continue
 

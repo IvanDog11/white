@@ -156,7 +156,7 @@
 			.["real_mode"] = SSticker.mode.name
 			// Key-authed callers may know the truth behind the "secret"
 
-	.["security_level"] = get_security_level()
+	.["security_level"] = SSsecurity_level.get_current_level_as_text()
 	.["round_duration"] = SSticker ? round((world.time-SSticker.round_start_time)/10) : 0
 	// Amount of world's ticks in seconds, useful for calculating round duration
 
@@ -219,7 +219,7 @@
 	require_comms_key = TRUE
 
 /datum/world_topic/asay/Run(list/input)
-	var/msg = "<font color='[GLOB.OOC_COLOR]'><span class='adminobserver'><span class='prefix'>Discord -> ASAY</span> <EM>[input["admin"]]</EM>: <span class='message linkify'>[input["asay"]]</span></span></font>"
+	var/msg = "<font color='[GLOB.OOC_COLOR]'><span class='adminobserver'><span class='prefix'>DASAY</span> <EM>[input["admin"]]</EM>: <span class='message linkify'>[input["asay"]]</span></span></font>"
 	to_chat(GLOB.admins, msg)
 
 /datum/world_topic/ooc
@@ -235,7 +235,7 @@
 
 	for(var/client/C in GLOB.clients)
 		if(C.prefs.chat_toggles & CHAT_OOC) // ooc ignore
-			to_chat(C, "<font color='[GLOB.OOC_COLOR]'><span class='ooc'><span class='prefix'>Discord -> OOC:</span> <EM>[input["ckey"]]:</EM> <span class='message linkify'>[input["ooc"]]</span></span></font>")
+			to_chat(C, "<font color='[GLOB.OOC_COLOR]'><span class='ooc'><span class='prefix'>DOOC</span> <EM>[input["ckey"]]:</EM> <span class='message linkify'>[input["ooc"]]</span></span></font>")
 
 /datum/world_topic/ahelp
 	keyword = "adminhelp"

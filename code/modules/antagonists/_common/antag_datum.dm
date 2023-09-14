@@ -390,6 +390,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 /datum/action/antag_info
 	name = "Open Antag Information:"
 	button_icon_state = "round_end"
+	show_to_observers = FALSE
 
 /datum/action/antag_info/New(Target)
 	. = ..()
@@ -402,7 +403,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 
 	target.ui_interact(owner)
 
-/datum/action/antag_info/IsAvailable()
+/datum/action/antag_info/IsAvailable(feedback = FALSE)
 	if(!target)
 		stack_trace("[type] was used without a target antag datum!")
 		return FALSE

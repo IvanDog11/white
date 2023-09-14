@@ -64,7 +64,7 @@
 			playsound(G,'white/hule/SFX/csSFX/headshot.wav', 100, 5, pressure_affected = FALSE)
 		if(def_zone == BODY_ZONE_CHEST)
 			if(prob(30))
-				if(C.getorganslot(ORGAN_SLOT_HEART))
+				if(C.get_organ_slot(ORGAN_SLOT_HEART))
 					var/list/elligible_organs = list()
 					for(var/obj/item/organ/O in C.internal_organs) //make sure we dont get an implant or cavity item
 						elligible_organs += O
@@ -87,7 +87,7 @@
 
 	glasses = /obj/item/clothing/glasses/sunglasses
 	uniform = /obj/item/clothing/under/syndicate
-	suit = /obj/item/clothing/suit/armor/vest/leather
+	suit = /obj/item/clothing/suit/armor/vest/leather/noname
 	shoes = /obj/item/clothing/shoes/combat
 	head = /obj/item/clothing/head/soft/black
 	suit_store = /obj/item/gun/ballistic/rifle/boltaction/ptr

@@ -497,6 +497,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(!prefs?.iconsent)
 		src << browse(file2text('html/newcomer.html'), "window=newcomer;size=665x525;border=0;can_minimize=0;can_close=0;can_resize=0")
 
+	if(ismob(mob) && !isnewplayer(mob))
+		var/area/A = get_area(mob)
+		A?.play_ambience(src)
+
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CLIENT_CONNECT, src)
 	fully_created = TRUE
 
@@ -1003,7 +1007,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
  *
  * Handles adding macros for the keys that need it
  * And adding movement keys to the clients movement_keys list
- * At the time of writing this, communication(OOC, Say, IC) require macros
+ * At the time of writing this, communication(OOC, Say, IC, ASAY) require macros
  * Arguments:
  * * direct_prefs - the preference we're going to get keybinds from
  */
@@ -1095,6 +1099,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 			continue
 		if(!istext(verb_to_init.category))
 			continue
+		if(verb_to_init in GLOB.all_dumb_admin_verbs - list(/client/proc/show_all_verbs, /client/proc/deadmin))
+			continue
 		panel_tabs |= verb_to_init.category
 		verblist[++verblist.len] = list(verb_to_init.category, verb_to_init.name)
 	src.stat_panel.send_message("init_verbs", list(panel_tabs = panel_tabs, verblist = verblist))
@@ -1133,6 +1139,11 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(holder)
 		holder.filteriffic = new /datum/filter_editor(in_atom)
 		holder.filteriffic.ui_interact(mob)
+
+/client/proc/open_particle_editor(atom/in_atom)
+	if(holder)
+		holder.particlic = new /datum/particle_editor(in_atom)
+		holder.particlic.ui_interact(mob)
 
 /client/proc/set_right_click_menu_mode(shift_only)
 	if(shift_only)
@@ -1281,18 +1292,6 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if((shown_bars & NEOHUD_RIGHT))
 		winset(src, "mapwindow.hud","pos=[map_width],0;size=[tile_width]x[screen_height + ((shown_bars & NEOHUD_BOTTOM) ? 0 : -map_height)];anchor1=[mapAnchor_x],100;is-visible=true")
 
-/client/proc/debug_winset()
-	set name = "Winset Debug"
-	set category = "Дбг"
-
-	if(!holder ||!check_rights(R_SECURED))
-		return
-
-	var/winsel = tgui_input_text(src, "WINDOW", "?")
-	var/parsel = tgui_input_text(src, "PARAMS", "?")
-
-	winset(src, winsel, parsel)
-
 /client/proc/show_area_description(duration, custom_text)
 	set waitfor = FALSE
 
@@ -1324,3 +1323,13 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		sleep(5)
 		T.maptext = ""
 		T.aaaam_tooooooooping = FALSE
+
+/// Clears the client's screen, aside from ones that opt out
+/client/proc/clear_screen()
+	for (var/object in screen)
+		if (istype(object, /atom/movable/screen))
+			var/atom/movable/screen/screen_object = object
+			if (!screen_object.clear_with_screen)
+				continue
+
+		screen -= object

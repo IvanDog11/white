@@ -361,7 +361,7 @@
 	icon_state = "jester2"
 
 /obj/item/clothing/head/rice_hat
-	name = "рисовая шапка"
+	name = "рисовая шляпа"
 	desc = "Добро пожаловать на рисовые поля, ублюдок."
 	icon_state = "rice_hat"
 
@@ -656,6 +656,6 @@
 	inhand_icon_state = "football_helmet_red"
 
 /obj/item/clothing/head/maidheadband
-	name = "maid headband"
-	desc = "Just like from one of those chinese cartoons!"
+	name = "повязка на голову горничной"
+	desc = "Прямо как в одном из тех китайских мультфильмов!"
 	icon_state = "maid_headband"

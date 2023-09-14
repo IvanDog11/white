@@ -108,6 +108,8 @@ DEFINE_BITFIELD(smoothing_flags, list(
 #define SMOOTH_GROUP_WINDOW_FULLTILE_PLASTITANIUM S_OBJ(23)	///turf/closed/indestructible/opsglass, /obj/structure/window/plasma/reinforced/plastitanium
 #define SMOOTH_GROUP_WINDOW_FULLTILE_SHUTTLE S_OBJ(24)	///obj/structure/window/shuttle
 
+#define SMOOTH_GROUP_WINDOW_DIRECTIONAL_TRAM S_OBJ(25) ///obj/structure/window/reinforced/tram
+
 #define SMOOTH_GROUP_LATTICE  S_OBJ(30)					///obj/structure/lattice
 #define SMOOTH_GROUP_CATWALK  S_OBJ(31)					///obj/structure/lattice/catwalk
 
@@ -142,4 +144,8 @@ DEFINE_BITFIELD(smoothing_flags, list(
 
 #define SMOOTH_GROUP_OPENSPACE S_OBJ(71)	///turf/open/openspace
 
-#define MAX_S_OBJ SMOOTH_GROUP_OPENSPACE //Always match this value with the one above it.
+#define SMOOTH_GROUP_SHIELDGEN S_OBJ(72)				/// Силовое поле щитогенератора /obj/structure/emergency_shield/shieldgen
+
+#define SMOOTH_GROUP_GAS_TANK S_OBJ(73)	/// пердёж в банках
+
+#define MAX_S_OBJ SMOOTH_GROUP_GAS_TANK //Always match this value with the one above it.

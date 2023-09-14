@@ -137,7 +137,7 @@
 
 /datum/action/cooldown/spell/eminence
 	invocation_type = INVOCATION_NONE
-	icon_icon = 'icons/mob/actions/actions_clockcult.dmi'
+	button_icon = 'icons/mob/actions/actions_clockcult.dmi'
 	button_icon_state = "ratvarian_spear"
 	background_icon_state = "bg_clock"
 	spell_requirements = NONE
@@ -145,7 +145,7 @@
 	cooldown_reduction_per_rank = 0
 	var/cog_cost
 
-/datum/action/cooldown/spell/eminence/IsAvailable()
+/datum/action/cooldown/spell/eminence/IsAvailable(feedback = FALSE)
 	var/mob/living/simple_animal/eminence/eminence = owner
 	if(!istype(eminence))
 		return FALSE
@@ -238,7 +238,7 @@
 	cooldown_time = 180 SECONDS
 	cog_cost = 1
 
-/datum/action/cooldown/spell/eminence/linked_abscond/IsAvailable()
+/datum/action/cooldown/spell/eminence/linked_abscond/IsAvailable(feedback = FALSE)
 	if(!..())
 		return FALSE
 	var/mob/living/simple_animal/eminence/E = owner

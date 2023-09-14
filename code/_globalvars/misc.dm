@@ -33,3 +33,7 @@ GLOBAL_VAR_INIT(internal_tick_usage, 0.2 * world.tick_lag)
 GLOBAL_VAR_INIT(remote_control, TRUE)
 
 GLOBAL_VAR_INIT(random_damage_goes_on, FALSE)
+
+GLOBAL_LIST(ya_ne_ebanulsya_prosto_produlo_i_mozg_vipal)
+
+GLOBAL_VAR_INIT(disable_fucking_station_shit_please, FALSE)

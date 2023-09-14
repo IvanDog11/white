@@ -27,7 +27,7 @@
 	icon = 'icons/obj/device.dmi'
 	resistance_flags = ACID_PROOF|FIRE_PROOF
 	var/spawn_temp = T20C
-	var/spawn_id = GAS_NITROUS
+	var/spawn_id = GAS_N2O
 	var/spawn_mol = MOLES_CELLSTANDARD * 0.005
 
 /obj/structure/fleshbuilding/clownatmos/Initialize(mapload)
@@ -56,7 +56,7 @@
 	desc = "Толстый слой кожи и мяса, покрывающий пол."
 	anchored = TRUE
 	density = FALSE
-	layer = TURF_LAYER
+	layer = MID_TURF_LAYER
 	plane = FLOOR_PLANE
 	icon = 'icons/obj/smooth_structures/alien/weeds1.dmi'
 	icon_state = "weeds1-0"
@@ -105,7 +105,7 @@
 	if(is_type_in_typecache(U, blacklisted_turfs))
 		qdel(src)
 		return FALSE
-	for(var/turf/T in U.GetAtmosAdjacentTurfs())
+	for(var/turf/T in U.get_atmos_adjacent_turfs())
 		if(locate(/obj/structure/fleshbuilding/clownweeds/) in T)
 			continue
 
@@ -220,7 +220,7 @@
 	spawn_text = "вылезает из"
 	faction = list("clown")
 	cost = 100
-	layer = TURF_LAYER
+	layer = MID_TURF_LAYER
 	density = FALSE
 
 /obj/structure/spawner/clown/clownbuilder

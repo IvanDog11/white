@@ -25,7 +25,7 @@
 		RegisterSignal(mod.wearer, COMSIG_LIVING_MOB_BUMP, PROC_REF(unstealth))
 	RegisterSignal(mod.wearer, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
 	RegisterSignal(mod.wearer, COMSIG_ATOM_BULLET_ACT, PROC_REF(on_bullet_act))
-	RegisterSignal(mod.wearer, list(COMSIG_MOB_ITEM_ATTACK, COMSIG_PARENT_ATTACKBY, COMSIG_ATOM_ATTACK_HAND, COMSIG_ATOM_HITBY, COMSIG_ATOM_HULK_ATTACK, COMSIG_ATOM_ATTACK_PAW, COMSIG_CARBON_CUFF_ATTEMPTED), PROC_REF(unstealth))
+	RegisterSignals(mod.wearer, list(COMSIG_MOB_ITEM_ATTACK, COMSIG_PARENT_ATTACKBY, COMSIG_ATOM_ATTACK_HAND, COMSIG_ATOM_HITBY, COMSIG_ATOM_HULK_ATTACK, COMSIG_ATOM_ATTACK_PAW, COMSIG_CARBON_CUFF_ATTEMPTED), PROC_REF(unstealth))
 	animate(mod.wearer, alpha = stealth_alpha, time = 1.5 SECONDS)
 	drain_power(use_power_cost)
 
@@ -161,6 +161,7 @@
 	icon_state = "recall"
 	removable = FALSE
 	module_type = MODULE_USABLE
+	allow_flags = MODULE_ALLOW_INCAPACITATED
 	use_power_cost = DEFAULT_CHARGE_DRAIN * 2
 	incompatible_modules = list(/obj/item/mod/module/weapon_recall)
 	cooldown_time = 0.5 SECONDS
@@ -255,6 +256,9 @@
 /obj/item/mod/module/dna_lock/reinforced/on_mod_activation(datum/source, mob/user)
 	. = ..()
 	if(. != MOD_CANCEL_ACTIVATE || !isliving(user))
+		return
+	if(mod.ai == user)
+		to_chat(mod.ai, span_danger("<B>ФАаТальнАя ОшИбка</B>: 381200-*#00КОД <B>СИНИЙ</B>\nОбНАРуЖЕно ВМЕшАТеЛЬстВО ИИ\nДЕЙСтВиЕ ИГноРИрУеТСЯ"))
 		return
 	var/mob/living/living_user = user
 	to_chat(living_user, span_danger("<B>ФАаТальнАя ОшИбка</B>: 382200-*#00КОД <B>КРАСНЫЙ</B>\nНЕАВТОРИЗОВАННОЕ ИСПОЛЬЗОВАНИЕ ОБНАРУЖЕНО\nИСПОЛНЯЮ СУБ-П40ТОК0Л 13...\nУниЧТОЖАЮ ПО-ПОЛЬЗОВАТЕЛЯ..."))
@@ -369,6 +373,7 @@
 	icon_state = "adrenaline_boost"
 	removable = FALSE
 	module_type = MODULE_USABLE
+	allow_flags = MODULE_ALLOW_INCAPACITATED
 	incompatible_modules = list(/obj/item/mod/module/adrenaline_boost)
 	cooldown_time = 12 SECONDS
 	/// What reagent we need to refill?

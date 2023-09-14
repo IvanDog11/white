@@ -7,6 +7,7 @@
 	map_generator = /datum/map_generator/jungle_generator
 	ambientsounds = AWAY_MISSION
 	enabled_area_tension = FALSE
+
 /area/awaymission/vietnam/dark
 	name = "Тёмное джунглевое место"
 	icon_state = "unexplored"
@@ -63,7 +64,6 @@
 
 	mask = /obj/item/clothing/mask/bandana/green
 	glasses = /obj/item/clothing/glasses/sunglasses
-	suit = /obj/item/clothing/suit/toggle/hawaii
 	uniform = /obj/item/clothing/under/syndicate/camo
 	shoes = /obj/item/clothing/shoes/jackboots
 	back = /obj/item/storage/backpack/satchel/leather/withwallet
@@ -106,12 +106,12 @@
 	icon_state = "stone"
 	stoned = FALSE
 	slowdown = 1
-	baseturfs = /turf/open/floor/grass/gensgrass/dirty/stone/raw
+	baseturfs = /turf/open/floor/plating/grass
 	var/digged_up = FALSE
-
+/*
 /turf/open/floor/grass/gensgrass/dirty/stone/raw/crowbar_act(mob/living/user, obj/item/I)
 	return FALSE
-
+*/
 /turf/closed/wall/stonewall
 	name = "каменная стена"
 	desc = "Не дай боженька увидеть такое на продвинутой исследовательской станции!"
@@ -151,7 +151,6 @@
 	clawfootstep = FOOTSTEP_SAND
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	stoned = TRUE
-	floor_tile = /turf/open/floor/grass/gensgrass/dirty/stone/raw
 	slowdown = 0
 
 /turf/closed/mineral/random/vietnam

@@ -48,7 +48,7 @@
 	for(var/m in GLOB.player_list)
 		if(iscarbon(m))
 			var/mob/living/carbon/C = m
-			if(C.getorganslot(ORGAN_SLOT_ADAMANTINE_RESONATOR))
+			if(C.get_organ_slot(ORGAN_SLOT_ADAMANTINE_RESONATOR))
 				to_chat(C, msg)
 		if(isobserver(m))
 			var/link = FOLLOW_LINK(m, owner)
@@ -73,7 +73,7 @@
 	..()
 	cords = target
 
-/datum/action/item_action/organ_action/colossus/IsAvailable()
+/datum/action/item_action/organ_action/colossus/IsAvailable(feedback = FALSE)
 	if(world.time < cords.next_command)
 		return FALSE
 	if(!owner)

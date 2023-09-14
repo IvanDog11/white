@@ -132,6 +132,10 @@
 		previewJob.equip(mannequin, TRUE, preference_source = parent)
 		previewJob.equip_gear(mannequin, parent, TRUE)
 
-	COMPILE_OVERLAYS(mannequin)
+	var/icon/preview_icon = icon('icons/effects/effects.dmi', "nothing")
+	for(var/cur_dir in GLOB.cardinals)
+		var/icon/partial = getFlatIcon(mannequin, defdir = cur_dir)
+		preview_icon.Insert(partial, dir = cur_dir)
+
 	unset_busy_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
-	return getFlatIcon(mannequin, defdir = SOUTH)
+	return preview_icon

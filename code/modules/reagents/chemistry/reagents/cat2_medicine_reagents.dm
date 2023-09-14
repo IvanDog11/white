@@ -108,6 +108,8 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/medicine/c2/libital/pure
+	name = "Чистый Либитал"
+	enname = "Pure Libital"
 	purity = 1
 
 /datum/reagent/medicine/c2/libital/on_mob_life(mob/living/carbon/M, delta_time, times_fired)
@@ -179,6 +181,8 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/medicine/c2/lenturi/pure
+	name = "Чистый Лентури"
+	enname = "Pure Lenturi"
 	purity = 1
 
 /datum/reagent/medicine/c2/lenturi/on_mob_life(mob/living/carbon/M, delta_time, times_fired)
@@ -200,6 +204,8 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/medicine/c2/aiuri/pure
+	name = "Чистый Айури"
+	enname = "Pure Aiuri"
 	purity = 1
 
 /datum/reagent/medicine/c2/aiuri/on_mob_life(mob/living/carbon/M, delta_time, times_fired)
@@ -318,7 +324,7 @@
 /*Suffix: -iver*/
 
 /datum/reagent/medicine/c2/seiver //a bit of a gray joke
-	name = "Сэивер"
+	name = "Сейвер"
 	enname = "Seiver"
 	description = "A medicine that shifts functionality based on temperature. Colder temperatures incurs radiation removal while hotter temperatures promote antitoxicity. Damages the heart." //CHEM HOLDER TEMPS, NOT AIR TEMPS
 	var/radbonustemp = (T0C - 100) //being below this number gives you 10% off rads.
@@ -357,9 +363,25 @@
 
 	//you're yes and... oh no!
 	healypoints = round(healypoints, 0.1)
-	M.adjustOrganLoss(ORGAN_SLOT_HEART, healypoints / 5)
+	M.adjustOrganLoss(ORGAN_SLOT_HEART, healypoints / 10)
 	..()
 	return TRUE
+
+/datum/reagent/medicine/c2/seiver/cold
+	name = "Холодный Сейвер"
+	enname = "Cold Seiver"
+
+/datum/reagent/medicine/c2/seiver/cold/on_mob_add()
+	. = ..()
+	holder.chem_temp = 10
+
+/datum/reagent/medicine/c2/seiver/hot
+	name = "Горячий Сейвер"
+	enname = "Hot Seiver"
+
+/datum/reagent/medicine/c2/seiver/hot/on_mob_add()
+	. = ..()
+	holder.chem_temp = 900
 
 /datum/reagent/medicine/c2/multiver //enhanced with MULTIple medicines
 	name = "Мультивер"

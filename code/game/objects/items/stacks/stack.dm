@@ -35,6 +35,8 @@
 	var/full_w_class = WEIGHT_CLASS_NORMAL
 	/// Determines whether the item should update it's sprites based on amount.
 	var/novariants = TRUE
+	/// Обозначает нестандартную механику отображения
+	var/multivariant = FALSE
 	/// List that tells you how much is in a single unit.
 	var/list/mats_per_unit
 	/// Datum material type that this stack is made of
@@ -159,6 +161,8 @@
 /obj/item/stack/update_icon_state()
 	if(novariants)
 		return ..()
+	if(multivariant)
+		return ..()
 	if(amount <= (max_amount * (1/3)))
 		icon_state = initial(icon_state)
 		return ..()
@@ -222,7 +226,7 @@
 		"res_amount" = R.res_amount,
 		"max_res_amount" = R.max_res_amount,
 		"req_amount" = R.req_amount,
-		"ref" = "\ref[R]",
+		"ref" = text_ref(R),
 	)
 
 /**
@@ -365,12 +369,12 @@
 			adjusted_time = (recipe.time * recipe.trait_modifier*builder.mind.get_skill_modifier(/datum/skill/engineering, SKILL_SPEED_MODIFIER))
 		else
 			adjusted_time = recipe.time*builder.mind.get_skill_modifier(/datum/skill/engineering, SKILL_SPEED_MODIFIER)
-		builder.mind.adjust_experience(/datum/skill/engineering, recipe.time)
 		if(!do_after(builder, adjusted_time, target = builder))
 			builder.balloon_alert(builder, "помешали!")
 			return
 		if(!building_checks(builder, recipe, multiplier))
 			return
+		builder.mind.adjust_experience(/datum/skill/engineering, recipe.time)
 
 	var/atom/created
 	if(recipe.max_res_amount > 1) // Is it a stack?

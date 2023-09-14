@@ -12,8 +12,19 @@
 #define PLANE_SPACE -25
 #define PLANE_SPACE_PARALLAX -20
 
-#define GRAVITY_PULSE_PLANE -12
-#define GRAVITY_PULSE_RENDER_TARGET "*GRAVPULSE_RENDER_TARGET"
+//SINGULARITY EFFECT
+#define SINGULARITY_EFFECT_PLANE_0 -19
+#define SINGULARITY_EFFECT_PLANE_1 -18
+#define SINGULARITY_EFFECT_PLANE_2 -17
+#define SINGULARITY_EFFECT_PLANE_3 -16
+#define SINGULO_RENDER_TARGET_0 "*SINGULOEFFECT_RENDER_TARGET_0"
+#define SINGULO_RENDER_TARGET_1 "*SINGULOEFFECT_RENDER_TARGET_1"
+#define SINGULO_RENDER_TARGET_2 "*SINGULOEFFECT_RENDER_TARGET_2"
+#define SINGULO_RENDER_TARGET_3 "*SINGULOEFFECT_RENDER_TARGET_3"
+
+//ANOMALIES EFFECT
+#define ANOMALY_PLANE -15
+#define ANOMALY_RENDER_TARGET "*ANOM_RENDER_TARGET"
 
 #define RENDER_PLANE_TRANSPARENT -11 //Transparent plane that shows openspace underneath the floor
 
@@ -97,13 +108,22 @@
 #define HUD_PLANE 40
 #define ABOVE_HUD_PLANE 41
 
-///Plane of the "splash" icon used that shows on the lobby screen. only render plate planes should be above this
+///Plane of the "splash" icon used that shows on the lobby screen
 #define SPLASHSCREEN_PLANE 50
+
+// The largest plane here must still be less than RENDER_PLANE_GAME
 
 //-------------------- Rendering ---------------------
 #define RENDER_PLANE_GAME 100
 #define RENDER_PLANE_NON_GAME 101
-#define RENDER_PLANE_MASTER 102
+
+// Only VERY special planes should be here, as they are above not just the game, but the UI planes as well.
+
+/// Plane related to the menu when pressing Escape.
+/// Needed so that we can apply a blur effect to EVERYTHING, and guarantee we are above all UI.
+#define ESCAPE_MENU_PLANE 105
+
+#define RENDER_PLANE_MASTER 110
 
 // Lummox I swear to god I will find you
 // NOTE! You can only ever have planes greater then -10000, if you add too many with large offsets you will brick multiz
@@ -140,11 +160,14 @@
 #define WIRE_LAYER 2.4
 #define WIRE_BRIDGE_LAYER 2.44
 #define WIRE_TERMINAL_LAYER 2.45
+#define TRAM_RAIL_LAYER 2.465
+#define TRAM_FLOOR_LAYER 2.466
 #define GAS_SCRUBBER_LAYER 2.46
 #define GAS_PIPE_VISIBLE_LAYER 2.47 //layer = initial(layer) + piping_layer / 1000 in atmospherics/update_icon() to determine order of pipe overlap
 #define GAS_FILTER_LAYER 2.48
 #define GAS_PUMP_LAYER 2.49
 #define PLUMBING_PIPE_VISIBILE_LAYER 2.495//layer = initial(layer) + ducting_layer / 3333 in atmospherics/handle_layer() to determine order of duct overlap
+#define BOT_PATH_LAYER 2.497
 #define LOW_OBJ_LAYER 2.5
 ///catwalk overlay of /turf/open/floor/plating/catwalk_floor
 #define CATWALK_LAYER 2.51
@@ -267,6 +290,7 @@
 
 ///Plane master controller keys
 #define PLANE_MASTERS_GAME "plane_masters_game"
+#define PLANE_MASTERS_NON_MASTER "plane_masters_non_master"
 #define PLANE_MASTERS_COLORBLIND "plane_masters_colorblind"
 
 //Plane master critical flags

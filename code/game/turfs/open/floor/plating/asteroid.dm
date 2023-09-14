@@ -140,6 +140,11 @@
 	planetary_atmos = TRUE
 	baseturfs = /turf/open/lava/smooth/lava_land_surface
 
+/turf/open/floor/plating/asteroid/normal_pressure
+	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
+	baseturfs = /turf/open/floor/plating/asteroid/normal_pressure
+	turf_type = /turf/open/floor/plating/asteroid/normal_pressure
+
 /turf/open/floor/plating/asteroid/lowpressure
 	initial_gas_mix = OPENTURF_LOW_PRESSURE
 	baseturfs = /turf/open/floor/plating/asteroid/lowpressure
@@ -219,6 +224,9 @@
 
 /turf/open/floor/plating/asteroid/snow/temperatre
 	initial_gas_mix = "o2=22;n2=82;TEMP=255.37"
+
+/turf/open/floor/plating/asteroid/snow/normal_temp
+	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
 
 /turf/open/floor/plating/asteroid/snow/atmosphere
 	initial_gas_mix = FROZEN_ATMOS

@@ -189,12 +189,10 @@
 
 	INVOKE_ASYNC(src, PROC_REF(updatename))
 
-	playsound(loc, 'white/Wzzzz/servitor.ogg', 70, TRUE)
+	playsound(loc, 'sound/effects/servitor.ogg', 70, TRUE)
 	aicamera = new/obj/item/camera/siliconcam/robot_camera(src)
 	toner = tonermax
 	diag_hud_set_borgcell()
-
-	tts_comp = AddComponent(/datum/component/tts)
 
 	logevent("System brought online.")
 	alert_control = new(src, list(ALARM_ATMOS, ALARM_FIRE, ALARM_POWER, ALARM_CAMERA, ALARM_BURGLAR, ALARM_MOTION), list(z))
@@ -1038,7 +1036,7 @@
 /datum/action/innate/undeployment
 	name = "Disconnect from shell"
 	desc = "Stop controlling your shell and resume normal core operations."
-	icon_icon = 'icons/mob/actions/actions_AI.dmi'
+	button_icon = 'icons/mob/actions/actions_AI.dmi'
 	button_icon_state = "ai_core"
 
 /datum/action/innate/undeployment/Trigger(trigger_flags)

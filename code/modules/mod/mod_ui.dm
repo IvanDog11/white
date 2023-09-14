@@ -13,8 +13,8 @@
 	data["locked"] = locked
 	data["complexity"] = complexity
 	data["selected_module"] = selected_module?.name
-	data["wearer_name"] = wearer ? (wearer.get_authentification_name("Unknown") || "Unknown") : "No Occupant"
-	data["wearer_job"] = wearer ? wearer.get_assignment("Unknown", "Unknown", FALSE) : "No Job"
+	data["wearer_name"] = wearer ? (wearer.get_authentification_name("Неизвестный") || "Неизвестный") : "Пустой"
+	data["wearer_job"] = wearer ? wearer.get_assignment("Неизвестный", "Неизвестный", FALSE) : "Безработный"
 	data[JOB_AI] = ai?.name
 	data["core"] = core?.name
 	data["charge"] = get_charge_percent()
@@ -25,7 +25,7 @@
 			"description" = module.desc,
 			"module_type" = module.module_type,
 			"module_active" = module.active,
-			"pinned" = module.pinned_to[user],
+			"pinned" = module.pinned_to[REF(user)],
 			"idle_power" = module.idle_power_cost,
 			"active_power" = module.active_power_cost,
 			"use_power" = module.use_power_cost,

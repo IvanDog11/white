@@ -215,14 +215,25 @@
 		new /obj/item/stack/sheet/wethide(get_turf(HH), HH.amount)
 		qdel(HH)
 
+/// How many wet stacks you get per units of water when it's applied by touch.
+#define WATER_TO_WET_STACKS_FACTOR_TOUCH 0.5
+/// How many wet stacks you get per unit of water when it's applied by vapor. Much less effective than by touch, of course.
+#define WATER_TO_WET_STACKS_FACTOR_VAPOR 0.1
+
 /*
  *	Water reaction to a mob
  */
-
 /datum/reagent/water/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume)//Splashing people with water can help put them out!
 	. = ..()
 	if(methods & TOUCH)
 		exposed_mob.extinguish_mob() // extinguish removes all fire stacks
+		exposed_mob.adjust_wet_stacks(reac_volume * WATER_TO_WET_STACKS_FACTOR_TOUCH) // Water makes you wet, at a 50% water-to-wet-stacks ratio. Which, in turn, gives you some mild protection from being set on fire!
+
+	if(methods & VAPOR)
+		exposed_mob.adjust_wet_stacks(reac_volume * WATER_TO_WET_STACKS_FACTOR_VAPOR) // Spraying someone with water with the hope to put them out is just simply too funny to me not to add it.
+
+#undef WATER_TO_WET_STACKS_FACTOR_TOUCH
+#undef WATER_TO_WET_STACKS_FACTOR_VAPOR
 
 /datum/reagent/water/on_mob_life(mob/living/carbon/M, delta_time, times_fired)
 	. = ..()
@@ -1064,9 +1075,9 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/space_cleaner/sterilizine
-	name = "Антисептик"
+	name = "Стерилизин"
 	enname = "Sterilizine"
-	description = "Sterilizes wounds in preparation for surgery."
+	description = "Ускоряет проведение хирургических операций."
 	color = "#D0EFEE" // space cleaner but lighter
 	taste_description = "горечь"
 	ph = 10.5
@@ -1079,7 +1090,7 @@
 
 	for(var/s in exposed_carbon.surgeries)
 		var/datum/surgery/surgery = s
-		surgery.speed_modifier = max(0.2, surgery.speed_modifier)
+		surgery.speed_modifier = max(0.4, surgery.speed_modifier)
 
 /datum/reagent/iron
 	name = "Железо"
@@ -1417,8 +1428,8 @@
 
 /datum/reagent/fluorosurfactant//foam precursor
 	name = "Фторовая Пена"
+	description = "Перфторированная сульфокислота, которая образует пену при смешивании с водой."
 	enname = "Fluorosurfactant"
-	description = "A perfluoronated sulfonic acid that forms a foam when mixed with water."
 	color = "#9E6B38" // rgb: 158, 107, 56
 	taste_description = "металл"
 	ph = 11
@@ -1456,8 +1467,8 @@
 
 /datum/reagent/ammonia
 	name = "Аммиак"
+	description = "Едкое вещество, обычно используемое в удобрениях или бытовых чистящих средствах."
 	enname = "Ammonia"
-	description = "A caustic substance commonly used in fertilizer or household cleaners."
 	reagent_state = GAS
 	color = "#404030" // rgb: 64, 64, 48
 	taste_description = "протрава"
@@ -1475,8 +1486,8 @@
 
 /datum/reagent/diethylamine
 	name = "Диэтиламин"
+	description = "Вторичный амин, слабо вызывающий коррозию."
 	enname = "Diethylamine"
-	description = "A secondary amine, mildly corrosive."
 	color = "#604030" // rgb: 96, 64, 48
 	taste_description = "железо"
 	ph = 12
@@ -1541,11 +1552,11 @@
 	..()
 
 /datum/reagent/stimulum
-	name = "Stimulum"
+	name = "Стимулум"
 	enname = "Stimulum"
-	description = "An unstable experimental gas that greatly increases the energy of those that inhale it, while dealing increasing toxin damage over time."
+	description = "Нестабильный экспериментальный газ, который значительно увеличивает энергию тех, кто его вдыхает, одновременно нанося все больший урон от токсинов с течением времени."
 	reagent_state = GAS
-	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitryl/freon/hypernoblium are handled through gas breathing, metabolism must be lower for breathcode to keep up
+	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitrium/freon/hypernoblium are handled through gas breathing, metabolism must be lower for breathcode to keep up
 	color = "E1A116"
 	taste_description = "кислотность"
 	ph = 1.8
@@ -1567,23 +1578,23 @@
 	M.adjustToxLoss(0.1 * current_cycle * REM * delta_time, 0) // 1 toxin damage per cycle at cycle 10
 	..()
 
-/datum/reagent/nitryl
-	name = "Нитрил"
-	enname = "Nitryl"
+/datum/reagent/nitrium
+	name = "Нитрий"
+	enname = "Nitrium"
 	description = "A highly reactive gas that makes you feel faster."
 	reagent_state = GAS
-	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitryl/freon/hypernoblium are handled through gas breathing, metabolism must be lower for breathcode to keep up
+	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitrium/freon/hypernoblium are handled through gas breathing, metabolism must be lower for breathcode to keep up
 	color = "90560B"
 	taste_description = "сжигание"
 	ph = 2
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
-/datum/reagent/nitryl/on_mob_metabolize(mob/living/L)
+/datum/reagent/nitrium/on_mob_metabolize(mob/living/L)
 	..()
-	L.add_movespeed_modifier(/datum/movespeed_modifier/reagent/nitryl)
+	L.add_movespeed_modifier(/datum/movespeed_modifier/reagent/nitrium)
 
-/datum/reagent/nitryl/on_mob_end_metabolize(mob/living/L)
-	L.remove_movespeed_modifier(/datum/movespeed_modifier/reagent/nitryl)
+/datum/reagent/nitrium/on_mob_end_metabolize(mob/living/L)
+	L.remove_movespeed_modifier(/datum/movespeed_modifier/reagent/nitrium)
 	..()
 
 /datum/reagent/freon
@@ -1591,7 +1602,7 @@
 	enname = "Freon"
 	description = "A powerful heat absorbent."
 	reagent_state = GAS
-	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitryl/freon/hypernoblium are handled through gas breathing, metabolism must be lower for breathcode to keep up
+	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitrium/freon/hypernoblium are handled through gas breathing, metabolism must be lower for breathcode to keep up
 	color = "90560B"
 	taste_description = "горение"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1609,7 +1620,7 @@
 	enname = "Hyper-Noblium"
 	description = "A suppressive gas that stops gas reactions on those who inhale it."
 	reagent_state = GAS
-	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitryl/freon/hyper-nob are handled through gas breathing, metabolism must be lower for breathcode to keep up
+	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitrium/freon/hyper-nob are handled through gas breathing, metabolism must be lower for breathcode to keep up
 	color = "90560B"
 	taste_description = "searingly cold"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1855,7 +1866,7 @@
 /datum/reagent/plantnutriment/eznutriment
 	name = "E-Z-Nutrient"
 	enname = "E-Z-Nutrient"
-	description = "Contains electrolytes. It's what plants crave."
+	description = "Содержит электролиты. Это то, чего жаждут растения."
 	color = "#376400" // RBG: 50, 100, 0
 	tox_prob = 5
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1869,8 +1880,8 @@
 
 /datum/reagent/plantnutriment/left4zednutriment
 	name = "Left 4 Zed"
-	enname = "Robust Harvest"
-	description = "Unstable nutriment that makes plants mutate more often than usual."
+	enname = "Left 4 Zed"
+	description = "Нестабильные удобрения, из-за которой растения мутируют чаще, чем обычно."
 	color = "#1A1E4D" // RBG: 26, 30, 77
 	tox_prob = 13
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1884,7 +1895,7 @@
 /datum/reagent/plantnutriment/robustharvestnutriment
 	name = "Надежный Урожай"
 	enname = "Robust Harvest"
-	description = "Very potent nutriment that slows plants from mutating."
+	description = "Очень мощное удобрение, которое замедляет мутацию растений."
 	color = "#9D9D00" // RBG: 157, 157, 0
 	tox_prob = 8
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1897,9 +1908,9 @@
 		myseed.adjust_yield(round(chems.get_reagent_amount(src.type) * 0.2))
 
 /datum/reagent/plantnutriment/endurogrow
-	name = "Эндуро-рост" //я трахать столб дом твой
+	name = "Эндуро-рост"
 	enname = "Enduro Grow"
-	description = "A specialized nutriment, which decreases product quantity and potency, but strengthens the plants endurance."
+	description = "Специализированная подкормка, которая уменьшает количество продукта и их потенциал, но повышает выносливость растений."
 	color = "#a06fa7" // RBG: 160, 111, 167
 	tox_prob = 8
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1914,7 +1925,7 @@
 /datum/reagent/plantnutriment/liquidearthquake
 	name = "Жидкая Встряска"
 	enname = "Liquid Earthquake"
-	description = "A specialized nutriment, which increases the plant's production speed, as well as it's susceptibility to weeds."
+	description = "Специализированная подкормка, которая увеличивает скорость роста растения, но также ухудшает его восприимчивость к сорнякам."
 	color = "#912e00" // RBG: 145, 46, 0
 	tox_prob = 13
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1932,8 +1943,8 @@
 
 /datum/reagent/fuel/oil
 	name = "Масло"
+	description = "Сгорает в небольшом дымном костре, может быть использован для получения пепла."
 	enname = "Oil"
-	description = "Burns in a small smoky fire, can be used to get Ash."
 	reagent_state = LIQUID
 	color = "#2D2D2D"
 	taste_description = "масло"
@@ -2052,7 +2063,7 @@
 
 /datum/reagent/carpet/royal/on_mob_life(mob/living/carbon/M, delta_time, times_fired)
 	. = ..()
-	var/obj/item/organ/liver/liver = M.getorganslot(ORGAN_SLOT_LIVER)
+	var/obj/item/organ/liver/liver = M.get_organ_slot(ORGAN_SLOT_LIVER)
 	if(liver)
 		// Heads of staff and the captain have a "royal metabolism"
 		if(HAS_TRAIT(liver, TRAIT_ROYAL_METABOLISM))
@@ -2132,8 +2143,8 @@
 
 /datum/reagent/phenol
 	name = "Фенол"
+	description = "Ароматическое кольцо углерода с гидроксильной группой. Входит в состав множества лекарств, но сам по себе не обладает целебными свойствами."
 	enname = "Phenol"
-	description = "An aromatic ring of carbon with a hydroxyl group. A useful precursor to some medicines, but has no healing properties on its own."
 	reagent_state = LIQUID
 	color = "#E7EA91"
 	taste_description = "кислота"
@@ -2159,8 +2170,8 @@
 
 /datum/reagent/acetone
 	name = "Ацетон"
+	description = "Скользкая, слегка канцерогенная жидкость. Имеет множество повседневных применений в повседневной жизни."
 	enname = "Acetone"
-	description = "A slick, slightly carcinogenic liquid. Has a multitude of mundane uses in everyday life."
 	reagent_state = LIQUID
 	color = "#AF14B7"
 	taste_description = "кислота"
@@ -2445,7 +2456,7 @@
 /datum/reagent/romerol/expose_mob(mob/living/carbon/human/exposed_mob, methods=TOUCH, reac_volume)
 	. = ..()
 	// Silently add the zombie infection organ to be activated upon death
-	if(!exposed_mob.getorganslot(ORGAN_SLOT_ZOMBIE))
+	if(!exposed_mob.get_organ_slot(ORGAN_SLOT_ZOMBIE))
 		var/obj/item/organ/zombie_infection/nodamage/ZI = new()
 		ZI.Insert(exposed_mob)
 
@@ -2506,7 +2517,7 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/glitter
-	name = "блятьстки"
+	name = "блёстки"
 	enname = "generic glitter"
 	description = "if you can see this description, contact a coder."
 	color = "#FFFFFF" //pure white
@@ -2542,6 +2553,14 @@
 	description = "blue sparkles that get everywhere"
 	color = "#4040FF" //A blueish color
 	glitter_type = /obj/effect/decal/cleanable/glitter/blue
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/glitter/blood
+	name = "свернувшаяся кровь"
+	enname = "bloody"
+	description = "pink sparkles that get everywhere"
+	color = "#e20f0f"
+	glitter_type = /obj/effect/decal/cleanable/blood
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/pax
@@ -2619,8 +2638,7 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/peaceborg/tire/on_mob_life(mob/living/carbon/M, delta_time, times_fired)
-	var/healthcomp = (100 - M.health)	//DOES NOT ACCOUNT FOR ADMINBUS THINGS THAT MAKE YOU HAVE MORE THAN 200/210 HEALTH, OR SOMETHING OTHER THAN A HUMAN PROCESSING THIS.
-	if(M.getStaminaLoss() < (45 - healthcomp))	//At 50 health you would have 200 - 150 health meaning 50 compensation. 60 - 50 = 10, so would only do 10-19 stamina.)
+	if(M.getStaminaLoss() < (80))
 		M.adjustStaminaLoss(10 * REM * delta_time)
 	if(DT_PROB(16, delta_time))
 		to_chat(M, "Нужно присесть и отдохнуть...")
@@ -2906,9 +2924,9 @@
 	victim.adjustBruteLoss(max(0.1, round((ant_damage * 0.005),0.1))) //Scales with time. Around 12.5 brute for 50 seconds.
 	if(DT_PROB(5, delta_time))
 		if(DT_PROB(5, delta_time)) //Super rare statement
-			victim.say("AUGH NO NOT THE ANTS! NOT THE ANTS! AAAAUUGH THEY'RE IN MY EYES! MY EYES! AUUGH!!", forced = /datum/reagent/ants)
+			victim.say("О, НЕТ, ТОЛЬКО НЕ МУРАВЬИ! ТОЛЬКО НЕ МУРАВЬИ! ААУЧ, ОНИ ПОЛЗАЮТ ПО МНЕ! КУСАЮТСЯ!! ААААА!!", forced = /datum/reagent/ants)
 		else
-			victim.say(pick("THEY'RE UNDER MY SKIN!!", "GET THEM OUT OF ME!!", "HOLY HELL THEY BURN!!", "MY GOD THEY'RE INSIDE ME!!", "GET THEM OUT!!"), forced = /datum/reagent/ants)
+			victim.say(pick("БОЛЬНО!!", "СНИМИТЕ ИХ С МЕНЯ!!", "ЧЕРТ ВОЗЬМИ, КАК ЖЖЕТСЯ!!", "БОЖЕ МОЙ, ОНИ КУСАЮТСЯ!!", "СТРЯХНИТЕ ИХ!!"), forced = /datum/reagent/ants)
 	if(DT_PROB(15, delta_time))
 		victim.emote("agony")
 	if(DT_PROB(2, delta_time))
@@ -2918,7 +2936,7 @@
 
 /datum/reagent/ants/on_mob_end_metabolize(mob/living/living_anthill)
 	ant_damage = 0
-	to_chat(living_anthill, span_notice("You feel like the last of the ants are out of your system."))
+	to_chat(living_anthill, span_notice("Кажется все муравьи разбежались или были жестоко растоптаны."))
 	return ..()
 
 /datum/reagent/ants/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume)

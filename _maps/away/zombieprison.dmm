@@ -1017,7 +1017,7 @@
 /turf/open/indestructible/boss,
 /area/awaymission/prison/warden)
 "fe" = (
-/obj/machinery/portable_atmospherics/canister/toxins,
+/obj/machinery/portable_atmospherics/canister/plasma,
 /turf/open/floor/plating,
 /area/awaymission/prison)
 "fg" = (
@@ -2351,7 +2351,7 @@
 /turf/open/floor/plasteel/dark,
 /area/awaymission/prison/cellb)
 "mG" = (
-/obj/machinery/atmospherics/miner/toxins,
+/obj/machinery/atmospherics/miner/plasma,
 /turf/open/floor/plating,
 /area/awaymission/prison)
 "mH" = (
@@ -2744,9 +2744,7 @@
 /turf/open/floor/plasteel/cult,
 /area/awaymission/prison/secret)
 "oL" = (
-/obj/machinery/computer/atmos_control/tank/toxin_tank{
-	dir = 4
-	},
+/obj/machinery/computer/atmos_control/plasma_tank,
 /turf/open/floor/plasteel,
 /area/awaymission/prison)
 "oM" = (
@@ -2934,7 +2932,6 @@
 /turf/open/floor/plasteel,
 /area/awaymission/prison/med)
 "pQ" = (
-/obj/effect/cult_turf/overlay/floor,
 /mob/living/simple_animal/hostile/construct/juggernaut/noncult{
 	health = 350
 	},
@@ -3516,7 +3513,7 @@
 	name = "Warden's Office";
 	req_access_txt = "3"
 	},
-/obj/machinery/door/poddoor/shutters/indestructible/prison/stage6,
+/obj/machinery/door/poddoor/shutters/indestructible/prison/stage5,
 /turf/open/floor/plasteel/dark,
 /area/awaymission/prison/guard)
 "tq" = (
@@ -3619,7 +3616,7 @@
 /turf/open/floor/plasteel,
 /area/awaymission/prison/med)
 "tV" = (
-/obj/machinery/computer/atmos_control/tank/nitrous_tank{
+/obj/machinery/computer/atmos_control/nitrous_tank{
 	dir = 4
 	},
 /turf/open/floor/plasteel,
@@ -4563,7 +4560,7 @@
 /turf/open/indestructible/boss/air,
 /area/awaymission/prison/warden)
 "yZ" = (
-/obj/machinery/computer/atmos_control/tank/nitrogen_tank{
+/obj/machinery/computer/atmos_control/nitrogen_tank{
 	dir = 4
 	},
 /turf/open/floor/plasteel,
@@ -4816,7 +4813,7 @@
 /turf/open/floor/plasteel/cafeteria,
 /area/awaymission/prison/guard)
 "Au" = (
-/obj/machinery/computer/atmos_control/tank/carbon_tank{
+/obj/machinery/computer/atmos_control/carbon_tank{
 	dir = 4
 	},
 /turf/open/floor/plasteel,
@@ -4841,10 +4838,6 @@
 /obj/machinery/vending/cola/pwr_game,
 /turf/open/floor/plasteel,
 /area/awaymission/prison/guard)
-"AF" = (
-/obj/effect/cult_turf/overlay/floor,
-/turf/open/floor/plasteel/cult,
-/area/awaymission/prison/secret)
 "AG" = (
 /obj/structure/table/reinforced,
 /obj/item/laser_pointer/upgraded,
@@ -8760,7 +8753,7 @@
 /turf/open/indestructible/white,
 /area/awaymission/prison)
 "Xl" = (
-/obj/machinery/computer/atmos_control/tank/air_tank{
+/obj/machinery/computer/atmos_control/air_tank{
 	dir = 4
 	},
 /turf/open/floor/plasteel,
@@ -8938,7 +8931,7 @@
 /turf/open/floor/carpet,
 /area/awaymission/prison/solitary)
 "Yv" = (
-/obj/machinery/computer/atmos_control/tank/oxygen_tank{
+/obj/machinery/computer/atmos_control/oxygen_tank{
 	dir = 4
 	},
 /obj/effect/decal/cleanable/blood,
@@ -66625,13 +66618,13 @@ bR
 bR
 tw
 pl
-AF
-AF
-AF
-AF
-AF
-AF
-AF
+Ud
+Ud
+Ud
+Ud
+Ud
+Ud
+Ud
 oK
 tw
 bR
@@ -66883,12 +66876,12 @@ bR
 tw
 ej
 pQ
-AF
-AF
-AF
-AF
-AF
-AF
+Ud
+Ud
+Ud
+Ud
+Ud
+Ud
 Ud
 tw
 bR
@@ -67139,13 +67132,13 @@ bR
 bR
 tw
 pl
-AF
-AF
-AF
-AF
-AF
-AF
-AF
+Ud
+Ud
+Ud
+Ud
+Ud
+Ud
+Ud
 oK
 tw
 bR

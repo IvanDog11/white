@@ -1,7 +1,7 @@
 //Summons a set of ocular warden turrets placed at landmarks in the arena. If there are any turrets still active, more will not spawn.
 /datum/action/boss/turret_summon
 	name = "Raise Ocular Warden"
-	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "mimic_summon"
 	usage_probability = 15
 	boss_cost = 25
@@ -9,7 +9,7 @@
 	say_when_triggered = "Arise once more, watchful guardians! Yrg Uvf Tenpvbhf Yvtug thvqr lbhe nvz gehr!"
 	var/id = "clockmasterocularwarden"
 
-/datum/action/boss/turret_summon/IsAvailable()
+/datum/action/boss/turret_summon/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -68,7 +68,7 @@
 //Activates a series of steam traps placed around the arena. Stepping onto these while active throws the victim back a few tiles and causes burn damage.
 /datum/action/boss/steam_traps
 	name = "Activate Steam Traps"
-	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "mimic_summon"
 	usage_probability = 20
 	boss_cost = 25
@@ -78,7 +78,7 @@
 	var/list/nearby_vents = list()
 	var/id = "clockmastersteamvent"
 
-/datum/action/boss/steam_traps/IsAvailable()
+/datum/action/boss/steam_traps/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -141,7 +141,7 @@
 //summon a small swarm of cogscarabs that attack in a group, weak but helps redirect player attacks elsewhere.
 /datum/action/boss/cogscarab_swarm
 	name = "Summon Cogscarab Swarm"
-	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
+	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "mimic_summon"
 	usage_probability = 15
 	boss_cost = 40
@@ -151,7 +151,7 @@
 	var/max_cogscarabs = 8
 	var/cogscarabs_to_summon = 4
 
-/datum/action/boss/cogscarab_swarm/IsAvailable()
+/datum/action/boss/cogscarab_swarm/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -167,7 +167,7 @@
 		for(var/i in 1 to 4)
 			var/mob/living/target = boss
 			var/atom/active_cogscarab = new /mob/living/simple_animal/hostile/clockwork/cogscarab(get_step(target,pick_n_take(directions)))
-			RegisterSignal(active_cogscarab, list(COMSIG_PARENT_QDELETING, COMSIG_LIVING_DEATH), PROC_REF(lost_cogscarab))
+			RegisterSignals(active_cogscarab, list(COMSIG_PARENT_QDELETING, COMSIG_LIVING_DEATH), PROC_REF(lost_cogscarab))
 			summoned_cogscarabs++
 	else
 		boss.atb.refund(boss_cost)

@@ -3,8 +3,8 @@
 
 /// An element that lets you stab people in the eyes when targeting them
 /datum/element/eyestab
-	element_flags = ELEMENT_BESPOKE | ELEMENT_DETACH
-	id_arg_index = 2
+	element_flags = ELEMENT_BESPOKE | ELEMENT_DETACH_ON_HOST_DESTROY
+	argument_hash_start_idx = 2
 
 	/// The amount of damage to do per eyestab
 	var/damage = 7
@@ -85,7 +85,7 @@
 
 	log_combat(user, target, "attacked (eyestabbed)", "[item.name]")
 
-	var/obj/item/organ/eyes/eyes = target.getorganslot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/eyes = target.get_organ_slot(ORGAN_SLOT_EYES)
 	if (!eyes)
 		return
 

@@ -66,7 +66,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/list/toggleable_inventory = list() //the screen objects which can be hidden
 	var/list/atom/movable/screen/hotkeybuttons = list() //the buttons that can be used via hotkeys
 	var/list/infodisplay = list() //the screen objects that display mob info (health, alien plasma, etc...)
-	var/list/screenoverlays = list() //the screen objects used as whole screen overlays (flash, damageoverlay, etc...)
+	/// Screen objects that never exit view.
+	var/list/always_visible_inventory = list()
 	var/list/inv_slots[SLOTS_AMT] // /atom/movable/screen/inventory objects, ordered by their slot ID.
 	var/list/hand_slots // /atom/movable/screen/inventory/hand objects, assoc list of "[held_index]" = object
 
@@ -235,6 +236,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	action_intent = null
 	zone_select = null
 	pull_icon = null
+	rest_icon = null
+	hand_slots.Cut()
 
 	QDEL_LIST(toggleable_inventory)
 	QDEL_LIST(hotkeybuttons)
@@ -257,7 +260,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 
 	QDEL_LIST_ASSOC_VAL(master_groups)
 	QDEL_LIST_ASSOC_VAL(plane_master_controllers)
-	QDEL_LIST(screenoverlays)
+	QDEL_LIST(always_visible_inventory)
 	mymob = null
 
 	return ..()
@@ -276,7 +279,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 /datum/hud/proc/get_plane_master(plane, group_key = PLANE_GROUP_MAIN)
 	var/plane_key = "[plane]"
 	var/datum/plane_master_group/group = master_groups[group_key]
-	return group.plane_masters[plane_key]
+	return group?.plane_masters[plane_key]
 
 /// Returns a list of all plane masters that match the input true plane, drawn from the passed in group (ignores z layer offsets)
 /datum/hud/proc/get_true_plane_masters(true_plane, group_key = PLANE_GROUP_MAIN)
@@ -305,7 +308,13 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	hud_used = new_hud
 	new_hud.build_action_groups()
 
-//Version denotes which style should be displayed. blank or 0 means "next version"
+/**
+ * Shows this hud's hud to some mob
+ *
+ * Arguments
+ * * version - denotes which style should be displayed. blank or 0 means "next version"
+ * * viewmob - what mob to show the hud to. Can be this hud's mob, can be another mob, can be null (will use this hud's mob if so)
+ */
 /datum/hud/proc/show_hud(version = 0, mob/viewmob)
 	if(!ismob(mymob))
 		return FALSE
@@ -315,7 +324,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 
 	// This code is the absolute fucking worst, I want it to go die in a fire
 	// Seriously, why
-	screenmob.client.screen = list()
+	screenmob.client.clear_screen()
 	screenmob.client.apply_clickcatcher()
 
 	var/display_hud_version = version
@@ -338,8 +347,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 				screenmob.client.screen += hotkeybuttons
 			if(infodisplay.len)
 				screenmob.client.screen += infodisplay
-			if(screenoverlays.len)
-				screenmob.client.screen += screenoverlays
+			if(always_visible_inventory.len)
+				screenmob.client.screen += always_visible_inventory
 
 		if(HUD_STYLE_REDUCED) //Reduced HUD
 			hud_shown = FALSE //Governs behavior of other procs
@@ -351,8 +360,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 				screenmob.client.screen -= hotkeybuttons
 			if(infodisplay.len)
 				screenmob.client.screen += infodisplay
-			if(screenoverlays.len)
-				screenmob.client.screen += screenoverlays
+			if(always_visible_inventory.len)
+				screenmob.client.screen += always_visible_inventory
 
 			//These ones are a part of 'static_inventory', 'toggleable_inventory' or 'hotkeybuttons' but we want them to stay
 			for(var/h in hand_slots)
@@ -370,12 +379,14 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 				screenmob.client.screen -= hotkeybuttons
 			if(infodisplay.len)
 				screenmob.client.screen -= infodisplay
-			if(screenoverlays.len) // no way
-				screenmob.client.screen += screenoverlays
+			if(always_visible_inventory.len)
+				screenmob.client.screen += always_visible_inventory
 
 	hud_version = display_hud_version
 	persistent_inventory_update(screenmob)
-	screenmob.update_action_buttons(1)
+	// Gives all of the actions the screenmob owes to their hud
+	screenmob.update_action_buttons(TRUE)
+	// Handles alerts - the things on the right side of the screen
 	reorganize_alerts(screenmob)
 	screenmob.reload_fullscreen()
 	update_parallax_pref(screenmob)
@@ -387,6 +398,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 			show_hud(hud_version, M)
 	else if (viewmob.hud_used)
 		viewmob.hud_used.plane_masters_update()
+		viewmob.show_other_mob_action_buttons(mymob)
 
 	INVOKE_ASYNC(screenmob?.client, .client/verb/fit_viewport)
 
@@ -427,7 +439,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	if(!retro_hud)
 		new_ui_style = GLOB.available_ui_styles["Neoscreen"]
 
-	for(var/atom/item in static_inventory + toggleable_inventory + hotkeybuttons + infodisplay + screenoverlays + inv_slots)
+	for(var/atom/item in static_inventory + toggleable_inventory + hotkeybuttons + infodisplay + always_visible_inventory + inv_slots)
 		if (item.icon == ui_style)
 			item.icon = new_ui_style
 
@@ -668,3 +680,24 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	column_max = 16
 	location = SCRN_OBJ_IN_LIST
 
+/client/proc/debug_hud_icon()
+	set name = "Debug Hud Icon"
+	set category = "Дбг.Интерфейс"
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	var/datum/hud/our_hud = mob.hud_used
+	var/list/all_the_huds = our_hud.infodisplay + our_hud.static_inventory + our_hud.toggleable_inventory + our_hud.hotkeybuttons
+	var/icon/new_icon = input("New Hud Icon?", "Balls") as null|icon
+
+	var/list/icon_list = list()
+
+	for(var/atom/movable/screen/S in all_the_huds)
+		icon_list |= S.icon
+
+	var/right_icon = tgui_input_list(usr, "balls", "pens", icon_list)
+
+	for(var/atom/movable/screen/S in all_the_huds)
+		if(S.icon == right_icon)
+			S.icon = new_icon

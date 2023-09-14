@@ -62,6 +62,7 @@
 
 /obj/machinery/suit_storage_unit/industrial/prototype
 	mod_type = /obj/item/mod/control/pre_equipped/prototype
+	storage_type = /obj/item/tank/internals/tactical
 
 /obj/machinery/suit_storage_unit/standard_unit
 	suit_type = /obj/item/clothing/suit/space/eva
@@ -613,7 +614,7 @@
 		wires.interact(user)
 		return
 	if(!state_open)
-		if(default_deconstruction_screwdriver(user, "[base_icon_state]", "close", I))
+		if(default_deconstruction_screwdriver(user, "[base_icon_state]", "classic", I))
 			return
 	if(default_pry_open(I))
 		dump_inventory_contents()

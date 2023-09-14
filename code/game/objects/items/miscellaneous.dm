@@ -1,6 +1,6 @@
 /obj/item/caution
-	desc = "Caution! Wet Floor!"
-	name = "wet floor sign"
+	name = "знак \"мокрый пол\""
+	desc = "ВНИМАНИЕ! МОКРЫЙ ПОЛ!"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "caution"
 	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
@@ -284,7 +284,10 @@
 	desc = "Despite his nickname, this wildlife expert was mainly known as a passionate environmentalist and conservationist, often coming in contact with dangerous wildlife to teach about the beauty of nature."
 
 /obj/item/storage/box/hero/carphunter/PopulateContents()
-	new /obj/item/clothing/suit/space/hardsuit/carp/old(src)
+	if(prob(20))
+		new /obj/item/clothing/suit/space/hardsuit/carp(src)
+	else
+		new /obj/item/clothing/suit/space/hardsuit/carp/old(src)
 	new /obj/item/clothing/mask/gas/carp(src)
 	new /obj/item/kitchen/knife/hunting(src)
 	new /obj/item/storage/box/papersack/meat(src)
@@ -329,8 +332,8 @@
 	to_chat(M, span_hear("You hear something crackle from the beacon for a moment before a voice speaks. \"Please stand by for a message from S.E.L.F. Message as follows: <b>Item request received. Your package has been transported, use the autosurgeon supplied to apply the upgrade.</b> Message ends.\""))
 
 /obj/item/skub
-	desc = "It's skub."
-	name = "skub"
+	desc = "Это губка."
+	name = "губка"
 	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "skub"
 	w_class = WEIGHT_CLASS_BULKY
@@ -349,8 +352,8 @@
 	return MANUAL_SUICIDE
 
 /obj/item/virgin_mary
-	name = "\proper a picture of the virgin mary"
-	desc = "A small, cheap icon depicting the virgin mother."
+	name = "Икона девы Марии"
+	desc = "Маленькая дешевая иконка с изображением девы Марии."
 	icon = 'icons/obj/blackmarket.dmi'
 	icon_state = "madonna"
 	resistance_flags = FLAMMABLE
@@ -373,11 +376,11 @@
 	var/mob/living/joe = user
 
 	if(joe in mob_mobs) //Only one nickname fuckhead
-		to_chat(joe, span_warning("You have already been initiated into the mafioso life."))
+		to_chat(joe, span_warning("Я уже посвятил свю жизнь мафии."))
 		return
 
-	to_chat(joe, span_notice("As you burn the picture, a nickname comes to mind..."))
-	var/nickname = stripped_input(joe, "Pick a nickname", "Mafioso Nicknames", null, NICKNAME_CAP, TRUE)
+	to_chat(joe, span_notice("Когда я сжигаю изображение, на ум приходит прозвище..."))
+	var/nickname = stripped_input(joe, "Выберите прозвище", "Мафиозник", null, NICKNAME_CAP, TRUE)
 	nickname = reject_bad_name(nickname, allow_numbers = FALSE, max_length = NICKNAME_CAP, ascii_only = FALSE)
 	if(!nickname)
 		return
@@ -390,8 +393,8 @@
 	joe.real_name = new_name
 	used_up = TRUE
 	mob_mobs += joe
-	joe.say("My soul will burn like this saint if I betray my family. I enter alive and I will have to get out dead.", forced = /obj/item/virgin_mary)
-	to_chat(joe, span_userdanger("Being inducted into the mafia does not grant antagonist status."))
+	joe.say("Моя душа сгорит, как эта икона, если я предам свою семью. Я войду живым, а выйду мертвым.", forced = /obj/item/virgin_mary)
+	to_chat(joe, span_userdanger("Вступление в мафию не дает статуса антагониста."))
 
 #undef NICKNAME_CAP
 
@@ -408,24 +411,24 @@
 
 // Bouquets
 /obj/item/bouquet
-	name = "mixed bouquet"
-	desc = "A bouquet of sunflowers, lilies, and geraniums. How delightful."
+	name = "смешанный букет"
+	desc = "Букет из подсолнухов, лилий и герани. Как восхитительно."
 	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "mixedbouquet"
 
 /obj/item/bouquet/sunflower
-	name = "sunflower bouquet"
-	desc = "A bright bouquet of sunflowers."
+	name = "Букет из подсолнухов"
+	desc = "Яркий букет подсолнухов."
 	icon_state = "sunbouquet"
 
 /obj/item/bouquet/poppy
-	name = "poppy bouquet"
-	desc = "A bouquet of poppies. You feel loved just looking at it."
+	name = "Маковый букет"
+	desc = "Букет маков. Ты чувствуешь себя любимым, просто глядя на него."
 	icon_state = "poppybouquet"
 
 /obj/item/bouquet/rose
-	name = "rose bouquet"
-	desc = "A bouquet of roses. A bundle of love."
+	name = "Букет роз"
+	desc = "Букет роз. Сгусток любви."
 	icon_state = "rosebouquet"
 
 

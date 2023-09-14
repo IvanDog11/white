@@ -3,7 +3,7 @@
 
 /datum/action/cooldown/mob_cooldown/lava_swoop
 	name = "Lava Swoop"
-	icon_icon = 'icons/effects/effects.dmi'
+	button_icon = 'icons/effects/effects.dmi'
 	button_icon_state = "lavastaff_warn"
 	desc = "Allows you to chase a target while raining lava down."
 	cooldown_time = 4 SECONDS
@@ -39,7 +39,7 @@
 		return
 	// stop swooped target movement
 	swooping = TRUE
-	owner.set_density(FALSE)
+	ADD_TRAIT(owner, TRAIT_UNDENSE, SWOOPING_TRAIT)
 	owner.visible_message(span_boldwarning("[owner] swoops up high!"))
 
 	var/negative
@@ -115,7 +115,7 @@
 	for(var/mob/M in range(7, owner))
 		shake_camera(M, 15, 1)
 
-	owner.set_density(TRUE)
+	REMOVE_TRAIT(owner, TRAIT_UNDENSE, SWOOPING_TRAIT)
 	SLEEP_CHECK_DEATH(1, owner)
 	swooping = FALSE
 	if(!lava_success)
@@ -201,7 +201,7 @@
 	duration = 10
 
 /obj/effect/temp_visual/dragon_flight
-	icon = 'icons/mob/lavaland/64x64megafauna.dmi'
+	icon = 'icons/mob/lavaland/96x96megafauna.dmi'
 	icon_state = "dragon"
 	layer = ABOVE_ALL_MOB_LAYER
 	plane = GAME_PLANE_UPPER_FOV_HIDDEN
@@ -219,7 +219,7 @@
 	else
 		animate(src, pixel_x = SWOOP_HEIGHT*0.1, pixel_z = SWOOP_HEIGHT*0.15, time = 3, easing = BOUNCE_EASING)
 	sleep(3)
-	icon_state = "swoop"
+	icon_state = "dragon_swoop"
 	if(negative)
 		animate(src, pixel_x = -SWOOP_HEIGHT, pixel_z = SWOOP_HEIGHT, time = 7)
 	else

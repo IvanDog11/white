@@ -372,8 +372,6 @@
 	parts += goal_report()
 	//Economy & Money
 	parts += market_report()
-	//Ambitions
-	parts += ambitions_report()
 
 	list_clear_nulls(parts)
 
@@ -649,41 +647,6 @@
 		parts += "Чудесным образом никто не заработал кредиты за эту смену! Придётся резать бюджеты...</div>"
 	return parts
 
-/datum/controller/subsystem/ticker/proc/ambitions_report()
-	var/list/parts = list()
-	parts += "<div class='panel stationborder'><span class='header'>Отчёт по амбициям</span></br>"
-
-	for(var/datum/mind/employee in SSticker.minds)
-
-		if(!employee.ambition_objectives.len)//If the employee had no objectives, don't need to process this.
-			continue
-
-		if(employee.assigned_role == employee.special_role) //If the character is an offstation character, skip them.
-			continue
-
-		parts += "<b>[employee.name]</b> на должности <b>[employee.assigned_role]</b>:</br>"
-
-		var/ambitions_completed = FALSE
-
-		var/count = 1
-		for(var/datum/ambition_objective/objective in employee.ambition_objectives)
-			if(objective.completed)
-				parts += "[FOURSPACES] - <B>Амбиция №[count]</B>: [objective.description] <font color='green'><B> реализована!</B></font></br>"
-				SSblackbox.record_feedback("nested tally", "employee_objective", 1, list("[objective.type]", "SUCCESS"))
-				ambitions_completed = TRUE
-			else
-				parts += "[FOURSPACES] - <B>Амбиция №[count]</B>: [objective.description] <font color='red'><b> не осуществлена.</b></font></br>"
-				SSblackbox.record_feedback("nested tally", "employee_objective", 1, list("[objective.type]", "FAIL"))
-			count++
-
-		if(ambitions_completed)
-			parts += "[FOURSPACES] - <font color='green'><B>[employee.name] реализует свои амбиции!</B></font></br>"
-			SSblackbox.record_feedback("tally", "employee_success", 1, "SUCCESS")
-		else
-			SSblackbox.record_feedback("tally", "employee_success", 1, "FAIL")
-
-	return parts
-
 /**
  * Awards the service department an achievement and updates the chef and bartender's highscore for tourists served.
  *
@@ -808,12 +771,13 @@
 /datum/action/report
 	name = "Показать результаты раунда"
 	button_icon_state = "round_end"
+	show_to_observers = FALSE
 
 /datum/action/report/Trigger(trigger_flags)
 	if(owner && GLOB.common_report && SSticker.current_state == GAME_STATE_FINISHED)
 		SSticker.show_roundend_report(owner.client)
 
-/datum/action/report/IsAvailable()
+/datum/action/report/IsAvailable(feedback = FALSE)
 	return 1
 
 /datum/action/report/Topic(href,href_list)

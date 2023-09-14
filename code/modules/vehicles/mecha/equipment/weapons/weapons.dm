@@ -197,7 +197,7 @@
 		to_chat(M, "<font color='red' size='7'>HONK</font>")
 		M.SetSleeping(0)
 		M.stuttering += 20
-		var/obj/item/organ/ears/ears = M.getorganslot(ORGAN_SLOT_EARS)
+		var/obj/item/organ/ears/ears = M.get_organ_slot(ORGAN_SLOT_EARS)
 		if(ears)
 			ears.adjustEarDamage(0, 30)
 		M.Paralyze(60)
@@ -272,6 +272,19 @@
 	projectiles_cache_max = 96
 	harmful = TRUE
 	ammo_type = "incendiary"
+
+/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/bfg
+	name = "Радиоактивная пушка \"Грейз\""
+	desc = "Оружие для боевых экзокостюмов. Стреляет невероятно горячим лучом, окруженным полем плазмы."
+	icon_state = "mecha_laser"
+	equip_cooldown = 2 SECONDS
+	projectile = /obj/projectile/beam/bfg
+	projectiles = 5
+	projectiles_cache = 0
+	projectiles_cache_max = 10
+	harmful = TRUE
+	ammo_type = "bfg"
+	fire_sound = 'sound/weapons/lasercannonfire.ogg'
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/silenced
 	name = "Тяжелый бесшумный карабин \"Тишина\""

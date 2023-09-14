@@ -361,6 +361,7 @@
 	pixel_x = 5;
 	pixel_y = -1
 	},
+/obj/item/storage/ashtray/bronze,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/carpet,
 /area/command/heads_quarters/hos)
@@ -2787,7 +2788,7 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/docking_port/stationary/random{
 	dir = 4;
-	id = "pod3_lavaland";
+	id = "pod_lavaland3";
 	name = "lavaland"
 	},
 /turf/open/floor/plating,
@@ -3140,7 +3141,7 @@
 	dir = 8
 	},
 /obj/structure/cable,
-/obj/machinery/navbeacon/wayfinding,
+/obj/effect/landmark/navigate_destination,
 /obj/machinery/door/firedoor,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel,

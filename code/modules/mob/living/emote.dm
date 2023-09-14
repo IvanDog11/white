@@ -197,6 +197,13 @@
 	hands_use_check = TRUE
 	var/wing_time = 20
 
+/datum/emote/living/flap/can_run_emote(mob/user, status_check, intentional)
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.dna.features["wings"] != "None")
+			return TRUE
+	. = ..()
+
 /datum/emote/living/flap/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
 	if(. && ishuman(user))
@@ -297,13 +304,6 @@
 	key_third_person = "grins"
 	message = "ухмыляется."
 
-/datum/emote/living/groan
-	key = "groan"
-	ru_name = "стонать"
-	key_third_person = "groans"
-	message = "стонет!"
-	message_mime = "кажется стонет!"
-
 /datum/emote/living/grimace
 	key = "grimace"
 	ru_name = "морщиться"
@@ -316,6 +316,16 @@
 	key_third_person = "jumps"
 	message = "подпрыгивает!"
 	hands_use_check = TRUE
+
+/datum/emote/living/jump/run_emote(mob/living/user, params, type_override, intentional)
+	. = ..()
+	if(!.)
+		return FALSE
+	animate(user, pixel_y = user.pixel_y + 4, time = 0.1 SECONDS)
+	animate(pixel_y = user.pixel_y - 4, time = 0.1 SECONDS)
+
+/datum/emote/living/jump/get_sound(mob/living/user)
+	return 'sound/weapons/thudswoosh.ogg'
 
 /datum/emote/living/kiss
 	key = "kiss"
@@ -464,6 +474,18 @@
 	message = "дрожит."
 	emote_type = EMOTE_AUDIBLE
 
+#define SHIVER_LOOP_DURATION (1 SECONDS)
+/datum/emote/living/shiver/run_emote(mob/living/user, params, type_override, intentional)
+	. = ..()
+	if(!.)
+		return FALSE
+	animate(user, pixel_x = user.pixel_x + 1, time = 0.1 SECONDS)
+	for(var/i in 1 to SHIVER_LOOP_DURATION / (0.2 SECONDS)) //desired total duration divided by the iteration duration to give the necessary iteration count
+		animate(pixel_x = user.pixel_x - 1, time = 0.1 SECONDS)
+		animate(pixel_x = user.pixel_x + 1, time = 0.1 SECONDS)
+	animate(pixel_x = user.pixel_x - 1, time = 0.1 SECONDS)
+#undef SHIVER_LOOP_DURATION
+
 /datum/emote/living/sigh
 	key = "sigh"
 	ru_name = "вздыхать"
@@ -541,6 +563,7 @@
 
 /datum/emote/living/plot
 	key = "plot"
+	ru_name = "жажда"
 	key_third_person = "корчится от жажды"
 	message = "корчится от жажды!"
 	emote_type = EMOTE_AUDIBLE
@@ -606,11 +629,33 @@
 	key_third_person = "sways"
 	message = "головокружительно качается вокруг."
 
+/datum/emote/living/sway/run_emote(mob/living/user, params, type_override, intentional)
+	. = ..()
+	if(!.)
+		return FALSE
+	animate(user, pixel_x = user.pixel_x + 2, time = 0.5 SECONDS)
+	for(var/i in 1 to 2)
+		animate(pixel_x = user.pixel_x - 4, time = 1.0 SECONDS)
+		animate(pixel_x = user.pixel_x + 4, time = 1.0 SECONDS)
+	animate(pixel_x = user.pixel_x - 2, time = 0.5 SECONDS)
+
 /datum/emote/living/tremble
 	key = "tremble"
 	ru_name = "бояться"
 	key_third_person = "trembles"
 	message = "дрожит от страха!"
+
+#define TREMBLE_LOOP_DURATION (4.4 SECONDS)
+/datum/emote/living/tremble/run_emote(mob/living/user, params, type_override, intentional)
+	. = ..()
+	if(!.)
+		return FALSE
+	animate(user, pixel_x = user.pixel_x + 2, time = 0.2 SECONDS)
+	for(var/i in 1 to TREMBLE_LOOP_DURATION / (0.4 SECONDS)) //desired total duration divided by the iteration duration to give the necessary iteration count
+		animate(pixel_x = user.pixel_x - 2, time = 0.2 SECONDS)
+		animate(pixel_x = user.pixel_x + 2, time = 0.2 SECONDS)
+	animate(pixel_x = user.pixel_x - 2, time = 0.2 SECONDS)
+#undef TREMBLE_LOOP_DURATION
 
 /datum/emote/living/twitch
 	key = "twitch"
@@ -618,10 +663,27 @@
 	key_third_person = "twitches"
 	message = "резко дёргается."
 
+/datum/emote/living/twitch/run_emote(mob/living/user, params, type_override, intentional)
+	. = ..()
+	if(!.)
+		return FALSE
+	animate(user, pixel_x = user.pixel_x - 1, time = 0.1 SECONDS)
+	animate(pixel_x = user.pixel_x + 1, time = 0.1 SECONDS)
+	animate(time = 0.1 SECONDS)
+	animate(pixel_x = user.pixel_x - 1, time = 0.1 SECONDS)
+	animate(pixel_x = user.pixel_x + 1, time = 0.1 SECONDS)
+
 /datum/emote/living/twitch_s
 	key = "twitch_s"
 	ru_name = "слабо дёрнуться"
 	message = "дёргается."
+
+/datum/emote/living/twitch_s/run_emote(mob/living/user, params, type_override, intentional)
+	. = ..()
+	if(!.)
+		return FALSE
+	animate(user, pixel_x = user.pixel_x - 1, time = 0.1 SECONDS)
+	animate(pixel_x = user.pixel_x + 1, time = 0.1 SECONDS)
 
 /datum/emote/living/wave
 	key = "wave"

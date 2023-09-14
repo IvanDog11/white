@@ -708,7 +708,7 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 		return FALSE
 	set_light_on(!light_on)
 	update_appearance()
-	update_action_buttons(force = TRUE) //force it because we added an overlay, not changed its icon
+	update_item_action_buttons(force = TRUE) //force it because we added an overlay, not changed its icon
 	return TRUE
 
 /**
@@ -730,7 +730,7 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	if(!saved_identification && !saved_job)
 		name = initial(name)
 		return
-	name = "[saved_identification] ([saved_job])"
+	name = "[saved_identification] ([ru_job_parse(saved_job)])"
 
 /obj/item/modular_computer/attackby(obj/item/attacking_item, mob/user, params)
 	// Check for ID first

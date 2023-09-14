@@ -14,7 +14,6 @@
 	description = "Интересно, можно ли каким-либо образом ускорить производство нанитов, возможно у меня получится найти наглядные примеры в жизни?"
 	required_points = 30
 	required_atoms =  list(
-		/obj/item/pinpointer/wayfinding = 10,
 		/obj/machinery/mecha_part_fabricator = 3,
 		/obj/machinery/computer/cargo = 4,
 		/obj/machinery/computer/bank_machine = 15,
@@ -33,3 +32,25 @@
 		/obj/structure/ai_core = 10,
 		/obj/machinery/computer/libraryconsole = 10
 	)
+
+/datum/design/light_tube_autobuild
+	name = "Анкерный каркас большой лампы"
+	desc = "Используется для быстрого монтажа каркаса и подключения проводки. Лампочка в комплект не входит."
+	id = "light_tube_autobuild"
+	build_type = MECHFAB
+	construction_time = 40
+	materials = list(/datum/material/iron = 500)
+	build_path = /obj/item/wallframe/autobuild
+	category = list("Строительство", "Карго оборудование" ,"Оборудование СБ", "Оборудование сервиса")
+	sub_category = list("Настенные конструкции")
+
+/datum/design/light_tube_autobuild_small
+	name = "анкерный каркас маленькой лампы"
+	desc = "Используется для быстрого монтажа каркаса и подключения проводки. Лампочка в комплект не входит."
+	id = "light_tube_autobuild_small"
+	build_type = MECHFAB
+	construction_time = 40
+	materials = list(/datum/material/iron = 300)
+	build_path = /obj/item/wallframe/autobuild/small
+	category = list("Строительство", "Карго оборудование" ,"Оборудование СБ", "Оборудование сервиса")
+	sub_category = list("Настенные конструкции")

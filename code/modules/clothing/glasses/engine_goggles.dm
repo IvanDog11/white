@@ -73,9 +73,7 @@
 			H.update_sight()
 
 	update_icon()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtons()
+	update_item_action_buttons()
 
 /obj/item/clothing/glasses/meson/engine/attack_self(mob/user)
 	toggle_mode(user, TRUE)
@@ -148,7 +146,7 @@
 		if(!connection_images[smart])
 			connection_images[smart] = list()
 		for(var/direction in GLOB.cardinals)
-			if(!(smart.GetInitDirections() & direction))
+			if(!(smart.get_init_directions() & direction))
 				continue
 			if(!connection_images[smart][dir2text(direction)])
 				var/image/arrow

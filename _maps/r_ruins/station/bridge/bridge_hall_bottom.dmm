@@ -11,8 +11,8 @@
 "ax" = (
 /obj/machinery/light,
 /obj/structure/sign/poster/official/random{
-	pixel_y = -32;
-	pixel_x = -32
+	pixel_x = -32;
+	pixel_y = -32
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/central/low_level_centre)
@@ -203,8 +203,8 @@
 /area/command/heads_quarters/captain)
 "df" = (
 /obj/structure/sign/poster/official/random{
-	pixel_y = 32;
-	pixel_x = -32
+	pixel_x = -32;
+	pixel_y = 32
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
@@ -270,9 +270,9 @@
 /area/command/corporate_showroom)
 "dV" = (
 /obj/machinery/door/window/brigdoor/northleft{
+	dir = 4;
 	name = "Captain's Desk";
-	req_access_txt = "20";
-	dir = 4
+	req_access_txt = "20"
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -286,25 +286,25 @@
 "ed" = (
 /obj/structure/table/wood/poker,
 /obj/item/newspaper{
-	pixel_y = 5;
-	pixel_x = 8
+	pixel_x = 8;
+	pixel_y = 5
 	},
 /obj/effect/turf_decal/siding/wood,
 /obj/item/coin/silver{
-	pixel_y = 14;
-	pixel_x = 2;
 	layer = 3.01;
+	pixel_x = 2;
+	pixel_y = 14;
 	random_position = 0
 	},
 /obj/item/coin/gold{
+	layer = 3.02;
 	pixel_x = -2;
 	pixel_y = 9;
-	layer = 3.02;
 	random_position = 0
 	},
 /obj/item/coin/silver{
-	pixel_y = 14;
 	pixel_x = -4;
+	pixel_y = 14;
 	random_position = 0
 	},
 /turf/open/floor/carpet,
@@ -326,6 +326,7 @@
 	pixel_x = 15;
 	pixel_y = 3
 	},
+/obj/item/storage/ashtray/bronze,
 /obj/item/taperecorder{
 	pixel_y = 13
 	},
@@ -361,7 +362,6 @@
 	name = "bridge blast door"
 	},
 /obj/machinery/door/firedoor,
-/obj/machinery/navbeacon/wayfinding,
 /obj/machinery/door/airlock/command/glass{
 	name = "Bridge";
 	req_access_txt = "19"
@@ -514,8 +514,8 @@
 	dir = 8
 	},
 /obj/structure/sign/poster/official/random{
-	pixel_y = -32;
-	pixel_x = -32
+	pixel_x = -32;
+	pixel_y = -32
 	},
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/central/low_level_centre)
@@ -544,10 +544,12 @@
 	name = "Gravity Generator APC";
 	pixel_x = -25
 	},
-/obj/structure/chair/office/light,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
 	},
+/obj/structure/table,
+/obj/item/paper/guides/jobs/engi/gravity_gen,
+/obj/item/pen/blue,
 /turf/open/floor/plasteel/monofloor/dark,
 /area/engineering/gravity_generator)
 "hq" = (
@@ -587,13 +589,13 @@
 	pixel_y = 1
 	},
 /obj/item/folder/red{
+	layer = 3.01;
 	pixel_x = 3;
-	pixel_y = 4;
-	layer = 3.01
+	pixel_y = 4
 	},
 /obj/item/pen/red{
-	pixel_x = 3;
-	layer = 3.02
+	layer = 3.02;
+	pixel_x = 3
 	},
 /turf/open/floor/carpet,
 /area/command/meeting_room/council)
@@ -604,8 +606,8 @@
 /area/command)
 "hL" = (
 /obj/item/flashlight/lamp/green{
-	pixel_y = 8;
-	layer = 3.01
+	layer = 3.01;
+	pixel_y = 8
 	},
 /obj/structure/table/wood/poker,
 /obj/machinery/firealarm/directional/east,
@@ -871,12 +873,12 @@
 	},
 /obj/structure/table/wood,
 /obj/item/toy/plush/asfumoplushie{
-	pixel_y = 5;
-	pixel_x = -5
+	pixel_x = -5;
+	pixel_y = 5
 	},
 /obj/item/toy/plush/cirfumoplushie{
-	pixel_y = 3;
-	pixel_x = 4
+	pixel_x = 4;
+	pixel_y = 3
 	},
 /turf/open/floor/plasteel/dark/corner{
 	dir = 8
@@ -988,17 +990,17 @@
 /obj/machinery/firealarm/directional/south,
 /obj/structure/table/wood,
 /obj/item/reagent_containers/food/drinks/coffee{
-	pixel_y = 10;
+	layer = 3.01;
 	pixel_x = 6;
-	layer = 3.01
+	pixel_y = 10
 	},
 /obj/item/newspaper{
-	pixel_y = 5;
-	pixel_x = -4
+	pixel_x = -4;
+	pixel_y = 5
 	},
 /obj/item/food/donut/berry{
-	pixel_y = -1;
-	layer = 3.01
+	layer = 3.01;
+	pixel_y = -1
 	},
 /turf/open/floor/plasteel/monofloor/dark,
 /area/service/cafeteria)
@@ -1251,9 +1253,9 @@
 	color = "red"
 	},
 /obj/item/toy/plush/carpplushie{
-	pixel_y = 8;
+	layer = 3.01;
 	pixel_x = 4;
-	layer = 3.01
+	pixel_y = 8
 	},
 /turf/open/floor/plasteel/dark/corner{
 	dir = 1
@@ -1359,6 +1361,18 @@
 	dir = 4
 	},
 /area/command/corporate_showroom)
+"qf" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/structure/chair/office/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel/monofloor/dark,
+/area/engineering/gravity_generator)
 "qg" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -1403,18 +1417,18 @@
 	pixel_y = 16
 	},
 /obj/item/reagent_containers/food/drinks/bottle/grenadine{
+	layer = 3.01;
 	pixel_x = 5;
-	pixel_y = 2;
-	layer = 3.01
+	pixel_y = 2
 	},
 /obj/item/reagent_containers/food/drinks/bottle/cognac{
 	pixel_x = -7;
 	pixel_y = 8
 	},
 /obj/item/reagent_containers/food/drinks/bottle/champagne{
+	layer = 3.02;
 	pixel_x = -3;
-	pixel_y = -3;
-	layer = 3.02
+	pixel_y = -3
 	},
 /obj/structure/cable,
 /turf/open/floor/wood/parquet,
@@ -1542,8 +1556,8 @@
 	pixel_y = 3
 	},
 /obj/item/book/manual/wiki/security_space_law{
-	pixel_y = 2;
-	pixel_x = 2
+	pixel_x = 2;
+	pixel_y = 2
 	},
 /obj/item/folder/blue{
 	pixel_x = -12;
@@ -1556,8 +1570,8 @@
 	pixel_x = -10
 	},
 /obj/item/pen/fountain/captain{
-	pixel_y = 4;
-	pixel_x = 15
+	pixel_x = 15;
+	pixel_y = 4
 	},
 /turf/open/floor/carpet,
 /area/command/heads_quarters/captain)
@@ -1611,8 +1625,8 @@
 	dir = 1
 	},
 /obj/structure/sign/poster/official/random{
-	pixel_y = 32;
-	pixel_x = -32
+	pixel_x = -32;
+	pixel_y = 32
 	},
 /turf/open/floor/plasteel/monofloor/dark,
 /area/hallway/primary/central/low_level_centre)
@@ -1801,7 +1815,6 @@
 	name = "bridge blast door"
 	},
 /obj/machinery/door/firedoor,
-/obj/machinery/navbeacon/wayfinding,
 /obj/machinery/door/airlock/command/glass{
 	name = "Bridge";
 	req_access_txt = "19"
@@ -1866,9 +1879,9 @@
 /obj/structure/table/wood,
 /obj/item/folder,
 /obj/item/folder{
+	layer = 3.01;
 	pixel_x = 3;
-	pixel_y = 7;
-	layer = 3.01
+	pixel_y = 7
 	},
 /turf/open/floor/carpet,
 /area/command/meeting_room/council)
@@ -1974,19 +1987,19 @@
 	pixel_y = 12
 	},
 /obj/item/storage/fancy/donut_box{
-	pixel_y = -12;
+	layer = 3.03;
 	pixel_x = -3;
-	layer = 3.03
+	pixel_y = -12
 	},
 /obj/item/flashlight/lamp/green{
+	layer = 3.02;
 	pixel_x = -16;
-	pixel_y = 5;
-	layer = 3.02
+	pixel_y = 5
 	},
 /obj/item/reagent_containers/food/drinks/waterbottle{
-	pixel_y = 1;
+	layer = 3.02;
 	pixel_x = -1;
-	layer = 3.02
+	pixel_y = 1
 	},
 /turf/open/floor/carpet,
 /area/command/meeting_room/council)
@@ -2025,14 +2038,14 @@
 	pixel_y = 21
 	},
 /obj/item/toy/talking/owl{
+	layer = 3.02;
 	pixel_x = -2;
-	pixel_y = 9;
-	layer = 3.02
+	pixel_y = 9
 	},
 /obj/item/phone{
 	desc = "Supposedly a direct line to Nanotrasen Central Command. It's not even plugged in.";
-	pixel_x = 9;
-	layer = 3.01
+	layer = 3.01;
+	pixel_x = 9
 	},
 /turf/open/floor/plasteel/dark/corner{
 	dir = 1
@@ -2062,8 +2075,8 @@
 /area/hallway/primary/central/low_level_centre)
 "xT" = (
 /obj/structure/sign/poster/official/random{
-	pixel_y = -32;
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = -32
 	},
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/central/low_level_centre)
@@ -2270,8 +2283,8 @@
 	},
 /obj/machinery/door/window/brigdoor/northleft{
 	name = "Captain's Desk";
-	req_access_txt = "20";
-	pixel_y = 3
+	pixel_y = 3;
+	req_access_txt = "20"
 	},
 /turf/open/floor/carpet,
 /area/command/heads_quarters/captain)
@@ -2416,8 +2429,8 @@
 	dir = 4
 	},
 /obj/machinery/door/firedoor,
-/obj/machinery/navbeacon/wayfinding,
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/navigate_destination/hop,
 /turf/open/floor/plasteel/monofloor/dark,
 /area/command/heads_quarters/hop)
 "CV" = (
@@ -2462,7 +2475,7 @@
 	dir = 4
 	},
 /obj/machinery/door/firedoor,
-/obj/machinery/navbeacon/wayfinding,
+/obj/effect/landmark/navigate_destination,
 /turf/open/floor/plasteel/monofloor/dark,
 /area/engineering/gravity_generator)
 "Dj" = (
@@ -2638,23 +2651,23 @@
 "Fn" = (
 /obj/structure/table/wood/poker,
 /obj/item/flashlight/lamp/green{
+	layer = 3.03;
 	pixel_x = -16;
-	pixel_y = -9;
-	layer = 3.03
+	pixel_y = -9
 	},
 /obj/item/toy/cards/deck{
-	pixel_x = 2;
-	layer = 3.02
+	layer = 3.02;
+	pixel_x = 2
 	},
 /obj/item/coin/gold{
+	layer = 3.01;
 	pixel_x = -10;
 	pixel_y = 4;
-	layer = 3.01;
 	random_position = 0
 	},
 /obj/item/coin/silver{
-	pixel_y = 1;
 	pixel_x = -4;
+	pixel_y = 1;
 	random_position = 0
 	},
 /turf/open/floor/carpet,
@@ -2789,19 +2802,13 @@
 	},
 /obj/structure/table/wood/fancy,
 /obj/item/food/grown/coffee{
-	pixel_x = -7;
 	dry_grind = 0;
-	grind_results = list(/datum/reagent/toxin/coffeepowder=30)
+	grind_results = list(/datum/reagent/toxin/coffeepowder=30);
+	pixel_x = -7
 	},
 /obj/machinery/reagentgrinder{
-	pixel_y = 8;
-	pixel_x = 6
-	},
-/obj/item/food/grown/coffee{
-	pixel_x = -10;
-	pixel_y = 4;
-	dry_grind = 0;
-	grind_results = list(/datum/reagent/toxin/coffeepowder=30)
+	pixel_x = 6;
+	pixel_y = 8
 	},
 /turf/open/floor/plasteel/monofloor/dark,
 /area/service/cafeteria)
@@ -2816,8 +2823,8 @@
 	pixel_y = 6
 	},
 /obj/item/reagent_containers/food/condiment/milk{
-	pixel_y = 6;
-	pixel_x = -5
+	pixel_x = -5;
+	pixel_y = 6
 	},
 /turf/open/floor/plasteel/monofloor/dark,
 /area/service/cafeteria)
@@ -2926,8 +2933,8 @@
 "Jb" = (
 /obj/structure/sign/directions/evac{
 	dir = 4;
-	pixel_y = 32;
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = 32
 	},
 /obj/structure/sign/directions/medical{
 	dir = 4;
@@ -2935,9 +2942,9 @@
 	pixel_y = 38
 	},
 /obj/structure/sign/directions/science{
-	pixel_y = 26;
 	dir = 4;
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = 26
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
@@ -3038,14 +3045,15 @@
 /obj/machinery/airalarm{
 	pixel_y = 23
 	},
-/obj/effect/spawner/random/food_or_drink/snack{
-	pixel_x = 6;
-	pixel_y = 4
-	},
 /obj/item/reagent_containers/food/drinks/coffee{
-	pixel_y = 7;
-	pixel_x = -11
+	pixel_x = -11;
+	pixel_y = 7
 	},
+/obj/item/food/chips{
+	pixel_x = 7;
+	pixel_y = 6
+	},
+/obj/item/food/donut/caramel,
 /turf/open/floor/plasteel/monofloor/dark,
 /area/hallway/primary/central/low_level_centre)
 "JO" = (
@@ -3163,9 +3171,6 @@
 /turf/closed/wall/r_wall,
 /area/command/corporate_showroom)
 "LC" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
 /obj/machinery/camera/autoname{
 	dir = 4;
 	view_range = 12
@@ -3359,23 +3364,23 @@
 /obj/structure/extinguisher_cabinet/directional/south,
 /obj/structure/table/wood,
 /obj/item/reagent_containers/food/drinks/britcup{
-	pixel_y = 10;
+	layer = 3.01;
 	pixel_x = 5;
-	layer = 3.01
+	pixel_y = 10
 	},
 /obj/item/clothing/mask/cigarette/pipe{
-	pixel_y = 1;
+	layer = 3.02;
 	pixel_x = 5;
-	layer = 3.02
+	pixel_y = 1
 	},
 /obj/item/folder/yellow{
-	pixel_y = 3;
-	pixel_x = -6
+	pixel_x = -6;
+	pixel_y = 3
 	},
 /obj/item/pen{
+	layer = 3.01;
 	pixel_x = -8;
-	pixel_y = -1;
-	layer = 3.01
+	pixel_y = -1
 	},
 /turf/open/floor/plasteel/monofloor/dark,
 /area/service/cafeteria)
@@ -3424,8 +3429,8 @@
 	},
 /obj/structure/table/wood,
 /obj/item/toy/plush/goatplushie{
-	pixel_x = 6;
-	layer = 3.01
+	layer = 3.01;
+	pixel_x = 6
 	},
 /obj/item/toy/plush/marfumoplushie{
 	pixel_x = -5;
@@ -3698,8 +3703,8 @@
 	},
 /obj/structure/sign/directions/vault{
 	dir = 1;
-	pixel_y = 32;
-	pixel_x = -32
+	pixel_x = -32;
+	pixel_y = 32
 	},
 /obj/structure/sign/directions/engineering{
 	pixel_x = -32;
@@ -3754,8 +3759,8 @@
 	},
 /obj/structure/railing/left,
 /obj/structure/sign/poster/official/random{
-	pixel_y = -32;
-	pixel_x = -32
+	pixel_x = -32;
+	pixel_y = -32
 	},
 /turf/open/floor/plasteel/monofloor/dark,
 /area/hallway/primary/central/low_level_centre)
@@ -3828,6 +3833,7 @@
 	dir = 8
 	},
 /obj/machinery/light,
+/obj/structure/closet/crate/graviton_beacon,
 /turf/open/floor/plasteel/monofloor/dark,
 /area/engineering/gravity_generator)
 "SF" = (
@@ -3846,9 +3852,9 @@
 	pixel_y = 7
 	},
 /obj/item/reagent_containers/food/condiment/peppermill{
+	layer = 3.01;
 	pixel_x = 2;
-	pixel_y = 2;
-	layer = 3.01
+	pixel_y = 2
 	},
 /turf/open/floor/carpet,
 /area/service/cafeteria)
@@ -3991,9 +3997,7 @@
 /area/maintenance/bottom_station_maints)
 "TV" = (
 /obj/machinery/firealarm/directional/south,
-/obj/structure/table,
-/obj/item/paper/guides/jobs/engi/gravity_gen,
-/obj/item/pen/blue,
+/obj/structure/closet/crate/jetpack,
 /turf/open/floor/plasteel/monofloor/dark,
 /area/engineering/gravity_generator)
 "TY" = (
@@ -4004,8 +4008,8 @@
 	view_range = 12
 	},
 /obj/structure/sign/poster/official/random{
-	pixel_y = 32;
-	pixel_x = -32
+	pixel_x = -32;
+	pixel_y = 32
 	},
 /turf/open/floor/plasteel/monofloor/dark,
 /area/hallway/primary/central/low_level_centre)
@@ -4018,9 +4022,9 @@
 	pixel_y = 7
 	},
 /obj/item/reagent_containers/food/condiment/peppermill{
+	layer = 3.01;
 	pixel_x = -1;
-	pixel_y = 2;
-	layer = 3.01
+	pixel_y = 2
 	},
 /turf/open/floor/carpet,
 /area/service/cafeteria)
@@ -4034,10 +4038,6 @@
 	},
 /turf/open/floor/carpet,
 /area/command/heads_quarters/captain)
-"Uq" = (
-/obj/effect/turf_decal/tile/blue,
-/turf/open/floor/plasteel/dark,
-/area/hallway/primary/central/low_level_centre)
 "Ur" = (
 /turf/open/floor/plasteel/dark/corner{
 	dir = 1
@@ -4220,22 +4220,22 @@
 	pixel_y = 3
 	},
 /obj/item/folder/blue{
+	layer = 3.02;
 	pixel_x = -8;
-	pixel_y = -2;
-	layer = 3.02
+	pixel_y = -2
 	},
 /obj/item/folder/yellow{
-	pixel_y = -1;
-	layer = 3.03
+	layer = 3.03;
+	pixel_y = -1
 	},
 /obj/item/pen{
+	layer = 3.05;
 	pixel_x = -3;
-	pixel_y = -8;
-	layer = 3.05
+	pixel_y = -8
 	},
 /obj/item/pen/blue{
-	pixel_y = -5;
-	layer = 3.04
+	layer = 3.04;
+	pixel_y = -5
 	},
 /turf/open/floor/carpet,
 /area/command/meeting_room/council)
@@ -4245,9 +4245,9 @@
 /area/maintenance/bottom_station_maints)
 "VX" = (
 /obj/structure/sign/directions/science{
-	pixel_y = 26;
 	dir = 4;
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = 26
 	},
 /obj/structure/sign/directions/medical{
 	dir = 4;
@@ -4256,8 +4256,8 @@
 	},
 /obj/structure/sign/directions/evac{
 	dir = 4;
-	pixel_y = 32;
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = 32
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
@@ -4347,8 +4347,8 @@
 	view_range = 12
 	},
 /obj/structure/sign/poster/official/random{
-	pixel_y = -32;
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = -32
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/central/low_level_centre)
@@ -4437,7 +4437,7 @@
 	name = "Head of Personnel";
 	req_access_txt = "57"
 	},
-/obj/machinery/navbeacon/wayfinding,
+/obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/monofloor/dark,
 /area/command/heads_quarters/hop)
 "Yf" = (
@@ -5063,7 +5063,7 @@ cL
 cL
 TJ
 IX
-Uq
+cL
 uq
 Sh
 LC
@@ -5938,7 +5938,7 @@ Zb
 fp
 QY
 aM
-fp
+qf
 Vh
 Dg
 SI

@@ -495,7 +495,7 @@
 	defib_instance = D
 	name = defib_instance.name
 	defib_instance.moveToNullspace()
-	RegisterSignal(defib_instance, list(COMSIG_PARENT_QDELETING, COMSIG_MOVABLE_MOVED), PROC_REF(on_defib_instance_qdel_or_moved))
+	RegisterSignals(defib_instance, list(COMSIG_PARENT_QDELETING, COMSIG_MOVABLE_MOVED), PROC_REF(on_defib_instance_qdel_or_moved))
 
 /obj/item/borg/upgrade/defib/backpack/proc/on_defib_instance_qdel_or_moved(obj/item/defibrillator/D)
 	defib_instance = null
@@ -544,7 +544,7 @@
 			to_chat(user, span_warning("Данный киборг уже является оболочкой ИИ!"))
 			return FALSE
 		if(R.key) //You cannot replace a player unless the key is completely removed.
-			to_chat(user, span_warning("Зарегестрирован интелект класса [R.braintype]. Отмена операции."))
+			to_chat(user, span_warning("Зарегестрирован интеллект класса [R.braintype]. Отмена операции."))
 			return FALSE
 
 		R.make_shell(src)

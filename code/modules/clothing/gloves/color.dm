@@ -1,11 +1,10 @@
 /obj/item/clothing/gloves/color
 	dying_key = DYE_REGISTRY_GLOVES
 	desc = "Пара обычных, ничем не выделяющихся перчаток."
+
 /obj/item/clothing/gloves/color/chief_engineer
+	name = "продвинутые изоляционные перчатки"
 	desc = "Резиновые перчатки с прекрасной электро- и теплоизоляцией. Настолько тонкие, что я едва чувствую их."
-	//desc = "These gloves provide excellent heat and electric insulation. They are so thin you can barely feel them."
-	name = "высококлассные изоляционные перчатки"
-	//name = "advanced insulated gloves"
 	icon_state = "ce_insuls"
 	inhand_icon_state = "lgloves"
 	siemens_coefficient = 0
@@ -15,8 +14,8 @@
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 
 /obj/item/clothing/gloves/color/yellow
-	desc = "Эти перчатки защитят пользователя от поражения электрическим током. Очень толстые, пострелять с такими не получится."
 	name = "резиновые перчатки"
+	desc = "Эти перчатки защитят пользователя от поражения электрическим током. Очень толстые, пострелять с такими не получится."
 	icon_state = "yellow"
 	inhand_icon_state = "ygloves"
 	siemens_coefficient = 0
@@ -264,7 +263,7 @@
 	inhand_icon_state = "aerostatic_gloves"
 
 /obj/item/clothing/gloves/maid
-	name = "maid arm covers"
-	desc = "Cylindrical looking tubes that go over your arm, weird."
+	name = "нарукавники служанки"
+	desc = "Нарукавники цилиндрического вида, миленько."
 	icon_state = "maid_arms"
 	worn_icon_state = "maid_arms"

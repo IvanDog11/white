@@ -1134,7 +1134,7 @@
 /obj/effect/turf_decal/stripes{
 	dir = 4
 	},
-/obj/machinery/portable_atmospherics/canister/toxins,
+/obj/machinery/portable_atmospherics/canister/plasma,
 /turf/open/floor/plasteel/tg/dark,
 /area/science/mixing)
 "ayo" = (
@@ -3136,11 +3136,11 @@
 	icon_state = "plating"
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 1
 	},
-/obj/structure/window/reinforced/shuttle/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram,
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
 /turf/open/openspace,
@@ -4252,14 +4252,14 @@
 	icon_state = "plating"
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram,
+/obj/structure/window/reinforced/tram{
 	dir = 1
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
 /turf/open/openspace,
@@ -4548,9 +4548,8 @@
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
 /obj/machinery/meter,
-/obj/machinery/airalarm/engine{
-	pixel_y = -24
-	},
+/obj/machinery/airalarm/directional/south,
+/obj/effect/mapping_helpers/airalarm/engine_access,
 /obj/structure/cable/layer3,
 /turf/open/floor/engine,
 /area/engineering/supermatter)
@@ -6235,10 +6234,8 @@
 /obj/machinery/atmospherics/components/binary/pump{
 	dir = 4
 	},
-/obj/machinery/airalarm/mixingchamber{
-	dir = 1;
-	pixel_y = 24
-	},
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/mixingchamber_access,
 /turf/open/floor/plasteel/tg/white,
 /area/science/mixing/chamber)
 "clu" = (
@@ -7458,11 +7455,11 @@
 	icon_state = "plating"
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 1
 	},
-/obj/structure/window/reinforced/shuttle/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram,
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
 /turf/open/openspace,
@@ -8792,9 +8789,7 @@
 /area/maintenance/aft)
 "deW" = (
 /obj/effect/mapping_helpers/airlock/locked,
-/obj/machinery/door/airlock/research/glass/incinerator/toxmix_interior{
-	critical_machine = 1
-	},
+/obj/machinery/door/airlock/research/glass/incinerator/ordmix_interior,
 /turf/open/floor/engine,
 /area/science/mixing/chamber)
 "dfc" = (
@@ -8831,7 +8826,7 @@
 /turf/open/floor/carpet,
 /area/cargo/miningdock)
 "dfP" = (
-/obj/machinery/rnd/production/techfab/department/service,
+/obj/machinery/mecha_part_fabricator/service,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/plasteel,
 /area/hallway/secondary/service)
@@ -8921,7 +8916,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible,
-/obj/machinery/computer/atmos_control/tank/nitrous_tank{
+/obj/machinery/computer/atmos_control/nitrous_tank{
 	dir = 8
 	},
 /turf/open/floor/plasteel,
@@ -9386,8 +9381,8 @@
 	dir = 2;
 	dwidth = 11;
 	height = 22;
-	name = "SS13: Auxiliary Dock, Station-Port";
 	id = "whiteship_home";
+	name = "SS13: Auxiliary Dock, Station-Port";
 	width = 35
 	},
 /turf/open/space/openspace,
@@ -10422,13 +10417,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel,
 /area/cargo/storage)
-"dFz" = (
-/obj/structure/industrial_lift/tram{
-	icon_state = "titanium_white"
-	},
-/obj/machinery/door/window/right/tram,
-/turf/open/openspace,
-/area/hallway/primary/tram/center)
 "dFG" = (
 /obj/effect/turf_decal/trimline/white/filled/line{
 	dir = 4
@@ -14258,9 +14246,7 @@
 /turf/open/floor/wood,
 /area/service/bar)
 "fax" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/toxin_input{
-	dir = 8
-	},
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/plasma_input,
 /turf/open/floor/engine/plasma,
 /area/engineering/atmos)
 "faC" = (
@@ -14523,11 +14509,11 @@
 	pixel_x = 20
 	},
 /obj/machinery/door/window{
-	obj_integrity = 300;
 	base_state = "rightsecure";
 	dir = 1;
 	icon_state = "rightsecure";
 	name = "Primary AI Core Access";
+	obj_integrity = 300;
 	req_access = list("ai_upload")
 	},
 /obj/structure/cable,
@@ -14674,9 +14660,8 @@
 /turf/open/floor/wood,
 /area/service/bar)
 "fiv" = (
-/obj/machinery/airalarm/kitchen_cold_room{
-	pixel_y = -24
-	},
+/obj/machinery/airalarm/directional/south,
+/obj/effect/mapping_helpers/airalarm/tlv_cold_room,
 /turf/open/floor/plasteel/catwalk_floor,
 /area/service/kitchen/coldroom)
 "fiy" = (
@@ -14750,11 +14735,11 @@
 	icon_state = "plating"
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram,
+/obj/structure/window/reinforced/tram{
 	dir = 1
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
 /turf/open/openspace,
@@ -16384,6 +16369,13 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/plasteel,
 /area/security/brig)
+"fQC" = (
+/obj/structure/industrial_lift/tram{
+	icon_state = "titanium_white"
+	},
+/obj/machinery/door/window/tram/right/directional/north,
+/turf/open/openspace,
+/area/hallway/primary/tram/center)
 "fQK" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 8
@@ -16764,10 +16756,8 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/box/red,
-/obj/machinery/airalarm/mixingchamber{
-	dir = 1;
-	pixel_y = 24
-	},
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/mixingchamber_access,
 /turf/open/floor/plasteel/tg/white,
 /area/science/mixing/chamber)
 "fYf" = (
@@ -17492,9 +17482,9 @@
 /obj/docking_port/stationary{
 	dwidth = 2;
 	height = 5;
+	id = "laborcamp_home";
 	name = "fore bay 1";
 	roundstart_template = /datum/map_template/shuttle/labour/box;
-	id = "laborcamp_home";
 	width = 9
 	},
 /turf/open/floor/plating/asteroid/airless,
@@ -21563,9 +21553,9 @@
 	dir = 8;
 	dwidth = 3;
 	height = 15;
+	id = "arrivals_stationary";
 	name = "arrivals";
 	roundstart_template = /datum/map_template/shuttle/arrival/box;
-	id = "arrivals_stationary";
 	width = 7
 	},
 /turf/open/space/openspace,
@@ -23354,7 +23344,7 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "isN" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nitrous_input{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/nitrous_input{
 	dir = 8
 	},
 /turf/open/floor/engine/n2o,
@@ -25216,10 +25206,10 @@
 	dir = 4
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
 /turf/open/floor/vault,
@@ -25657,7 +25647,7 @@
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "jhy" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nitrogen_input{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/nitrogen_input{
 	dir = 1
 	},
 /turf/open/floor/engine/n2,
@@ -25728,11 +25718,11 @@
 	icon_state = "plating"
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram,
+/obj/structure/window/reinforced/tram{
 	dir = 1
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
 /turf/open/openspace,
@@ -26683,8 +26673,8 @@
 /area/medical/pharmacy)
 "jyM" = (
 /obj/machinery/power/turbine{
-	luminosity = 2;
-	dir = 4
+	dir = 4;
+	luminosity = 2
 	},
 /turf/open/floor/engine,
 /area/maintenance/disposal/incinerator)
@@ -30991,10 +30981,8 @@
 /turf/open/floor/plasteel/tg/dark,
 /area/security/main/evidence)
 "kYZ" = (
-/obj/machinery/airalarm/server{
-	dir = 4;
-	pixel_x = 22
-	},
+/obj/machinery/airalarm/directional/east,
+/obj/effect/mapping_helpers/airalarm/tlv_no_checks,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
 "kZh" = (
@@ -31865,8 +31853,8 @@
 "lpg" = (
 /obj/docking_port/stationary/random{
 	dir = 4;
-	name = "lavaland";
-	id = "pod_lavaland"
+	id = "pod_lavaland";
+	name = "lavaland"
 	},
 /turf/open/floor/plating/asteroid/airless,
 /area/mine/explored)
@@ -32299,8 +32287,8 @@
 "lvO" = (
 /obj/docking_port/stationary/random{
 	dir = 8;
-	name = "lavaland";
-	id = "pod_lavaland"
+	id = "pod_lavaland";
+	name = "lavaland"
 	},
 /turf/open/space/openspace,
 /area/space)
@@ -33940,7 +33928,7 @@
 	icon_state = "plating"
 	},
 /obj/structure/tramwall/titanium,
-/obj/structure/shuttle/engine/propulsion/in_wall/tram{
+/obj/structure/shuttle/engine/propulsion{
 	dir = 4;
 	pixel_x = 32
 	},
@@ -33977,8 +33965,8 @@
 "mbe" = (
 /obj/machinery/camera/motion/directional/south{
 	c_tag = "Secure - AI Lower External North";
-	network = list("ss13","minisat");
-	dir = 10
+	dir = 10;
+	network = list("ss13","minisat")
 	},
 /turf/open/space/basic,
 /area/ai_monitored/turret_protected/aisat/foyer)
@@ -34384,7 +34372,7 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/bridge_pipe/green/visible,
-/obj/machinery/computer/atmos_control/tank/carbon_tank{
+/obj/machinery/computer/atmos_control/carbon_tank{
 	dir = 8
 	},
 /turf/open/floor/plasteel,
@@ -35214,7 +35202,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/computer/atmos_control/tank/oxygen_tank{
+/obj/machinery/computer/atmos_control/oxygen_tank{
 	dir = 1
 	},
 /turf/open/floor/plasteel,
@@ -36636,6 +36624,13 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/plasteel,
 /area/security/prison/safe)
+"mQC" = (
+/obj/structure/industrial_lift/tram{
+	icon_state = "titanium_white"
+	},
+/obj/machinery/door/window/tram/left/directional/south,
+/turf/open/openspace,
+/area/hallway/primary/tram/center)
 "mQE" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -38094,8 +38089,8 @@
 	dir = 8;
 	dwidth = 2;
 	height = 13;
-	name = "port bay 2";
 	id = "ferry_home";
+	name = "port bay 2";
 	width = 5
 	},
 /turf/open/space/openspace,
@@ -39495,7 +39490,7 @@
 /turf/open/floor/plasteel/tg/white,
 /area/science/misc_lab)
 "nVC" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/siphon/atmos/air_output{
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/siphon/monitored/air_output{
 	dir = 1
 	},
 /turf/open/floor/engine/air,
@@ -40524,7 +40519,7 @@
 /turf/open/floor/plasteel,
 /area/cargo/office)
 "opc" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/mix_input{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/mix_input{
 	dir = 8
 	},
 /turf/open/floor/engine/vacuum,
@@ -41866,7 +41861,7 @@
 /obj/structure/industrial_lift/tram{
 	icon_state = "titanium_white"
 	},
-/obj/machinery/door/window/left/tram,
+/obj/machinery/door/window/tram/left/directional/north,
 /turf/open/openspace,
 /area/hallway/primary/tram/center)
 "oPw" = (
@@ -42227,7 +42222,7 @@
 	icon_state = "plating"
 	},
 /obj/structure/tramwall/titanium,
-/obj/structure/shuttle/engine/propulsion/in_wall/tram{
+/obj/structure/shuttle/engine/propulsion{
 	dir = 8;
 	pixel_x = -32
 	},
@@ -43496,8 +43491,8 @@
 /obj/docking_port/stationary{
 	dwidth = 5;
 	height = 7;
-	name = "Cargo Bay";
 	id = "cargo_home";
+	name = "Cargo Bay";
 	width = 12
 	},
 /turf/open/floor/plating/asteroid/airless,
@@ -44434,7 +44429,7 @@
 /turf/closed/wall/r_wall,
 /area/ai_monitored/turret_protected/ai)
 "pJd" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nitrogen_output{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/nitrogen_output{
 	dir = 1
 	},
 /turf/open/floor/engine/n2,
@@ -46041,9 +46036,7 @@
 /area/ai_monitored/turret_protected/aisat/foyer)
 "qje" = (
 /obj/effect/mapping_helpers/airlock/locked,
-/obj/machinery/door/airlock/research/glass/incinerator/toxmix_exterior{
-	critical_machine = 1
-	},
+/obj/machinery/door/airlock/research/glass/incinerator/ordmix_exterior,
 /turf/open/floor/engine,
 /area/science/mixing/chamber)
 "qjf" = (
@@ -47609,9 +47602,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible,
-/obj/machinery/computer/atmos_control/tank/toxin_tank{
-	dir = 8
-	},
+/obj/machinery/computer/atmos_control/plasma_tank,
 /turf/open/floor/plasteel,
 /area/engineering/atmos)
 "qMx" = (
@@ -47626,7 +47617,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/computer/atmos_control/tank/air_tank{
+/obj/machinery/computer/atmos_control/air_tank{
 	dir = 1
 	},
 /turf/open/floor/plasteel,
@@ -48260,7 +48251,7 @@
 /turf/open/floor/plasteel,
 /area/cargo/miningdock)
 "qYY" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/oxygen_input{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/oxygen_input{
 	dir = 1
 	},
 /turf/open/floor/engine/o2,
@@ -48629,10 +48620,10 @@
 	dir = 8
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
 /turf/open/floor/vault,
@@ -49413,8 +49404,8 @@
 "rva" = (
 /obj/machinery/camera/motion/directional/south{
 	c_tag = "Secure - AI Upper External North";
-	network = list("aicore");
-	dir = 1
+	dir = 1;
+	network = list("aicore")
 	},
 /turf/open/floor/engine/hull/reinforced,
 /area/ai_monitored/turret_protected/aisat/hallway)
@@ -52001,10 +51992,10 @@
 	dir = 1
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
 /turf/open/openspace,
@@ -52271,9 +52262,7 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold/scrubbers/hidden,
-/obj/machinery/airlock_sensor/incinerator_toxmix{
-	pixel_y = 24
-	},
+/obj/machinery/airlock_sensor/incinerator_ordmix,
 /turf/open/floor/engine,
 /area/science/mixing/chamber)
 "sun" = (
@@ -52504,13 +52493,6 @@
 "syv" = (
 /turf/closed/wall/r_wall,
 /area/security/checkpoint/science)
-"syy" = (
-/obj/structure/industrial_lift/tram{
-	icon_state = "titanium_white"
-	},
-/obj/machinery/door/window/left/tram/directional/north,
-/turf/open/openspace,
-/area/hallway/primary/tram/center)
 "syF" = (
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 1
@@ -52686,9 +52668,7 @@
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	piping_layer = 2
 	},
-/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_toxmix{
-	pixel_x = -24
-	},
+/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_ordmix,
 /turf/open/floor/plasteel/tg/white,
 /area/science/mixing/chamber)
 "sDo" = (
@@ -52717,14 +52697,14 @@
 	icon_state = "plating"
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 1
 	},
-/obj/structure/window/reinforced/shuttle/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram,
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
 /turf/open/openspace,
@@ -52774,16 +52754,16 @@
 	},
 /obj/structure/fluff/tram_rail,
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
 /turf/open/openspace,
 /area/hallway/primary/tram/center)
 "sEY" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/carbon_output{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/carbon_output{
 	dir = 8
 	},
 /turf/open/floor/engine/co2,
@@ -54380,7 +54360,7 @@
 /turf/open/floor/plasteel,
 /area/security/prison)
 "tkN" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/carbon_input{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/carbon_input{
 	dir = 8
 	},
 /turf/open/floor/engine/co2,
@@ -55518,7 +55498,7 @@
 /turf/open/floor/plasteel/tg/dark,
 /area/service/chapel/office)
 "tCD" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/air_input{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/air_input{
 	dir = 1
 	},
 /turf/open/floor/engine/air,
@@ -56070,9 +56050,7 @@
 /turf/open/floor/plasteel/tg/white,
 /area/science)
 "tMY" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/toxins_mixing_input{
-	dir = 8
-	},
+/obj/machinery/atmospherics/components/unary/outlet_injector,
 /turf/open/floor/engine/vacuum,
 /area/science/mixing/chamber)
 "tNf" = (
@@ -56749,9 +56727,7 @@
 /turf/open/floor/plasteel/tg/showroomfloor,
 /area/security/warden)
 "ubj" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/toxin_output{
-	dir = 8
-	},
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/plasma_output,
 /turf/open/floor/engine/plasma,
 /area/engineering/atmos)
 "ubx" = (
@@ -56772,7 +56748,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold/green/visible{
 	dir = 1
 	},
-/obj/machinery/computer/atmos_control/tank/mix_tank{
+/obj/machinery/computer/atmos_control/mix_tank{
 	dir = 8
 	},
 /turf/open/floor/plasteel,
@@ -57439,7 +57415,7 @@
 /turf/open/floor/plasteel/tg/dark,
 /area/maintenance/radshelter/civil)
 "uok" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/mix_output{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/mix_output{
 	dir = 8;
 	on = 0
 	},
@@ -57498,7 +57474,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/computer/atmos_control/tank/nitrogen_tank{
+/obj/machinery/computer/atmos_control/nitrogen_tank{
 	dir = 1
 	},
 /turf/open/floor/plasteel,
@@ -59213,7 +59189,7 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/service)
 "uUN" = (
-/obj/machinery/portable_atmospherics/canister/toxins,
+/obj/machinery/portable_atmospherics/canister/plasma,
 /turf/open/floor/plasteel/tg/dark,
 /area/science/mixing)
 "uUO" = (
@@ -59748,15 +59724,9 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/obj/machinery/button/door/incinerator_vent_toxmix{
-	pixel_x = -25;
-	pixel_y = 5
-	},
-/obj/machinery/button/ignition/incinerator/toxmix{
-	pixel_x = -25;
-	pixel_y = -5
-	},
-/obj/machinery/computer/atmos_control/toxinsmix,
+/obj/machinery/button/door/incinerator_vent_ordmix,
+/obj/machinery/button/ignition/incinerator/ordmix,
+/obj/machinery/computer/atmos_control/ordnancemix,
 /turf/open/floor/plasteel/tg/white,
 /area/science/mixing/chamber)
 "veV" = (
@@ -61572,8 +61542,8 @@
 	dir = 4;
 	dwidth = 12;
 	height = 18;
-	name = "Tramstation emergency evac bay";
 	id = "emergency_home";
+	name = "Tramstation emergency evac bay";
 	width = 32
 	},
 /turf/open/space/openspace,
@@ -62264,13 +62234,6 @@
 "wbb" = (
 /turf/open/floor/plasteel,
 /area/commons/dorms)
-"wbt" = (
-/obj/structure/industrial_lift/tram{
-	icon_state = "titanium_white"
-	},
-/obj/machinery/door/window/right/tram/directional/north,
-/turf/open/openspace,
-/area/hallway/primary/tram/center)
 "wbx" = (
 /obj/effect/turf_decal/trimline/brown/filled/corner{
 	dir = 1
@@ -62411,7 +62374,7 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/command)
 "wdQ" = (
-/obj/machinery/door/poddoor/incinerator_toxmix,
+/obj/machinery/door/poddoor/incinerator_ordmix,
 /turf/open/floor/engine/vacuum,
 /area/science/mixing/chamber)
 "wdT" = (
@@ -63516,7 +63479,7 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/central)
 "wzc" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/oxygen_output{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/oxygen_output{
 	dir = 1
 	},
 /turf/open/floor/engine/o2,
@@ -64246,10 +64209,8 @@
 /turf/open/floor/plasteel,
 /area/cargo/miningdock)
 "wMQ" = (
-/obj/machinery/airalarm/all_access{
-	dir = 4;
-	pixel_x = 24
-	},
+/obj/machinery/airalarm/directional/east,
+/obj/effect/mapping_helpers/airalarm/all_access,
 /obj/structure/cable/layer1,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel,
@@ -66306,10 +66267,10 @@
 	dir = 1
 	},
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
 /turf/open/openspace,
@@ -66452,6 +66413,13 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /turf/open/floor/plasteel/tg/white,
 /area/science/lab)
+"xxP" = (
+/obj/structure/industrial_lift/tram{
+	icon_state = "titanium_white"
+	},
+/obj/machinery/door/window/tram/right/directional/south,
+/turf/open/openspace,
+/area/hallway/primary/tram/center)
 "xxR" = (
 /obj/machinery/disposal/bin,
 /obj/effect/turf_decal/trimline/green/filled/line{
@@ -67179,7 +67147,7 @@
 /turf/closed/wall/r_wall,
 /area/science/genetics)
 "xNZ" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nitrous_output{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored/nitrous_output{
 	dir = 8
 	},
 /turf/open/floor/engine/n2o,
@@ -67737,10 +67705,10 @@
 	},
 /obj/structure/fluff/tram_rail,
 /obj/structure/grille/tram,
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 4
 	},
-/obj/structure/window/reinforced/shuttle/tram{
+/obj/structure/window/reinforced/tram{
 	dir = 8
 	},
 /turf/open/openspace,
@@ -165615,11 +165583,11 @@ mlx
 nfD
 dTr
 hmY
-syy
+oPr
 rPU
 sOY
 biX
-oPr
+mQC
 gqS
 lNQ
 vJF
@@ -165872,11 +165840,11 @@ beW
 vrF
 dhw
 vSM
-wbt
+fQC
 rPU
 kld
 biX
-dFz
+xxP
 vIq
 mMY
 eHk
@@ -166386,11 +166354,11 @@ beW
 gKo
 dTr
 jJV
-syy
+oPr
 rPU
 sOY
 biX
-oPr
+mQC
 oCC
 pWt
 buT
@@ -166643,11 +166611,11 @@ gWq
 wMY
 dhw
 uvD
-wbt
+fQC
 rPU
 sOY
 biX
-dFz
+xxP
 mnV
 dvI
 vJF

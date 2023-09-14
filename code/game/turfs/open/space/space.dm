@@ -13,7 +13,10 @@
 	thermal_conductivity = OPEN_HEAT_TRANSFER_COEFFICIENT
 	heat_capacity = 700000
 
-	var/static/datum/gas_mixture/immutable/space/space_gas
+	var/static/datum/gas_mixture/immutable/space/space_gas = new
+	// We do NOT want atmos adjacent turfs
+	init_air = FALSE
+	run_later = TRUE
 	plane = PLANE_SPACE
 	layer = SPACE_LAYER
 	light_power = 0.75
@@ -47,14 +50,13 @@
 	if(!space_gas)
 		space_gas = new
 	air = space_gas
-	update_air_ref(0)
 	if(flags_1 & INITIALIZED_1)
 		stack_trace("Warning: [src]([type]) initialized multiple times!")
 	flags_1 |= INITIALIZED_1
 
 	// We make the assumption that the space plane will never be blacklisted, as an optimization
 	if(SSmapping.max_plane_offset)
-		plane = PLANE_SPACE - (PLANE_RANGE * SSmapping.z_level_to_plane_offset?[z]) // 2 *
+		plane = PLANE_SPACE - (PLANE_RANGE * SSmapping.z_level_to_plane_offset[z])
 
 	var/area/our_area = loc
 	if(!our_area.area_has_base_lighting && space_lit) //Only provide your own lighting if the area doesn't for you
@@ -100,14 +102,20 @@
 	return null
 
 /turf/open/space/proc/update_starlight()
-	if(CONFIG_GET(flag/starlight))
-		for(var/t in RANGE_TURFS(1,src)) //RANGE_TURFS is in code\__HELPERS\game.dm
-			if(isspaceturf(t) || isopenspace(t))
-				//let's NOT update this that much pls
-				continue
-			set_light(2)
-			return
-		set_light(0)
+	for(var/t in RANGE_TURFS(1,src)) //RANGE_TURFS is in code\__HELPERS\game.dm
+		// I've got a lot of cordons near spaceturfs, be good kids
+		if(isspaceturf(t) || istype(t, /turf/cordon))
+			//let's NOT update this that much pls
+			continue
+		enable_starlight()
+		return TRUE
+	set_light(0)
+	return FALSE
+
+/// Turns on the stars, if they aren't already
+/turf/open/space/proc/enable_starlight()
+	if(!light_range)
+		set_light(2)
 
 /turf/open/space/attack_paw(mob/user)
 	return attack_hand(user)
@@ -253,7 +261,6 @@
 /turf/open/space/openspace/Initialize(mapload) // handle plane and layer here so that they don't cover other obs/turfs in Dream Maker
 	. = ..()
 	icon_state = "invisible"
-	update_starlight()
 	return INITIALIZE_HINT_LATELOAD
 
 /turf/open/space/openspace/LateInitialize()
@@ -294,16 +301,25 @@
 		return TRUE
 	return FALSE
 
-/turf/open/space/openspace/update_starlight()
-	if(!CONFIG_GET(flag/starlight))
-		return
+/turf/open/space/openspace/enable_starlight()
 	var/turf/below = SSmapping.get_turf_below(src)
+	// Override = TRUE beacuse we could have our starlight updated many times without a failure, which'd trigger this
+	RegisterSignal(below, COMSIG_TURF_CHANGE, PROC_REF(on_below_change), override = TRUE)
 	if(!isspaceturf(below))
 		return
-	for(var/t in RANGE_TURFS(1,src)) //RANGE_TURFS is in code\__HELPERS\game.dm
-		if(isspaceturf(t))
-			//let's NOT update this that much pls
-			continue
-		set_light(2)
+	set_light(2)
+
+/turf/open/space/openspace/update_starlight()
+	. = ..()
+	if(.)
 		return
-	set_light(0)
+	// If we're here, the starlight is not to be
+	var/turf/below = SSmapping.get_turf_below(src)
+	UnregisterSignal(below, COMSIG_TURF_CHANGE)
+
+/turf/open/space/openspace/proc/on_below_change(turf/source, path, list/new_baseturfs, flags, list/post_change_callbacks)
+	SIGNAL_HANDLER
+	if(isspaceturf(source) && !ispath(path, /turf/open/space))
+		set_light(2)
+	else if(!isspaceturf(source) && ispath(path, /turf/open/space))
+		set_light(0)

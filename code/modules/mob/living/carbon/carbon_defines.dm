@@ -32,6 +32,8 @@
 	var/obj/item/clothing/mask/wear_mask = null
 	var/obj/item/clothing/neck/wear_neck = null
 	var/obj/item/tank/internal = null
+	/// "External" air tank. Never set this manually. Not required to stay directly equipped on the mob (i.e. could be a machine or MOD suit module).
+	var/obj/item/tank/external = null
 	var/obj/item/clothing/head = null
 
 	///only used by humans
@@ -119,3 +121,5 @@
 	var/shock_penalty = 0
 	/// Last time we got a major wound (crippling shock)
 	var/last_crippling_shock = 0
+
+	var/is_leaning = FALSE

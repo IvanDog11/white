@@ -35,7 +35,7 @@ DEFINE_BITFIELD(turret_flags, list(
 	idle_power_usage = BASE_MACHINE_IDLE_CONSUMPTION * 0.15
 	req_access = list(ACCESS_SECURITY) /// Only people with Security access
 	power_channel = AREA_USAGE_EQUIP	//drains power from the EQUIPMENT channel
-	max_integrity = 160		//the turret's health
+	max_integrity = 200		//the turret's health
 	integrity_failure = 0.5
 	armor = list(MELEE = 50, BULLET = 30, LASER = 30, ENERGY = 30, BOMB = 30, BIO = 0, RAD = 0, FIRE = 90, ACID = 90)
 	base_icon_state = "standard"
@@ -647,7 +647,7 @@ DEFINE_BITFIELD(turret_flags, list(
 
 /datum/action/turret_toggle
 	name = "Toggle Mode"
-	icon_icon = 'icons/mob/actions/actions_mecha.dmi'
+	button_icon = 'icons/mob/actions/actions_mecha.dmi'
 	button_icon_state = "mech_cycle_equip_off"
 
 /datum/action/turret_toggle/Trigger(trigger_flags)
@@ -658,7 +658,7 @@ DEFINE_BITFIELD(turret_flags, list(
 
 /datum/action/turret_quit
 	name = "Release Control"
-	icon_icon = 'icons/mob/actions/actions_mecha.dmi'
+	button_icon = 'icons/mob/actions/actions_mecha.dmi'
 	button_icon_state = "mech_eject"
 
 /datum/action/turret_quit/Trigger(trigger_flags)

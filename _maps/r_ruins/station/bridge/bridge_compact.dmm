@@ -1344,6 +1344,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
 	},
+/obj/structure/closet/crate/graviton_beacon,
 /turf/open/floor/plasteel/monofloor,
 /area/engineering/gravity_generator)
 "ea" = (
@@ -1356,6 +1357,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
 	},
+/obj/structure/closet/crate/jetpack,
 /turf/open/floor/plasteel/monofloor,
 /area/engineering/gravity_generator)
 "eb" = (
@@ -1373,6 +1375,7 @@
 	dir = 4
 	},
 /obj/machinery/door/firedoor,
+/obj/effect/landmark/navigate_destination/teleporter,
 /turf/open/floor/plasteel,
 /area/command/teleporter)
 "ee" = (
@@ -2106,6 +2109,7 @@
 	req_access_txt = "57"
 	},
 /obj/machinery/door/firedoor,
+/obj/effect/landmark/navigate_destination/hop,
 /turf/open/floor/plasteel,
 /area/command/heads_quarters/hop)
 "gk" = (
@@ -3732,6 +3736,7 @@
 	pixel_x = 28;
 	pixel_y = 5
 	},
+/obj/item/storage/ashtray/bronze,
 /turf/open/floor/carpet,
 /area/command/heads_quarters/captain)
 "Fd" = (

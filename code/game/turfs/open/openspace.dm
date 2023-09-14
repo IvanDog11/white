@@ -8,7 +8,6 @@
 	//canSmoothWith = list(SMOOTH_GROUP_OPENSPACE)
 	//smoothing_groups = list(SMOOTH_GROUP_OPENSPACE)
 	baseturfs = /turf/open/openspace
-	can_atmos_passVertical = ATMOS_PASS_YES
 	intact = FALSE //this means wires go on top
 	pathing_pass_method = TURF_PATHING_PASS_PROC
 	//mouse_opacity = MOUSE_OPACITY_TRANSPARENT
@@ -191,7 +190,7 @@
 			return TRUE
 	return FALSE
 
-/turf/open/openspace/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+/turf/open/openspace/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller, no_id)
 	if(caller && !caller.can_z_move(DOWN, src, null , ZMOVE_FALL_FLAGS)) //If we can't fall here (flying/lattice), it's fine to path through
 		return TRUE
 	return FALSE

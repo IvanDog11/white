@@ -72,7 +72,7 @@ GLOBAL_LIST_EMPTY(violence_gear_datums)
 /datum/violence_gear/melee/sabre
 	name = "Сабля"
 	cost = 225
-	items = list(/obj/item/melee/sabre/german)
+	items = list(/obj/item/melee/sabre)
 	allowed_themes = list(VIOLENCE_THEME_STD)
 
 /datum/violence_gear/melee/katana
@@ -371,6 +371,12 @@ GLOBAL_LIST_EMPTY(violence_gear_datums)
 	name = "Кусачки"
 	cost = 35
 	items = list(/obj/item/wirecutters)
+
+/datum/violence_gear/misc/flare
+	name = "Сигнальная шашка"
+	cost = 40
+	items = list(/obj/item/flashlight/flare)
+	allowed_themes = list(VIOLENCE_THEME_STD, VIOLENCE_THEME_WARFARE, VIOLENCE_THEME_HOTLINE, VIOLENCE_THEME_KATANA, VIOLENCE_THEME_PORTAL)
 
 /datum/violence_gear/misc/teargas
 	name = "Перцовый газ"

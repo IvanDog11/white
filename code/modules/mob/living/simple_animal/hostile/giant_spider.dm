@@ -317,8 +317,9 @@
 	not_hivemind_talk.Grant(src)
 
 /datum/action/innate/spider
-	icon_icon = 'icons/mob/actions/actions_animal.dmi'
+	button_icon = 'icons/mob/actions/actions_animal.dmi'
 	background_icon_state = "bg_alien"
+	overlay_icon_state = "bg_alien_border"
 
 /datum/action/innate/spider/lay_web
 	name = "Сплести паутину"
@@ -326,7 +327,7 @@
 	check_flags = AB_CHECK_CONSCIOUS
 	button_icon_state = "lay_web"
 
-/datum/action/innate/spider/lay_web/IsAvailable()
+/datum/action/innate/spider/lay_web/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -377,7 +378,8 @@
 	name = "Опутать"
 	desc = "Позволяет оплести жертву паутиной и тем самым подготовить ее в качестве пищи для паучат гвардейцев."
 	background_icon_state = "bg_alien"
-	icon_icon = 'icons/mob/actions/actions_animal.dmi'
+	overlay_icon_state = "bg_alien_border"
+	button_icon = 'icons/mob/actions/actions_animal.dmi'
 	button_icon_state = "wrap_0"
 	check_flags = AB_CHECK_CONSCIOUS
 	click_to_activate = TRUE
@@ -385,7 +387,7 @@
 	/// The time it takes to wrap something.
 	var/wrap_time = 5 SECONDS
 
-/datum/action/cooldown/wrap/IsAvailable()
+/datum/action/cooldown/wrap/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -402,7 +404,7 @@
 
 	to_chat(on_who, span_notice("Подготавливаю паутиновые железы. <B>Left-click your target to start wrapping!</B>"))
 	button_icon_state = "wrap_0"
-	UpdateButtons()
+	build_all_button_icons()
 
 /datum/action/cooldown/wrap/unset_click_ability(mob/on_who, refund_cooldown = TRUE)
 	. = ..()
@@ -412,7 +414,7 @@
 	if(refund_cooldown)
 		to_chat(on_who, span_notice("Скрываю паутиновые железы."))
 	button_icon_state = "wrap_1"
-	UpdateButtons()
+	build_all_button_icons()
 
 /datum/action/cooldown/wrap/Activate(atom/to_wrap)
 	if(!owner.Adjacent(to_wrap))
@@ -456,7 +458,7 @@
 				var/datum/action/innate/spider/lay_eggs/enriched/egg_power = locate() in owner.actions
 				if(egg_power)
 					egg_power.charges++
-					egg_power.UpdateButtons()
+					egg_power.build_all_button_icons()
 					owner.visible_message(
 						span_danger("[owner] втыкает хоботок в [living_wrapped] и высасывает всякое из него."),
 						span_notice("Сосу вкусняху из [living_wrapped], теперь можно произвести более сильное потомство."),
@@ -483,7 +485,7 @@
 	///The type of egg we create
 	var/egg_type = /obj/effect/mob_spawn/spider
 
-/datum/action/innate/spider/lay_eggs/IsAvailable()
+/datum/action/innate/spider/lay_eggs/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -515,7 +517,7 @@
 			var/obj/effect/mob_spawn/spider/new_eggs = new egg_type(get_turf(spider))
 			new_eggs.directive = spider.directive
 			new_eggs.faction = spider.faction
-			UpdateButtons(TRUE)
+			build_all_button_icons(UPDATE_BUTTON_STATUS)
 
 	spider.stop_automated_movement = FALSE
 
@@ -527,7 +529,7 @@
 	/// How many charges we have to make eggs
 	var/charges = 0
 
-/datum/action/innate/spider/lay_eggs/enriched/IsAvailable()
+/datum/action/innate/spider/lay_eggs/enriched/IsAvailable(feedback = FALSE)
 	return ..() && (charges > 0)
 
 /datum/action/innate/spider/set_directive
@@ -536,7 +538,7 @@
 	check_flags = AB_CHECK_CONSCIOUS
 	button_icon_state = "directive"
 
-/datum/action/innate/spider/set_directive/IsAvailable()
+/datum/action/innate/spider/set_directive/IsAvailable(feedback = FALSE)
 	return ..() && istype(owner, /mob/living/simple_animal/hostile/giant_spider)
 
 /datum/action/innate/spider/set_directive/Activate()
@@ -556,7 +558,7 @@
 	check_flags = AB_CHECK_CONSCIOUS
 	button_icon_state = "command"
 
-/datum/action/innate/spider/comm/IsAvailable()
+/datum/action/innate/spider/comm/IsAvailable(feedback = FALSE)
 	return ..() && istype(owner, /mob/living/simple_animal/hostile/giant_spider/midwife)
 
 /datum/action/innate/spider/comm/Trigger(trigger_flags)
@@ -689,3 +691,25 @@
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
 #undef INTERACTION_SPIDER_KEY
+
+/mob/living/simple_animal/hostile/giant_spider/sgt_araneus
+	name = "Сержант Арахниус"
+	real_name = "Сержант Арахниус"
+	desc = "Свирепый компаньон главы службы безопасности, этот паук был тщательно обучен специалистами НаноТрейзен. От его пристальных глаз-бусинок по спине пробегают мурашки."
+	emote_hear = list("стрекочет")
+	faction = list("neutral")
+	harm_intent_damage = 3
+	icon_dead = "guard_dead"
+	icon_gib = "guard_dead"
+	icon_living = "guard"
+	icon_state = "guard"
+	health = 300
+	maxHealth = 300
+	melee_damage_lower = 15
+	melee_damage_upper = 20
+	movement_type = GROUND
+	response_help_continuous = "гладит"
+	response_help_simple = "гладит"
+	turns_per_move = 10
+	pet_bonus = TRUE
+	pet_bonus_emote = "радостно стрекочет!"

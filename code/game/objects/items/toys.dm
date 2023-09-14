@@ -185,7 +185,7 @@
 	name = "гравитационная сингулярность"
 	desc = "Вращающаяся игрушка бренда \"Сингуло\"."
 	icon = 'icons/obj/singularity.dmi'
-	icon_state = "singularity_s1"
+	icon_state = "singularity_s11"
 
 /obj/item/toy/spinningtoy/suicide_act(mob/living/carbon/human/user)
 	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
@@ -769,9 +769,10 @@
  * Beach ball
  */
 /obj/item/toy/beach_ball
+	name = "пляжный мячик"
+	desc = "Господа... позвольте прописать с ноги!"
 	icon = 'icons/misc/beach.dmi'
 	icon_state = "ball"
-	name = "пляжный шар"
 	inhand_icon_state = "beachball"
 	w_class = WEIGHT_CLASS_BULKY //Stops people from hiding it in their bags/pockets
 

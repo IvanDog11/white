@@ -1,9 +1,7 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "al" = (
-/obj/machinery/airalarm/syndicate{
-	dir = 4;
-	pixel_x = -24
-	},
+/obj/machinery/airalarm/directional/east,
+/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/dark,
 /area/shuttle/caravan/syndicate3)
@@ -63,13 +61,10 @@
 	},
 /obj/docking_port/mobile{
 	dir = 2;
-	dwidth = 6;
-	height = 7;
 	id = "caravansyndicate3";
 	name = "Syndicate Drop Ship";
 	port_direction = 8;
-	preferred_direction = 4;
-	width = 15
+	preferred_direction = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/structure/fans/tiny,
@@ -313,9 +308,8 @@
 /area/shuttle/caravan/syndicate3)
 "EO" = (
 /obj/structure/chair/comfy/shuttle,
-/obj/machinery/airalarm/syndicate{
-	pixel_y = 24
-	},
+/obj/machinery/airalarm/directional/south,
+/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/pod/dark,
 /area/shuttle/caravan/syndicate3)
@@ -334,10 +328,8 @@
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/caravan/syndicate3)
 "Gx" = (
-/obj/machinery/airalarm/syndicate{
-	dir = 4;
-	pixel_x = -24
-	},
+/obj/machinery/airalarm/directional/east,
+/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/plasteel/dark,
 /area/shuttle/caravan/syndicate3)
 "HJ" = (

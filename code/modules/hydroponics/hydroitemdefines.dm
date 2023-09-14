@@ -237,10 +237,10 @@
 // Hydroponics Tools
 // *************************************
 
-/obj/item/reagent_containers/spray/weedspray // -- Skie
+/obj/item/reagent_containers/spray/weedspray
+	name = "гербицид против сорняков"
 	desc = "Ядовитая смесь, в виде аэрозоля, для уничтожения мелких сорняков."
 	icon = 'icons/obj/hydroponics/equipment.dmi'
-	name = "Спрей от сорняков"
 	icon_state = "weedspray"
 	inhand_icon_state = "spraycan"
 	worn_icon_state = "spraycan"
@@ -253,10 +253,10 @@
 	user.visible_message(span_suicide("[user] впрыскивает [src]! Кажется, [user.p_theyre()] пытается покончить с собой!"))
 	return (TOXLOSS)
 
-/obj/item/reagent_containers/spray/pestspray // -- Skie
-	desc = "Какой-то спрей, чтобы уничтожить паразитов! <I>Не вдыхать!</I>"
+/obj/item/reagent_containers/spray/pestspray
+	name = "пестицид мягкого действия"
+	desc = "Органическая смесь, используемая для убийства насекомых с более мягкими последствиями. Не употреблять внутрь!"
 	icon = 'icons/obj/hydroponics/equipment.dmi'
-	name = "Спрей от паразитов"
 	icon_state = "pestspray"
 	inhand_icon_state = "plantbgone"
 	worn_icon_state = "spraycan"
@@ -459,36 +459,45 @@
 	pixel_x = base_pixel_x + rand(-5, 5)
 	pixel_y = base_pixel_y + rand(-5, 5)
 
+/obj/item/reagent_containers/glass/bottle/nutrient/empty
+	name = "Бутылка"
 
 /obj/item/reagent_containers/glass/bottle/nutrient/ez
-	name = "bottle of E-Z-Nutrient"
+	name = "E-Z-Nutrient"
 	desc = "Содержит удобрение, которое вызывает немного мутаций и обеспечивает постепенный рост с каждым сбором урожая."
 	list_reagents = list(/datum/reagent/plantnutriment/eznutriment = 50)
 
 /obj/item/reagent_containers/glass/bottle/nutrient/l4z
-	name = "Бутылка с зомбрением"
+	name = "Left 4 Zed"
 	desc = "Содержит удобрение, которое слегка лечит растение, однако, вызывает значительные и долговременные мутации в растении."
 	list_reagents = list(/datum/reagent/plantnutriment/left4zednutriment = 50)
 
 /obj/item/reagent_containers/glass/bottle/nutrient/rh
-	name = "Бутылка с крепкобрением"
+	name = "Надежный Урожай"
 	desc = "Содержит удобрение, которое значительно увеличивает скорость роста растения и слегка предотвращает реакции."
 	list_reagents = list(/datum/reagent/plantnutriment/robustharvestnutriment = 50)
 
-/obj/item/reagent_containers/glass/bottle/nutrient/empty
-	name = "Бутылка"
+/obj/item/reagent_containers/glass/bottle/nutrient/eg
+	name = "Надежный Урожай"
+	desc = "Специализированная подкормка, которая уменьшает количество продукта и их потенциал, но повышает выносливость растений."
+	list_reagents = list(/datum/reagent/plantnutriment/endurogrow = 50)
+
+/obj/item/reagent_containers/glass/bottle/nutrient/ler
+	name = "Жидкая Встряска"
+	desc = "Специализированная подкормка, которая увеличивает скорость роста растения, но также ухудшает его восприимчивость к сорнякам."
+	list_reagents = list(/datum/reagent/plantnutriment/liquidearthquake = 50)
 
 /obj/item/reagent_containers/glass/bottle/killer
-	volume = 30
+	volume = 50
 	amount_per_transfer_from_this = 1
 	possible_transfer_amounts = list(1,2,5)
 
 /obj/item/reagent_containers/glass/bottle/killer/weedkiller
-	name = "Бутылка убийцы сорняков"
-	desc = "Содержит гербицид."
-	list_reagents = list(/datum/reagent/toxin/plantbgone/weedkiller = 30)
+	name = "гербицид против сорняков"
+	desc = "Опасный токсин для выведения сорняков. Не употреблять внутрь!"
+	list_reagents = list(/datum/reagent/toxin/plantbgone/weedkiller = 50)
 
 /obj/item/reagent_containers/glass/bottle/killer/pestkiller
-	name = "Бутылка спрея от паразитов"
-	desc = "Содержит пестициды."
-	list_reagents = list(/datum/reagent/toxin/pestkiller = 30)
+	name = "пестицид мягкого действия"
+	desc = "Органическая смесь, используемая для убийства насекомых с более мягкими последствиями. Не употреблять внутрь!"
+	list_reagents = list(/datum/reagent/toxin/pestkiller/organic = 50)

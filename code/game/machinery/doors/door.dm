@@ -51,12 +51,20 @@
 	var/can_crush = TRUE /// Whether or not the door can crush mobs.
 	var/prevent_clicks_under_when_closed = TRUE
 	var/can_open_with_hands = TRUE /// Whether or not the door can be opened by hand (used for blast doors and shutters)
+	/// Whether or not this door can be opened through a door remote, ever
+	var/opens_with_door_remote = FALSE
+	/// Special operating mode for elevator doors
+	var/elevator_mode = FALSE
+	/// Current elevator status for processing
+	var/elevator_status
+	/// What specific lift ID do we link with?
+	var/elevator_linked_id
 
 /obj/machinery/door/examine(mob/user)
 	. = ..()
 	if(red_alert_access)
 		. += "<hr>"
-		if(SSsecurity_level.current_level >= SEC_LEVEL_RED)
+		if(SSsecurity_level.get_current_level_as_number() >= SEC_LEVEL_RED)
 			. += "<span class='notice'>Учитывая угрозу, требования по доступу повышены!</span>\n"
 		else
 			. += "<span class='notice'>Учитывая красный код, требования по доступу повышены.</span>\n"
@@ -78,7 +86,7 @@
 		return CONTEXTUAL_SCREENTIP_SET
 
 /obj/machinery/door/check_access_list(list/access_list)
-	if(red_alert_access && SSsecurity_level.current_level >= SEC_LEVEL_RED)
+	if(red_alert_access && SSsecurity_level.get_current_level_as_number() >= SEC_LEVEL_RED)
 		return TRUE
 	return ..()
 
@@ -89,6 +97,12 @@
 	air_update_turf(TRUE)
 	register_context()
 	GLOB.airlocks += src
+	if(elevator_mode)
+		if(elevator_linked_id)
+			elevator_status = LIFT_PLATFORM_LOCKED
+			GLOB.elevator_doors += src
+		else
+			stack_trace("Elevator door [src] has no linked elevator ID!")
 	spark_system = new /datum/effect_system/spark_spread
 	spark_system.set_up(2, 1, src)
 	if(density && prevent_clicks_under_when_closed)
@@ -157,7 +171,7 @@
 	var/max_moles = min_moles
 	// okay this is a bit hacky. First, we set density to 0 and recalculate our adjacent turfs
 	density = FALSE
-	T.ImmediateCalculateAdjacentTurfs()
+	T.immediate_calculate_adjacent_turfs()
 	// then we use those adjacent turfs to figure out what the difference between the lowest and highest pressures we'd be holding is
 	for(var/turf/open/T2 in T.atmos_adjacent_turfs)
 		if((flags_1 & ON_BORDER_1) && get_dir(src, T2) != dir)
@@ -168,7 +182,7 @@
 		if(moles > max_moles)
 			max_moles = moles
 	density = TRUE
-	T.ImmediateCalculateAdjacentTurfs() // alright lets put it back
+	T.immediate_calculate_adjacent_turfs() // alright lets put it back
 	return max_moles - min_moles > 20
 /**
  * Called when attempting to remove the seal from an airlock
@@ -229,15 +243,17 @@
 /obj/machinery/door/proc/bumpopen(mob/user)
 	if(operating || !can_open_with_hands)
 		return
-	add_fingerprint(user)
-	if(!requiresID())
-		user = null
 
-	if(density && !(obj_flags & EMAGGED))
-		if(allowed(user))
-			open()
-		else
-			do_animate("deny")
+	add_fingerprint(user)
+	if(!density || (obj_flags & EMAGGED))
+		return
+
+	if(elevator_mode && elevator_status == LIFT_PLATFORM_UNLOCKED)
+		open()
+	else if(requiresID() && allowed(user))
+		open()
+	else
+		do_animate("deny")
 
 /obj/machinery/door/attack_hand(mob/user)
 	. = ..()
@@ -467,7 +483,7 @@
 	if(!glass && GLOB.cameranet)
 		GLOB.cameranet.updateVisibility(src, 0)
 
-/obj/machinery/door/BlockThermalConductivity() // All non-glass airlocks block heat, this is intended.
+/obj/machinery/door/block_superconductivity() // All non-glass airlocks block heat, this is intended.
 	if(opacity || heat_proof)
 		return TRUE
 	return FALSE

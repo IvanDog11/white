@@ -223,7 +223,7 @@
 //guns
 
 /obj/item/gun/ballistic/automatic/pistol/makarov
-	name = "\improper Makarov"
+	name = "пистолет Макарова"
 	desc = "Ммм. Хайль Вайт."
 	icon = 'white/valtos/icons/gun.dmi'
 	icon_state = "makarov"
@@ -234,7 +234,7 @@
 
 /obj/item/gun/ballistic/automatic/ak47
 	name = "AK-47"
-	desc = "Отрывает лицо с очереди. Использует противотанковый калибр 7.62."
+	desc = "Советская классика. Использует патроны калибра 7.62."
 	icon = 'white/valtos/icons/gun.dmi'
 	lefthand_file = 'white/valtos/icons/lefthand.dmi'
 	righthand_file = 'white/valtos/icons/righthand.dmi'
@@ -253,23 +253,9 @@
 	knife_x_offset = 28
 	knife_y_offset = 12
 
-/obj/item/ammo_box/magazine/ak47mag
-	name = "AK-47 magazine (7.62)"
-	icon = 'white/valtos/icons/ammo.dmi'
-	icon_state = "akm"
-	ammo_type = /obj/item/ammo_casing/a762
-	caliber = "a762"
-	max_ammo = 30
-
-/obj/item/ammo_box/magazine/ak47mag/update_icon()
-	..()
-	icon_state = "akm-[ammo_count() ? "30" : "0"]"
-
 /obj/item/clothing/head/hijab
 	name = "хиджаб"
 	desc = "Ммм."
-	worn_icon = 'white/Wzzzz/clothing/mob/head.dmi'
-	icon = 'white/Wzzzz/clothing/head.dmi'
 	dynamic_hair_suffix = ""
 	icon_state = "hijab"
 	inhand_icon_state = "hijab"
@@ -278,16 +264,12 @@
 /obj/item/clothing/head/taqiyah
 	name = "такиях"
 	desc = "Ооох."
-	worn_icon = 'white/Wzzzz/clothing/mob/head.dmi'
-	icon = 'white/Wzzzz/clothing/head.dmi'
 	icon_state = "taqiyah"
 	inhand_icon_state = "taqiyah"
 
 /obj/item/clothing/head/turban
 	name = "тюрбан"
 	desc = "Мягкий, ых."
-	worn_icon = 'white/Wzzzz/clothing/mob/head.dmi'
-	icon = 'white/Wzzzz/clothing/head.dmi'
 	icon_state = "turban"
 	inhand_icon_state = "turban"
 

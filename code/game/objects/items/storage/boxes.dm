@@ -128,6 +128,7 @@
 	var/internal_type = /obj/item/tank/internals/emergency_oxygen
 	var/medipen_type = /obj/item/reagent_containers/hypospray/medipen
 	var/bottle_type = /obj/item/reagent_containers/food/drinks/waterbottle/large
+	var/emergency_shield_type = /obj/item/emergency_shield
 
 /obj/item/storage/box/survival/PopulateContents()
 	new mask_type(src)
@@ -138,7 +139,7 @@
 		new internal_type(src)
 	else
 		new /obj/item/tank/internals/plasmaman/belt(src)
-	new /obj/item/emergency_shield(src)
+	new emergency_shield_type(src)
 	new bottle_type(src)
 
 /obj/item/storage/box/survival/radio/PopulateContents()
@@ -188,6 +189,18 @@
 // Medical survival box
 /obj/item/storage/box/survival/medical
 	mask_type = /obj/item/clothing/mask/breath/medical
+
+// Intern survival box
+/obj/item/storage/box/survival/intern
+	internal_type = /obj/item/tank/internals/emergency_oxygen/engi
+	emergency_shield_type = /obj/item/emergency_shield/adv
+
+/obj/item/storage/box/survival/intern/PopulateContents()
+	..()
+	var/burg = pick(subtypesof(/obj/item/food/burger))
+	new burg(src)
+	new /obj/item/stack/medical/suture(src)
+	new /obj/item/stack/medical/mesh(src)
 
 /obj/item/storage/box/gloves
 	name = "коробка латексных перчаток"
@@ -272,8 +285,8 @@
 	new /obj/item/reagent_containers/glass/beaker/bluespace(src)
 
 /obj/item/storage/box/medigels
-	name = "коробка медицинских гелей"
-	desc = "Коробка, полная аппликаторов медицинского геля с отвинчиваемыми крышками и точными распылительными головками."
+	name = "коробка аэрозолей"
+	desc = "Аппликатор спроектированный для быстрого и точечного нанесения лекарственного состава в виде аэрозоля."
 	illustration = "medgel"
 
 /obj/item/storage/box/medigels/PopulateContents()
@@ -305,10 +318,10 @@
 	name = "коробка травматических гранат"
 	desc = "<B>ВНИМАНИЕ: Гранаты чрезвычайно опасны и могут привести к тяжелым травмам или смерти при повторном использовании.</B>"
 	icon_state = "secbox"
-	illustration = "flashbang"
+	illustration = "stingbangs"
 
 /obj/item/storage/box/stingbangs/PopulateContents()
-	for(var/i in 1 to 5)
+	for(var/i in 1 to 7)
 		new /obj/item/grenade/stingbang(src)
 
 /obj/item/storage/box/flashes
@@ -340,12 +353,20 @@
 	new /obj/item/assembly/flash/handheld(src)
 	new /obj/item/screwdriver(src)
 
+/obj/item/storage/box/energy_bola
+	name = "энергобола"
+	desc = "Специализированные бола сплетенная из волокон жесткого света, предназначенная для ловли убегающих преступников и помощи в арестах."
+	icon_state = "secbox"
+
+/obj/item/storage/box/energy_bola/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/restraints/legcuffs/bola/energy(src)
 
 /obj/item/storage/box/teargas
 	name = "ящик со слезоточивым газом"
 	desc = "<B>ВНИМАНИЕ: Гранаты чрезвычайно опасны и могут вызвать слепоту и раздражение кожи.</B>"
 	icon_state = "secbox"
-	illustration = "grenade"
+	illustration = "teargas"
 
 /obj/item/storage/box/teargas/PopulateContents()
 	for(var/i in 1 to 7)
@@ -368,7 +389,7 @@
 
 /obj/item/storage/box/trackimp/PopulateContents()
 	var/static/items_inside = list(
-		/obj/item/implantcase/tracking = 4,
+		/obj/item/implantcase/tracking = 5,
 		/obj/item/implanter = 1,
 		/obj/item/implantpad = 1,
 		/obj/item/locator = 1)
@@ -591,23 +612,32 @@
 		new /obj/item/computer_disk/security(src)
 
 /obj/item/storage/box/firingpins
-	name = "ящик штатных бойков"
+	name = "коробка штатных бойков"
 	desc = "Коробка со стандартными бойками для стрельбы из нового огнестрельного оружия."
 	icon_state = "secbox"
 	illustration = "firingpin"
 
 /obj/item/storage/box/firingpins/PopulateContents()
-	for(var/i in 1 to 5)
+	for(var/i in 1 to 7)
 		new /obj/item/firing_pin(src)
 
 /obj/item/storage/box/firingpins/paywall
-	name = "ящик с еврейскими бойками"
+	name = "коробка с платными бойками"
 	desc = "Слыш. Плати"
 	illustration = "firingpin"
 
 /obj/item/storage/box/firingpins/paywall/PopulateContents()
-	for(var/i in 1 to 5)
+	for(var/i in 1 to 7)
 		new /obj/item/firing_pin/paywall(src)
+
+/obj/item/storage/box/firingpins/off_station
+	name = "коробка с внестанционными ударниками"
+	desc = "Разрешает стрелять из пушек, когда пушки не на станции. Полезно."
+	illustration = "firingpin"
+
+/obj/item/storage/box/firingpins/off_station/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/firing_pin/off_station(src)
 
 /obj/item/storage/box/lasertagpins
 	name = "ящик  бойков для лазертага"
@@ -680,13 +710,22 @@
 		new /obj/item/assembly/mousetrap(src)
 
 /obj/item/storage/box/pillbottles
-	name = "коробка пузырьков с таблетками"
+	name = "коробка с баночками для таблеток"
 	desc = "На передней панели изображены пузырьки с таблетками."
 	illustration = "pillbox"
 
 /obj/item/storage/box/pillbottles/PopulateContents()
 	for(var/i in 1 to 7)
 		new /obj/item/storage/pill_bottle(src)
+
+/obj/item/storage/box/pillbottlesbig
+	name = "коробка с большими баночками для таблеток"
+	desc = "На передней панели изображены большие пузырьки с таблетками."
+	illustration = "pillbox"
+
+/obj/item/storage/box/pillbottlesbig/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/storage/pill_bottle/big(src)
 
 /obj/item/storage/box/snappops
 	name = "коробка бахающих фантиков"
@@ -752,7 +791,7 @@
 		new /obj/item/light/bulb(src)
 
 /obj/item/storage/box/lights/tubes
-	name = "коробка сменных трубок"
+	name = "коробка ламп дневного света "
 	illustration = "lighttube"
 
 /obj/item/storage/box/lights/tubes/PopulateContents()
@@ -769,6 +808,23 @@
 	for(var/i in 1 to 7)
 		new /obj/item/light/bulb(src)
 
+/obj/item/storage/box/autobuild_lights
+	name = "анкерные каркасы больших ламп"
+	desc = "Используется для быстрого монтажа каркаса и подключения проводки. Лампочка в комплект не входит."
+	illustration = "lighttube"
+
+/obj/item/storage/box/autobuild_lights/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/wallframe/autobuild(src)
+
+/obj/item/storage/box/autobuild_lights/small
+	name = "анкерные каркасы маленьких ламп"
+	desc = "Используется для быстрого монтажа каркаса и подключения проводки. Лампочка в комплект не входит."
+	illustration = "light"
+
+/obj/item/storage/box/autobuild_lights/small/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/wallframe/autobuild/small(src)
 
 /obj/item/storage/box/deputy
 	name = "коробка с повязками Службы Безопасности"
@@ -781,13 +837,41 @@
 		new /obj/item/clothing/accessory/armband/deputy(src)
 
 /obj/item/storage/box/metalfoam
-	name = "коробка с гранатами из металлопены"
+	name = "коробка с гранатами с металлопеной"
 	desc = "Используется для быстрого закрытия пробоин в корпусе."
-	illustration = "grenade"
+	illustration = "metalfoam"
 
 /obj/item/storage/box/metalfoam/PopulateContents()
 	for(var/i in 1 to 7)
 		new /obj/item/grenade/chem_grenade/metalfoam(src)
+
+/obj/item/storage/box/resin_foam
+	name = "коробка с противопожарными гранатами"
+	desc = "Используется для быстрого тушения пожаров."
+	illustration = "resin_foam"
+
+/obj/item/storage/box/resin_foam/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/grenade/chem_grenade/resin_foam(src)
+
+/obj/item/storage/box/cleaner
+	name = "коробка с очистительными гранатами"
+	desc = "Убер граната от компании Космочист. Является товарной маркой - все права защищены."
+	illustration = "cleaner"
+
+/obj/item/storage/box/cleaner/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/grenade/chem_grenade/cleaner(src)
+
+
+/obj/item/storage/box/lube
+	name = "коробка с скользкими гранатами"
+	desc = "Граната созданная лучшими учеными Хонк Ко в качестве протеста против военных преступлений компании Космочист."
+	illustration = "clown"
+
+/obj/item/storage/box/lube/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/grenade/chem_grenade/lube(src)
 
 /obj/item/storage/box/smart_metal_foam
 	name = "коробка умных гранат из металлопены"
@@ -858,93 +942,156 @@
 
 ////////////Ружейные коробки
 /obj/item/storage/box/beanbag
-	name = "12 Калибр: Резиновая пуля - 7 шт."
+	name = "12 Калибр: Резиновая пуля - 20 шт."
 	desc = "Коробка с травматическими пулями 12 калибра, предназначенными для дробовиков."
 	icon_state = "rubbershot_box"
 	illustration = null
 
+/obj/item/storage/box/beanbag/Initialize()
+	. = ..()
+	atom_storage.max_slots = 20
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.set_holdable(list(/obj/item/ammo_casing/shotgun))
+	atom_storage.max_total_storage = 20
+
 /obj/item/storage/box/beanbag/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 20)
 		new /obj/item/ammo_casing/shotgun/beanbag(src)
 
 /obj/item/storage/box/rubbershot
-	name = "12 Калибр: Резиновая картечь - 7 шт."
+	name = "12 Калибр: Резиновая картечь - 20 шт."
 	desc = "Коробка с резиновой картечью 12 калибра, предназначенными для дробовиков."
 	icon_state = "rubbershot_box"
 	illustration = null
 
+/obj/item/storage/box/rubbershot/Initialize()
+	. = ..()
+	atom_storage.max_slots = 20
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.set_holdable(list(/obj/item/ammo_casing/shotgun))
+	atom_storage.max_total_storage = 20
+
 /obj/item/storage/box/rubbershot/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 20)
 		new /obj/item/ammo_casing/shotgun/rubbershot(src)
 
 /obj/item/storage/box/s12_bullet
-	name = "12 Калибр: Пулевой - 7 шт."
+	name = "12 Калибр: Пулевой - 20 шт."
 	desc = "Коробка с боевыми пулями 12 калибра, предназначенными для дробовиков."
 	icon_state = "lethalshot_box"
 	illustration = null
 
+/obj/item/storage/box/s12_bullet/Initialize()
+	. = ..()
+	atom_storage.max_slots = 20
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.set_holdable(list(/obj/item/ammo_casing/shotgun))
+	atom_storage.max_total_storage = 20
+
 /obj/item/storage/box/s12_bullet/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 20)
 		new /obj/item/ammo_casing/shotgun(src)
 
 /obj/item/storage/box/lethalshot
-	name = "12 Калибр: Картечь - 7 шт."
+	name = "12 Калибр: Картечь - 20 шт."
 	desc = "Коробка с патронами 12 калибра с дробью."
 	icon_state = "lethalshot_box"
 	illustration = null
 
+/obj/item/storage/box/lethalshot/Initialize()
+	. = ..()
+	atom_storage.max_slots = 20
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.set_holdable(list(/obj/item/ammo_casing/shotgun))
+	atom_storage.max_total_storage = 20
+
 /obj/item/storage/box/lethalshot/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 20)
 		new /obj/item/ammo_casing/shotgun/buckshot(src)
 
 /obj/item/storage/box/battle_incendiary
-	name = "12 Калибр: Зажигательный - 7 шт."
+	name = "12 Калибр: Зажигательный - 20 шт."
 	desc = "Коробка с зажигательными пулями 12 калибра, предназначенными для дробовиков."
 	icon_state = "lethalshot_box"
 	illustration = null
 
+/obj/item/storage/box/battle_incendiary/Initialize()
+	. = ..()
+	atom_storage.max_slots = 20
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.set_holdable(list(/obj/item/ammo_casing/shotgun))
+	atom_storage.max_total_storage = 20
+
 /obj/item/storage/box/battle_incendiary/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 20)
 		new /obj/item/ammo_casing/shotgun/incendiary(src)
 
 /obj/item/storage/box/battle_dart
-	name = "12 Калибр: Дротик - 7 шт."
+	name = "12 Калибр: Дротик - 20 шт."
 	desc = "Коробка с химическими пулями 12 калибра, предназначенными для дробовиков."
 	icon_state = "rubbershot_box"
 	illustration = null
 
+/obj/item/storage/box/battle_dart/Initialize()
+	. = ..()
+	atom_storage.max_slots = 20
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.set_holdable(list(/obj/item/ammo_casing/shotgun))
+	atom_storage.max_total_storage = 20
+
 /obj/item/storage/box/battle_dart/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 20)
 		new /obj/item/ammo_casing/shotgun/dart(src)
 
 /obj/item/storage/box/battle_stunslug
-	name = "12 Калибр: Электрошок - 7 шт."
+	name = "12 Калибр: Электрошок - 20 шт."
 	desc = "Коробка с парализующими пулями 12 калибра, предназначенными для дробовиков."
 	icon_state = "rubbershot_box"
 	illustration = null
 
+/obj/item/storage/box/battle_stunslug/Initialize()
+	. = ..()
+	atom_storage.max_slots = 20
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.set_holdable(list(/obj/item/ammo_casing/shotgun))
+	atom_storage.max_total_storage = 20
+
 /obj/item/storage/box/battle_stunslug/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 20)
 		new /obj/item/ammo_casing/shotgun/stunslug(src)
 
 /obj/item/storage/box/battle_techshell
-	name = "12 Калибр: Высокотехнологичные - 7 шт."
+	name = "12 Калибр: Высокотехнологичные - 20 шт."
 	desc = "Коробка с зажигательными пулями 12 калибра, предназначенными для дробовиков."
 	icon_state = "lethalshot_box"
 	illustration = null
 
+/obj/item/storage/box/battle_techshell/Initialize()
+	. = ..()
+	atom_storage.max_slots = 20
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.set_holdable(list(/obj/item/ammo_casing/shotgun))
+	atom_storage.max_total_storage = 20
+
 /obj/item/storage/box/battle_techshell/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 20)
 		new /obj/item/ammo_casing/shotgun/techshell(src)
 
 /obj/item/storage/box/battle_pulverizer
-	name = "12 Калибр: Увечащие - 7 шт."
+	name = "12 Калибр: Увечащие - 20 шт."
 	desc = "Коробка с травмирующими пулями 12 калибра, предназначенными для дробовиков."
 	icon_state = "lethalshot_box"
 	illustration = null
 
+/obj/item/storage/box/battle_pulverizer/Initialize()
+	. = ..()
+	atom_storage.max_slots = 20
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.set_holdable(list(/obj/item/ammo_casing/shotgun))
+	atom_storage.max_total_storage = 20
+
 /obj/item/storage/box/battle_pulverizer/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 20)
 		new /obj/item/ammo_casing/shotgun/pulverizer(src)
 
 //////////////////////
@@ -1061,7 +1208,7 @@
 		new /obj/item/emptysandbag(src)
 
 /obj/item/storage/box/rndboards
-	name = "\proper наследие освободителя"
+	name = "наследие освободителя"
 	desc = "Коробка с подарком для достойных големов."
 	illustration = "scicircuit"
 
@@ -1097,6 +1244,15 @@
 	for(var/i in 1 to 7)
 		new/obj/item/grenade/chem_grenade/holy(src)
 
+/obj/item/storage/box/holy_pena_grenades
+	name = "освящающая граната"
+	desc = "Граната для быстрого освящения больших помещений."
+	illustration = "grenade"
+
+/obj/item/storage/box/holy_pena_grenades/PopulateContents()
+	for(var/i in 1 to 7)
+		new/obj/item/grenade/chem_grenade/holy_pena(src)
+
 /obj/item/storage/box/stockparts/basic //for ruins where it's a bad idea to give access to an autolathe/protolathe, but still want to make stock parts accessible
 	name = "коробка запасных частей"
 	desc = "Содержит множество основных запасных частей."
@@ -1125,8 +1281,8 @@
 	generate_items_inside(items_inside,src)
 
 /obj/item/storage/box/dishdrive
-	name = "Комплект привода тарелки DIY"
-	desc = "Содержит все необходимое, чтобы построить свой собственный Дисковод!" //cringe
+	name = "комплект утилизатора тарелок"
+	desc = "Содержит детали длям ашины, которая использует преобразование вещества в энергию для хранения посуды и осколков. Удобно!"
 	custom_premium_price = PAYCHECK_EASY * 3
 
 /obj/item/storage/box/dishdrive/PopulateContents()
@@ -1442,3 +1598,14 @@
 /obj/item/storage/box/stickers/googly/PopulateContents()
 	for(var/i in 1 to 6)
 		new /obj/item/sticker/googly(src)
+
+/obj/item/storage/box/aimbot
+	name = "комплект импланта боевого ассистента"
+	desc = "Самоописуемо."
+	illustration = "implant"
+
+/obj/item/storage/box/aimbot/PopulateContents()
+	var/static/items_inside = list(
+		/obj/item/implantcase/aimbot = 1,
+		/obj/item/implanter = 1)
+	generate_items_inside(items_inside,src)

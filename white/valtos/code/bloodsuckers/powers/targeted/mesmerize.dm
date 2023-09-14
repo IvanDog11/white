@@ -36,7 +36,7 @@
 	. = ..()
 	if(!.) // Default checks
 		return FALSE
-	if(!user.getorganslot(ORGAN_SLOT_EYES))
+	if(!user.get_organ_slot(ORGAN_SLOT_EYES))
 		to_chat(user, span_warning("You have no eyes with which to mesmerize."))
 		return FALSE
 	// Check: Eyes covered?
@@ -69,7 +69,7 @@
 		to_chat(owner, "[current_target] is not [(current_target.stat == DEAD || HAS_TRAIT(current_target, TRAIT_FAKEDEATH)) ? "alive" : "conscious"].")
 		return FALSE
 	// Target has eyes?
-	if(!current_target.getorganslot(ORGAN_SLOT_EYES))
+	if(!current_target.get_organ_slot(ORGAN_SLOT_EYES))
 		to_chat(owner, span_warning("[current_target] has no eyes."))
 		return FALSE
 	// Target blind?
@@ -130,9 +130,8 @@
 /datum/action/bloodsucker/targeted/mesmerize/shadow
 	name = "Glare"
 	button_icon = 'icons/mob/actions/actions_lasombra_bloodsucker.dmi'
-	background_icon_state_on = "lasombra_power_on"
-	background_icon_state_off = "lasombra_power_off"
-	icon_icon = 'icons/mob/actions/actions_lasombra_bloodsucker.dmi'
+	background_icon_state = "lasombra_power"
+	background_icon = 'icons/mob/actions/actions_lasombra_bloodsucker.dmi'
 	button_icon_state = "power_glare"
 	additional_text = "Additionally makes the stun downtime based on distance, being instant when adjacent."
 	purchase_flags = LASOMBRA_CAN_BUY

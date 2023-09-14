@@ -1,8 +1,8 @@
 //The "pod_landingzone" temp visual is created by anything that "launches" a supplypod. This is what animates the pod and makes the pod forcemove to the station.
 //------------------------------------SUPPLY POD-------------------------------------//
 /obj/structure/closet/supplypod
-	name = "supply pod" //Names and descriptions are normally created with the setStyle() proc during initialization, but we have these default values here as a failsafe
-	desc = "A Nanotrasen supply drop pod."
+	name = "почтовая капсула" //Names and descriptions are normally created with the setStyle() proc during initialization, but we have these default values here as a failsafe
+	desc = "Фирменная почтовая капсула НаноТрейзен."
 	icon = 'icons/obj/supplypods.dmi'
 	icon_state = "pod" //This is a common base sprite shared by a number of pods
 	pixel_x = SUPPLYPOD_X_OFFSET //2x2 sprite
@@ -395,10 +395,6 @@
 		if(istype(obj_to_insert, /obj/effect/pod_landingzone))
 			return FALSE
 		if(istype(obj_to_insert, /obj/effect/supplypod_rubble))
-			return FALSE
-		if((obj_to_insert.comp_lookup && obj_to_insert.comp_lookup[COMSIG_OBJ_HIDE]) && reverse_option_list["Underfloor"])
-			return TRUE
-		else if ((obj_to_insert.comp_lookup && obj_to_insert.comp_lookup[COMSIG_OBJ_HIDE]) && !reverse_option_list["Underfloor"])
 			return FALSE
 		if(isProbablyWallMounted(obj_to_insert) && reverse_option_list["Wallmounted"])
 			return TRUE

@@ -4,6 +4,7 @@
 	spawn_positions = 1
 	exp_requirements = 600
 	exp_type = EXP_TYPE_CREW
+	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 
 	outfit = /datum/outfit/job/field_medic
 
@@ -33,7 +34,7 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/armor/vest/fieldmedic
 	suit_store = /obj/item/gun/energy/disabler
-	backpack_contents = list(/obj/item/storage/firstaid/medical/field_surgery = 1, /obj/item/optable = 1, /obj/item/storage/pill_bottle/soldier = 1)
+	backpack_contents = list(/obj/item/storage/firstaid/medical/field_surgery = 1, /obj/item/optable = 1)
 
 	backpack = /obj/item/storage/backpack/medic
 	satchel = /obj/item/storage/backpack/satchel/med
@@ -42,7 +43,7 @@
 	pda_slot = ITEM_SLOT_LPOCKET
 
 	r_pocket = /obj/item/storage/belt/medipenal/field_med
-	l_pocket = /obj/item/modular_computer/tablet/pda/medical
+	l_pocket = /obj/item/modular_computer/tablet/pda/field_medic
 
 	implants = list(/obj/item/implant/mindshield)
 
